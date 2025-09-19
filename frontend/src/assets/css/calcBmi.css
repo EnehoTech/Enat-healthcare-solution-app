@@ -1,0 +1,846 @@
+/* import fonts */
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Remove default margin */
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+dl,
+dd,
+ul,
+input,
+label {
+  margin: 0;
+  padding: 0;
+}
+
+p {
+  line-height: 1.5;
+  font-weight: 400;
+  color: hsl(215, 17%, 44%);
+  font-size: 1rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  line-height: 1.1;
+  font-weight: 600;
+  color: hsl(215, 31%, 21%);
+  font-family: "Inter", sans-serif !important;
+}
+
+h2 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+  width: -moz-max-content;
+  width: max-content;
+}
+
+h4 {
+  font-size: 1.25rem;
+  display: inline;
+}
+
+.unit {
+  color: hsl(227, 92%, 58%);
+  font-size: 1.5rem;
+  font-weight: 600;
+  position: absolute;
+}
+
+/* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
+ul,
+ol ul[role="list"],
+ol[role="list"] {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  display: block;
+  max-width: -moz-fit-content;
+  max-width: fit-content;
+}
+
+/* Set core root defaults */
+html:focus-within {
+  scroll-behavior: smooth;
+}
+
+/* A elements that don't have a class get default styles */
+a:not([class]) {
+  -webkit-text-decoration-skip: ink;
+  text-decoration-skip-ink: auto;
+}
+
+/* Make images easier to work with */
+img,
+picture {
+  max-width: 100%;
+  display: block;
+}
+
+/* Inherit fonts for inputs and buttons */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+/* Remove all animations, transitions and smooth scroll for people that prefer not to see them */
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -webkit-appearance: textfield;
+  -moz-appearance: textfield;
+  appearance: textfield;
+  -webkit-appearance: hsl(215, 31%, 21%);
+  -moz-appearance: hsl(215, 31%, 21%);
+  appearance: hsl(215, 31%, 21%);
+  outline: none;
+  border: none;
+  border: 1px solid hsl(200, 24%, 88%);
+  border-radius: 0.75em;
+  padding-inline: 1.5rem 1.25rem;
+  padding-block: 1.25rem;
+  font-weight: 600;
+  width: 100%;
+  font-size: 1.5rem;
+}
+
+input[type="number"]:focus {
+  outline: 1px solid hsl(227, 92%, 58%);
+}
+
+input[type="number"]::-moz-placeholder {
+  font-size: 1.5rem;
+  font-weight: 600;
+  opacity: 0.25;
+}
+
+input[type="number"]::placeholder {
+  font-size: 1.5rem;
+  font-weight: 600;
+  opacity: 0.25;
+}
+
+label {
+  display: block;
+  cursor: pointer;
+}
+
+body {
+  min-height: 100vh;
+  text-rendering: optimizeSpeed;
+  font-family: "Inter", sans-serif;
+  position: relative;
+}
+
+/*logo*/
+#logo {
+  width: 2.5rem;
+  height: 2.5rem;
+}
+@media screen and (min-width: 87.5em) {
+  #logo {
+    width: 4em;
+    height: 4em;
+  }
+}
+
+/*line shapes visible only in desktop size*/
+#main-shape,
+#limit-shape {
+  display: none;
+}
+
+@media screen and (min-width: 87.5em) {
+  #main-shape,
+  #limit-shape {
+    display: block;
+  }
+}
+/*shape blue calcBmi-hero-section*/
+.blue-shape {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  width: 100%;
+  height: 40rem;
+  background: linear-gradient(315deg, #d6e6fe 0%, rgba(214, 252, 254, 0) 100%);
+  border-radius: 0 0 2.1875em 2.1875em;
+  z-index: -1;
+}
+
+.calcBmi-hero-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-inline: 1.5rem;
+  padding-block-start: 2rem;
+  gap: 3rem;
+}
+.calcBmi-hero-section .text-side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+}
+.calcBmi-hero-section .text-side h1 {
+  font-size: 3rem;
+}
+.calcBmi-hero-section .form-side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  align-items: stretch;
+  box-shadow: 16px 32px 56px 0px rgba(143, 174, 207, 0.25);
+  border-radius: 1rem;
+  background-color: hsl(0, 0%, 100%);
+  padding: 1.5rem;
+  gap: 1.5rem;
+}
+
+.form-side #btn-submit {
+  display: block;
+  color: #fff;
+  background: linear-gradient(to right, #244cfd, #15e4fd);
+  font-family: "Inter", sans-serif !important;
+  text-transform: capitalize;
+  font-weight: 400;
+  padding: 16px 24px !important;
+  border-radius: 8px;
+  text-align: center;
+  outline: 0;
+  border: 0;
+}
+.form-side #btn-submit:hover {
+  color: #fff;
+  opacity: 0.8;
+}
+.calcBmi-hero-section .form-side .radios {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  justify-content: space-between;
+  /*RADIO BUTTONS FORM*/
+  /*for remove native radio buttons style*/
+}
+.calcBmi-hero-section .form-side .radios .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+}
+.calcBmi-hero-section .form-side .radios .container .label-radio {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-inline-start: 1.125em;
+  color: hsl(215, 31%, 21%);
+}
+.calcBmi-hero-section .form-side .radios input[type="radio"] {
+  /* Add if not using autoprefixer */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  /* For iOS < 15 to remove gradient background */
+  /* background-color: #fff; */
+  /* Not removed via appearance */
+  margin: 0;
+  height: 1.9375em;
+  width: 1.9375em;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s linear;
+  display: grid;
+  place-content: center;
+  position: relative;
+  z-index: 1;
+}
+.calcBmi-hero-section .form-side .radios input[type="radio"]::after {
+  content: "";
+  width: 1.9375em;
+  height: 1.9375em;
+  border-radius: 50%;
+  position: absolute;
+  border: 1px solid hsl(200, 24%, 88%);
+  transition: 120ms transform ease-in-out;
+}
+.calcBmi-hero-section .form-side .radios input[type="radio"]:hover::after {
+  border: 1px solid hsl(227, 92%, 58%);
+}
+.calcBmi-hero-section .form-side .radios input[type="radio"].active::after {
+  background-color: hsl(227, 92%, 58%);
+  opacity: 0.15;
+}
+.calcBmi-hero-section .form-side .radios input[type="radio"]::before {
+  content: "";
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  transform: scale(0);
+  transition: 120ms transform ease-in-out;
+  background-color: hsl(227, 92%, 58%);
+  position: relative;
+  z-index: 2;
+}
+.calcBmi-hero-section .form-side .radios input[type="radio"].active::before {
+  transform: scale(1);
+}
+.calcBmi-hero-section .form-side .lab-unit {
+  color: hsl(215, 17%, 44%);
+  font-size: 0.875rem;
+  align-self: start;
+  margin-block-end: 0.75rem;
+}
+.calcBmi-hero-section .form-side .metric-unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  align-items: stretch;
+  gap: 1rem;
+  /*BOTH CONTAINER HEIGHT AND WEIGHT (METRIC)*/
+}
+.calcBmi-hero-section .form-side .metric-unit .metric-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  align-items: stretch;
+  position: relative;
+  /*unit of measure*/
+}
+.calcBmi-hero-section .form-side .metric-unit .metric-container span {
+  position: absolute;
+  right: 0;
+  width: -moz-min-content;
+  width: min-content;
+  right: 1.5rem;
+  bottom: 1.25rem;
+}
+.calcBmi-hero-section .form-side .imperial-unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  display: none;
+}
+.calcBmi-hero-section .form-side .imperial-unit .imp-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.calcBmi-hero-section .form-side .imperial-unit .imp-container .field-imp {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  position: relative;
+  gap: 1rem;
+  /*ONLY IMPERIAL INPUT*/
+}
+.calcBmi-hero-section .form-side .imperial-unit .imp-container .field-imp div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  justify-content: space-between;
+  position: relative;
+}
+.calcBmi-hero-section .form-side .imperial-unit .imp-container .field-imp .ft,
+.calcBmi-hero-section .form-side .imperial-unit .imp-container .field-imp .st {
+  position: absolute;
+  right: 0;
+  max-width: -moz-min-content;
+  max-width: min-content;
+  transform: translateX(-1.5rem);
+}
+.calcBmi-hero-section .form-side .imperial-unit .imp-container .field-imp .in,
+.calcBmi-hero-section .form-side .imperial-unit .imp-container .field-imp .lbs {
+  position: absolute;
+  right: 1.25rem;
+  max-width: -moz-min-content;
+  max-width: min-content;
+}
+.calcBmi-hero-section .result {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  align-items: start;
+  text-align: left;
+  padding: 2rem;
+  background: linear-gradient(90deg, #345ff6 0%, #587dff 100%);
+  border-radius: 1rem;
+  font-size: 1rem;
+  gap: 1.5rem;
+}
+.calcBmi-hero-section .result .welcome h3 {
+  font-size: 1.5rem;
+  color: hsl(0, 0%, 100%);
+  margin-block-end: 1rem;
+}
+.calcBmi-hero-section .result .welcome p {
+  font-weight: 400;
+  font-size: 0.875rem;
+}
+.calcBmi-hero-section .result .result-number,
+.calcBmi-hero-section .result .result-body-cont {
+  display: none;
+}
+.calcBmi-hero-section .result p {
+  color: hsl(0, 0%, 100%);
+  font-weight: 600;
+  margin-block-end: 0.75rem;
+}
+.calcBmi-hero-section .result #result-BMI {
+  font-size: 3rem;
+  color: hsl(0, 0%, 100%);
+  font-weight: 600;
+}
+.calcBmi-hero-section .result #result-body {
+  font-weight: 400;
+  font-size: 0.875rem;
+}
+.calcBmi-hero-section .result #result-min-weight,
+.calcBmi-hero-section .result #result-max-weight {
+  font-weight: 700;
+}
+
+/*MAIN SECTION*/
+.info-BMI {
+  margin-top: 2rem;
+  padding-block: 4.5rem;
+}
+.info-BMI .means-result {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+  margin-block-end: 4.4375rem;
+}
+.info-BMI .means-result .info-txt {
+  padding-inline: 1.5rem;
+}
+.info-BMI .info-cards {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  align-items: start;
+  gap: 2.5rem;
+  padding-inline: 1.5rem;
+  position: relative;
+  padding-block: 3.5rem;
+}
+.info-BMI .info-cards::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 35px;
+  opacity: 0.25;
+  background: var(
+    --gradient-1,
+    linear-gradient(315deg, #d6e6fe 0%, rgba(214, 252, 254, 0) 100%)
+  );
+}
+.info-BMI .info-cards .card-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  align-items: start;
+  gap: 1.5rem;
+}
+.info-BMI .info-cards .card-item h3 {
+  margin-block-end: 1.5rem;
+}
+
+.BMI-limit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2.5rem;
+  padding-inline: 1.5rem;
+  padding-block-end: 6rem;
+}
+.BMI-limit .info-limit {
+  text-align: center;
+}
+.BMI-limit .limit-cards {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+.BMI-limit .limit-cards .card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  align-items: start;
+  gap: 1.25rem;
+  box-shadow: 16px 32px 56px 0px rgba(143, 174, 207, 0.25);
+  background-color: hsl(0, 0%, 100%);
+  border-radius: 1rem;
+  padding: 1.5rem;
+}
+.BMI-limit .limit-cards .card .img-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  gap: 1rem;
+} /*# sourceMappingURL=main.css.map */
+
+/*ONLY TABLET SIZE*/
+@media screen and (min-width: 48rem) {
+  .calcBmi-hero-section {
+    padding-inline: 2.6875rem;
+  }
+  .calcBmi-hero-section .text-side {
+    gap: 0;
+  }
+  .calcBmi-hero-section .text-side #logo {
+    margin-block-end: 2.6875rem;
+  }
+  .calcBmi-hero-section .text-side h1 {
+    margin-block-end: 1.5rem;
+    max-width: 12ch;
+  }
+  .calcBmi-hero-section .text-side p {
+    max-width: 70ch;
+  }
+  .calcBmi-hero-section .form-side {
+    padding: 2rem;
+    gap: 2rem;
+    align-self: stretch;
+  }
+  .calcBmi-hero-section .form-side .radios {
+    justify-content: start;
+    gap: 1rem;
+    align-items: center;
+  }
+  .calcBmi-hero-section .form-side .radios .container {
+    width: 100%;
+    justify-content: start;
+  }
+  .calcBmi-hero-section .form-side .metric-unit {
+    flex-direction: row;
+    justify-content: stretch;
+    gap: 1.5rem;
+  }
+  .calcBmi-hero-section .form-side .metric-unit .metric-container {
+    width: 100%;
+  }
+  .calcBmi-hero-section .form-side .imperial-unit {
+    align-items: stretch;
+  }
+  .calcBmi-hero-section .form-side .imperial-unit .imp-container {
+    align-items: stretch;
+  }
+  .calcBmi-hero-section .form-side .imperial-unit .imp-container .field-imp {
+    gap: 1.5rem;
+    width: 100%;
+    justify-content: center;
+  }
+  .calcBmi-hero-section
+    .form-side
+    .imperial-unit
+    .imp-container
+    .field-imp
+    div {
+    width: 100%;
+  }
+  .calcBmi-hero-section .form-side .result {
+    border-radius: 160px 999px 999px 160px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12rem;
+  }
+  .calcBmi-hero-section .form-side .result #your-BMI {
+    width: -moz-max-content;
+    width: max-content;
+  }
+  .calcBmi-hero-section .form-side .result #result-body {
+    max-width: 30ch;
+  }
+  .info-BMI {
+    padding-block: 6rem;
+  }
+  .info-BMI .means-result {
+    flex-direction: row;
+    justify-content: start;
+    gap: 2rem;
+    margin-block-end: 6rem;
+  }
+  .info-BMI .means-result .info-txt {
+    padding-inline: 0 2.6875rem;
+  }
+  .info-BMI .means-result #img-BMI {
+    width: 26rem;
+    height: 26rem;
+    transform: translateX(-3.5rem);
+  }
+  .info-BMI .info-cards {
+    padding-inline: 2.6875rem;
+    padding-block: 3.75rem;
+  }
+  .info-BMI .info-cards .card-item {
+    flex-direction: row;
+    align-items: center;
+    gap: 2.5rem;
+  }
+  .BMI-limit {
+    padding-inline: 2.6875rem;
+    gap: 3.5rem;
+  }
+  .BMI-limit .info-limit p {
+    max-width: 65ch;
+  }
+  .BMI-limit .limit-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    grid-template-areas: "gender gender age age" "muscle muscle pregnant pregnant" ". race race .";
+    -moz-column-gap: 1rem;
+    column-gap: 1rem;
+    row-gap: 1.25rem;
+  }
+  .BMI-limit .limit-cards .card {
+    justify-content: stretch;
+    padding: 2rem;
+  }
+  .BMI-limit .limit-cards #gender-card {
+    grid-area: gender;
+  }
+  .BMI-limit .limit-cards #age-card {
+    grid-area: age;
+    align-self: stretch;
+  }
+  .BMI-limit .limit-cards #muscle-card {
+    grid-area: muscle;
+    align-self: stretch;
+  }
+  .BMI-limit .limit-cards #pregnant-card {
+    grid-area: pregnant;
+  }
+  .BMI-limit .limit-cards #race-card {
+    grid-area: race;
+  }
+}
+
+@media screen and (min-width: 90rem) {
+  .blue-shape {
+    left: 1.5rem;
+    max-width: 61.125rem;
+    height: 46.0625rem;
+  }
+  .calcBmi-hero-section {
+    flex-direction: row;
+    text-align: left;
+    padding-inline: 8.75rem;
+    padding-block-start: 4.6875rem;
+    justify-content: space-between;
+    gap: 6rem;
+    /* height: 47rem; */
+  }
+  .calcBmi-hero-section .text-side {
+    align-items: start;
+    align-self: start;
+    gap: 0;
+  }
+  .calcBmi-hero-section .text-side #logo {
+    margin-block-end: 7.9375rem;
+  }
+  .calcBmi-hero-section .text-side h1 {
+    font-size: 4rem;
+    margin-block-end: 2.1875rem;
+    min-width: 12ch;
+  }
+  .calcBmi-hero-section .text-side p {
+    max-width: 47ch;
+  }
+  .calcBmi-hero-section .form-side {
+    align-self: center;
+    min-height: 30.25rem;
+    /* margin-block-start: 5rem; */
+    /* max-height: 35.875rem; */
+  }
+  .calcBmi-hero-section .form-side .metric-unit {
+    /* display: none; */
+    justify-content: center;
+    align-items: center;
+  }
+  .calcBmi-hero-section .form-side .metric-unit .metric-container {
+    width: 80%;
+    align-items: center;
+  }
+  .calcBmi-hero-section .form-side .imperial-unit {
+    gap: 1.5rem;
+  }
+  .calcBmi-hero-section .form-side .result {
+    gap: 8rem;
+  }
+  .calcBmi-hero-section .form-side .result #result-BMI {
+    font-size: 4rem;
+  }
+  main {
+    position: relative;
+  }
+  main #main-shape {
+    position: absolute;
+    right: 10.4375rem;
+    top: 2rem;
+  }
+  main .info-BMI {
+    margin-top: 7rem;
+    padding-block: 4.5rem 7.5em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6rem;
+    padding-inline: 0;
+    align-items: stretch;
+  }
+  main .info-BMI .means-result {
+    gap: 6rem;
+    padding-inline: 8.75rem;
+    margin-block-end: 0;
+  }
+  main .info-BMI .means-result #img-BMI {
+    width: 35.25rem;
+    height: 34.5625rem;
+    transform: none;
+  }
+  main .info-BMI .means-result .info-txt {
+    align-self: end;
+    padding-block-end: 4rem;
+    padding-inline: 0;
+  }
+  main .info-BMI .means-result .info-txt h2 {
+    font-size: 3rem;
+  }
+  main .info-BMI .means-result .info-txt p {
+    max-width: 47ch;
+  }
+  main .info-BMI .info-cards {
+    padding-inline: 8.75rem;
+    flex-direction: row;
+    gap: 2rem;
+    padding-block: 4.5rem 6rem;
+    margin-inline: 1.5rem;
+  }
+  main .info-BMI .info-cards .card-item {
+    flex-direction: column;
+    align-items: start;
+    gap: 2.8125rem;
+  }
+  main .BMI-limit {
+    /* align-items: start; */
+    position: relative;
+    text-align: left;
+    padding-inline: 8.75rem;
+  }
+  main .BMI-limit .info-limit {
+    text-align: left;
+    align-self: start;
+  }
+  main .BMI-limit .info-limit h2 {
+    font-size: 3rem;
+    white-space: nowrap;
+  }
+  main .BMI-limit .info-limit p {
+    max-width: 55ch;
+  }
+  main .BMI-limit #limit-shape {
+    position: absolute;
+    top: 15rem;
+    left: 17rem;
+    z-index: 2;
+  }
+  main .BMI-limit .limit-cards {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding-block-start: 2rem;
+    gap: 2rem;
+    justify-content: end;
+    padding-inline-start: 7rem;
+  }
+  main .BMI-limit .limit-cards .card {
+    max-width: 22.8125rem;
+  }
+  main .BMI-limit .limit-cards #gender-card {
+    position: absolute;
+    top: 0;
+    right: 15rem;
+    z-index: -1;
+  }
+  main .BMI-limit .limit-cards #pregnant-card,
+  main .BMI-limit .limit-cards #race-card {
+    transform: translateX(-11.4rem);
+  }
+}
