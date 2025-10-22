@@ -1,6 +1,7 @@
 import TopHeader from "../TopHeader/TopHeader";
 import mainLogo from "../../../assets/images/logo/ehcs-logo.png";
 import logoSM from "../../../assets/images/logo/logo-icon-2.png";
+import { Link } from "react-router";
 
 const Header = () => {
   return (
@@ -10,41 +11,41 @@ const Header = () => {
       <section className="main-header">
         <section className="main-header-container">
           <section className="logo-wrapper">
-            <a href="index.html">
+            <Link to="/">
               <img src={mainLogo} alt="enat-health-care-solutions-logo" />
-            </a>
+            </Link>
           </section>
 
           <section className="logo-sm-wrapper">
-            <a href="index.html">
+            <Link to="/">
               <img src={logoSM} alt="enat-health-care-solutions-logo-sm" />
-            </a>
+            </Link>
           </section>
 
           <section id="nav-bar" className="nav-bar">
             <ul className="nav-items">
               <li>
-                <a href="#hero">Home</a>
+                <Link to="/">Home</Link>
               </li>
               <li>
-                <a href="#about">About</a>
+                <Link to="/about">About</Link>
               </li>
               <li>
-                <a href="#services">Services</a>
+                <Link to="/services">Services</Link>
               </li>
               <li>
-                <a href="#departments">Departments</a>
+                <Link to="/departments">Departments</Link>
               </li>
               <li>
-                <a href="#doctors">Doctors</a>
+                <Link to="/doctors">Doctors</Link>
               </li>
               <li>
-                <a href="#contact">Contact</a>
+                <Link to="/contact">Contact</Link>
               </li>
               <li>
-                <a className="main-btn" href="index.html#appointment">
+                <Link className="main-btn" to="/appointment">
                   Make an Appointment
-                </a>
+                </Link>
               </li>
             </ul>
           </section>
