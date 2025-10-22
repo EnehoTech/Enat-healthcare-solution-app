@@ -533,6 +533,33 @@ h6 {
   opacity: 1;
 }
 
+/* ======= 404 page section css  ======= */
+.container {
+  max-width: 992px !important;
+}
+.not-found-page-section div.main-btn {
+  display: block;
+  width: 210px;
+  color: #fff;
+  background: var(--main-gradient);
+  font-family: var(--secondary-font-family);
+  text-transform: capitalize;
+  font-weight: 400;
+  padding: 12px 24px !important;
+  transition: var(--transition);
+  border-radius: 4px;
+  text-align: center !;
+}
+.not-found-page-section div.main-btn a {
+  color: #fff;
+  text-align: center;
+  max-width: none;
+}
+.not-found-page-section div.main-btn a:hover {
+  color: #fff;
+  opacity: 0.8;
+}
+
 /* mobile device footer css */
 .md-footer-links-wrapper h2, .md-footer-links-wrapper h4 {
   color: #fff !important;
@@ -554,6 +581,8 @@ h6 {
 .md-footer-links-wrapper .accordion .accordion-button:not(.collapsed)::after {
   background-image: url("../icons/minus-icon.svg");
 }
+
+
 
 /* ======= media query css  ======= */
 
