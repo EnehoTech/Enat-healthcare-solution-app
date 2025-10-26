@@ -1,0 +1,130 @@
+.page-banner-section {
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-color: #f9faff;
+  background-size: cover;
+  padding-block: 200px;
+  will-change: transform;
+  contain: paint;
+}
+.page-banner-section.about-banner-bg {
+  background-image: url(../../assets/images/about/about-us-bg.webp);
+}
+.page-banner-section.enat-blog-post-banner-bg {
+  background-image: url(../../../assets/images/blog/enat-blog-post-section-banner-bg.webp);
+}
+.page-banner-section.enat-blog-post-detail-banner-bg {
+  background-image: url(../../../assets/images/blog/enat-blog-detail-section-banner-bg.webp);
+}
+.page-banner-section.contact-us-banner-bg {
+  background-image: url(../../assets/images/contact/contact-us-bg.webp);
+}
+.page-banner-section.privacy-and-terms-bg {
+  background-image: url(../../assets/images/misc/privacy-and-terms-bg.webp);
+}
+.page-banner-section.section-banner-bg {
+  background-image: url(../../assets/images/misc/section-banner-bg.webp);
+}
+
+.page-banner-section.bg-image {
+  background-color: #030a21;
+  position: relative;
+  z-index: 1;
+}
+.page-banner-section.bg-image .page-banner-content {
+  color: #fff;
+}
+.page-banner-section.bg-image .page-banner-content h2 {
+  color: #fff;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+}
+.page-banner-section.bg-image .page-banner-content ul li {
+  font-weight: 600;
+}
+.page-banner-section.bg-image .page-banner-content ul li::before {
+  background-color: #fff;
+}
+.page-banner-section.bg-image .page-banner-content ul li a {
+  color: #fff;
+  transition: all 0.3s ease-in-out;
+}
+.page-banner-section.bg-image .page-banner-content ul li a:hover {
+  background: linear-gradient(to right, #244cfd, #15e4fd);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text; /* for Firefox */
+  color: transparent; /* fallback */
+}
+.page-banner-section.bg-image::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: -1;
+  background-color: #000;
+  opacity: 0.75;
+}
+
+.page-banner-content {
+  text-align: center;
+}
+.page-banner-content h2 {
+  margin-bottom: 0;
+  font-size: 45px;
+}
+.page-banner-content ul {
+  padding-left: 0;
+  list-style-type: none;
+  margin-bottom: 0;
+  margin-top: 20px;
+}
+.page-banner-content ul li {
+  display: inline-block;
+  position: relative;
+  font-weight: 500;
+  font-size: 16px;
+  margin-left: 12px;
+  margin-right: 12px;
+}
+.page-banner-content ul li:last-child {
+ background: linear-gradient(to right, #244cfd, #15e4fd);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text; /* for Firefox */
+  color: transparent; /* fallback */
+}
+.page-banner-content ul li::before {
+  content: "";
+  position: absolute;
+  right: -18px;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 1px;
+  width: 10px;
+  background-color: #030a21;
+  margin-top: 1px;
+}
+.page-banner-content ul li a {
+  color: #fff !important;
+  transition: all 0.3s ease-in-out;
+}
+.page-banner-content ul li a:hover {
+  background: linear-gradient(to right, #244cfd, #15e4fd);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text; /* for Firefox */
+  color: transparent; /* fallback */
+}
+.page-banner-content ul li:last-child {
+  margin-right: 0;
+}
+.page-banner-content ul li:last-child::before {
+  display: none;
+}
+.page-banner-content ul li:first-child {
+  margin-left: 0;
+}
