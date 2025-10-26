@@ -1,0 +1,862 @@
+**1.blog API design **
+  1.1  GET api/blogs:           Get all blogs.
+  1.2  GET api/blogs/{blog-id}: Get a specific blog by ID.
+  1.3  POST api/blogs:          Create a new blog.
+  1.4  PUT api/blogs/{blog-id}: Update a specific blog.
+  1.5  DELETE api/blogs/{blog-id}: Delete a specific blog.
+**1.blog API DOCS**
+  1.1 Get All Blogs
+    Endpoint: GET /api/blogs
+
+    Description: Retrieves a list of all blogs.
+
+    Host/Base_URL: enathealthcare.com or localhost:2411
+
+    Request:
+
+    Authorization: Requires a valid access token with admin privileges (if implemented).
+    Successful Response (200 OK):
+
+    Content-Type: application/json
+    Response Body:
+
+    {
+      "success": "true",
+      "message": "Blogs retrieved successfully.",
+      "data": {
+        "blogs": [
+          {
+            "blog_id": 1,
+            "user_id": 2,
+            user: {
+                email: exampl@gmail.com
+                display_name: abekyelesh kassa 
+            },
+            "blog_img": "/images/blog1.png",
+            "blog_title": "First Blog Post",
+            "blog_description": "This is the description of the first blog post.",
+            "created_at": "2024-08-01T12:00:00Z",
+            "updated_at": "2024-08-20T12:00:00Z"
+          },
+          {
+            "blog_id": 2,
+            "user_id": 2,
+            "user": {
+                email: exampl@gmail.com
+                display_name: abekyelesh kassa 
+            },
+            "blog_img": "/images/blog2.png",
+            "blog_title": "Second Blog Post",
+            "blog_description": "This is the description of the second blog post.",
+            "created_at": "2024-08-05T12:00:00Z",
+            "updated_at": "2024-08-22T12:00:00Z"
+          }
+        ]
+      }
+    }
+    Error Responses:
+
+    400 Bad Request: Invalid request parameters.
+
+    {
+      "success": false,
+      "error": "Bad Request",
+      "message": "Provided parameter is invalid."
+    }
+    401 Unauthorized: User is not authenticated.
+    json
+    Copy code
+    {
+      "success": false,
+      "error": "Unauthorized",
+      "message": "You are not authorized, Please sign in."
+    }
+    403 Forbidden: User does not have permission to access this resource.
+
+    {
+      "success": false,
+      "error": "Forbidden",
+      "message": "You do not have permission."
+    }
+    500 Internal Server Error: Server encountered an unexpected condition.
+
+    {
+      "success": false,
+      "error": "Internal Server Error",
+      "message": "Something went wrong! Please try again later."
+    }
+  1.2 Get a Specific Blog by ID
+    Endpoint: GET /api/blogs/{blog-id}
+    Host/Base_URL: enathealthcare.com or localhost:2411
+    Description: Retrieves details of a specific blog identified by its ID.
+
+    Request:
+
+    Authorization: Requires a valid access token (if implemented).
+    URL Path Parameter:
+    blog-id (integer, required): The ID of the blog to retrieve.
+    Successful Response (200 OK):
+
+    Content-Type: application/json
+    Response Body:
+    json
+    Copy code
+    {
+      "success": "true",
+      "message": "Blog retrieved successfully.",
+      "data": {
+        blog: {
+        "blog_id": 1,
+        "user_id": 2,
+        "user": {
+                "email": exampl@gmail.com
+                "display_name": abekyelesh kassa 
+            },
+        "blog_img": "/images/blog1.png",
+        "blog_title": "First Blog Post",
+        "blog_description": "This is the description of the first blog post.",
+        "created_at": "2024-08-01T12:00:00Z",
+        "updated_at": "2024-08-20T12:00:00Z"
+      }
+      }
+    }
+    Error Responses:
+
+    400 Bad Request: Invalid blog ID format.
+
+    {
+      "success": false,
+      "error": "Bad Request",
+      "message": "Provided parameter is invalid."
+    }
+    401 Unauthorized: User is not authenticated.
+
+    {
+      "success": false,
+      "error": "Unauthorized",
+      "message": "You are not authorized, Please sign in."
+    }
+    403 Forbidden: User does not have permission to access this resource.
+
+    {
+      "success": false,
+      "error": "Forbidden",
+      "message": "You do not have permission."
+    }
+    404 Not Found: The specified blog does not exist.
+
+    {
+      "success": false,
+      "error": "404 Not Found",
+      "message": "The blog you are looking for was not found."
+    }
+    500 Internal Server Error: Server encountered an unexpected condition.
+
+    {
+      "success": false,
+      "error": "Internal Server Error",
+      "message": "Something went wrong! Please try again later."
+    }
+  1.3 Create a New Blog
+    Endpoint: POST /api/blogs
+    Host/Base_URL: enathealthcare.com or localhost:2411
+    Description: Creates a new blog record.
+
+    Request:
+
+    Authorization: Requires a valid access token (if implemented).
+    Content-Type: application/json
+    Request Body:
+    {
+      "user_id": 1,
+      "blog_img": "/images/blog1.png",
+      "blog_title": "First Blog Post",
+      "blog_description": "This is the description of the first blog post."
+    }
+    Successful Response (201 Created):
+
+    Content-Type: application/json
+    Response Body:
+
+    {
+      "success": "true",
+      "message": "Blog created successfully.",
+      "data": {
+        blog:{
+        "blog_id": 3,
+        "user_id": 1,
+         user: {
+                email: exampl@gmail.com
+                display_name: abekyelesh kassa 
+          },
+        "blog_img": "/images/blog3.png",
+        "blog_title": "Third Blog Post",
+        "blog_description": "This is the description of the third blog post.",
+        "created_at": "2024-08-24T12:00:00Z",
+        "updated_at": "2024-08-24T12:00:00Z"
+      }
+      }
+    }
+    Error Responses:
+
+    400 Bad Request: Invalid input or missing required parameters.
+
+    {
+      "success": false,
+      "error": "Bad Request",
+      "message": "Provided parameter is invalid."
+    }
+    401 Unauthorized: User is not authenticated.
+
+    {
+      "success": false,
+      "error": "Unauthorized",
+      "message": "You are not authorized, Please sign in."
+    }
+    403 Forbidden: User does not have permission to create a blog.
+
+    {
+      "success": false,
+      "error": "Forbidden",
+      "message": "You do not have permission."
+    }
+    409 Conflict: A blog with the specified title or content already exists.
+
+    {
+      "success": false,
+      "error": "Conflict",
+      "message": "A blog with these details already exists."
+    }
+    500 Internal Server Error: Server encountered an unexpected condition.
+
+    {
+      "success": false,
+      "error": "Internal Server Error",
+      "message": "Something went wrong! Please try again later."
+    }
+  1.4 Update a Specific Blog
+    Endpoint: PUT /api/blogs/{blog-id}
+    Host/Base_URL: enathealthcare.com or localhost:2411
+    Description: Updates the details of an existing blog identified by its ID.
+
+    Request:
+
+    Authorization: Requires a valid access token (if implemented).
+    Content-Type: application/json
+    URL Path Parameter:
+    blog-id (integer, required): The ID of the blog to update.
+    Request Body:
+
+    {
+      "blog_title": "Updated Blog Post",
+      "blog_description": "This is the updated description of the blog post.",
+      "blog_img": "/images/blog1-updated.png"
+    }
+    Successful Response (200 OK):
+
+    Content-Type: application/json
+    Response Body:
+
+    {
+      "success": "true",
+      "message": "Blog updated successfully.",
+      "data":{
+        blog: {
+        "blog_id": 1,
+        "user_id": 1,
+        "blog_img": "/images/blog1-updated.png",
+        "blog_title": "Updated Blog Post",
+        "blog_description": "This is the updated description of the blog post.",
+        "created_at": "2024-08-01T12:00:00Z",
+        "updated_at": "2024-08-24T12:00:00Z"
+      }
+      }
+    }
+    Error Responses:
+
+    400 Bad Request: Invalid input or missing required parameters.
+
+    {
+      "success": false,
+      "error": "Bad Request",
+      "message": "Provided parameter is invalid."
+    }
+    401 Unauthorized: User is not authenticated.
+
+    {
+      "success": false,
+      "error": "Unauthorized",
+      "message": "You are not authorized, Please sign in."
+    }
+    403 Forbidden: User does not have permission to update the blog.
+
+    {
+      "success": false,
+      "error": "Forbidden",
+      "message": "You do not have permission."
+    }
+    404 Not Found: The specified blog does not exist.
+
+    {
+      "success": false,
+      "error": "404 Not Found",
+      "message": "The blog you are looking for was not found."
+    }
+    409 Conflict: The update causes a conflict in the blog data.
+
+    {
+      "success": false,
+      "error": "Conflict",
+      "message": "The update caused a conflict in the blog data."
+    }
+    500 Internal Server Error: Server encountered an unexpected condition.
+
+    {
+      "success": false,
+      "error": "Internal Server Error",
+      "message": "Something went wrong! Please try again later."
+    }
+  1.5 Delete a Specific Blog
+    Endpoint: DELETE /api/blogs/{blog-id}
+    Host/Base_URL: enathealthcare.com or localhost:2411
+    Description: Deletes a blog from the system identified by its ID.
+
+    Request:
+
+    Authorization: Requires a valid access token with admin privileges (if implemented).
+    URL Path Parameter:
+    blog-id (integer, required): The ID of the blog to delete.
+    Successful Response (200 OK):
+
+    Content-Type: application/json
+    Response Body:
+
+    {
+      "success": "true",
+      "message": "Blog deleted successfully."
+    }
+    Error Responses:
+
+    400 Bad Request: Invalid blog ID format.
+
+    {
+      "success": false,
+      "error": "Bad Request",
+      "message": "Provided parameter is invalid."
+    }
+    401 Unauthorized: User is not authenticated.
+
+    {
+      "success": false,
+      "error": "Unauthorized",
+      "message": "You are not authorized, Please sign in."
+    }
+    403 Forbidden: User does not have permission to delete the blog.
+
+    {
+      "success": false,
+      "error": "Forbidden",
+      "message": "You do not have permission."
+    }
+    404 Not Found: The specified blog does not exist.
+
+    {
+      "success": false,
+      "error": "404 Not Found",
+      "message": "The blog you are looking for was not found."
+    }
+    500 Internal Server Error: Server encountered an unexpected condition.
+    {
+      "success": false,
+      "error": "Internal Server Error",
+      "message": "Something went wrong! Please try again later."
+    }
+
+**2.blog_detail API design **
+  2.1  GET api/blog-details:           Get all blog-details.
+  2.2  GET api/blog-details/{blog-detail-hash}: Get a specific blog-detail by hash.
+  2.3  POST api/blog-details:          Create a new blog detail.
+  2.4  PUT/PATCH api/blog-details/{blog-detail-hash}: Update a specific blog detail.
+  2.5  DELETE api/blog-details/{blog-detail-hash}: Delete a specific blog detail.
+**2.blog_detail API DOCS**
+  2.1 Get All Blog Details
+    Endpoint: GET /api/blog-details
+    Description: Retrieves a list of all blog details.
+
+    Host/Base_URL: enathealthcare.com or localhost:2411
+
+    Request:
+
+    Authorization: Requires a valid access token with admin privileges (if implemented).
+    Successful Response (200 OK):
+
+    json
+    {
+      "success": "true",
+      "message": "Blog details retrieved successfully.",
+      "data": {
+        "blog_details": [
+          {
+            "id": 1,
+            "blog": {
+              "blog_id": 1,
+              "blog_img": "/images/blog1.png",
+              "blog_title": "First Blog Post",
+              "blog_description": "This is the description of the first blog post.",
+            }
+            "detail_description": "Detailed description of the first blog post.",
+            "blog_main_highlight": "Main highlights of the first blog post.",
+            "blog_post_wrap_up": "Final thoughts of the first blog post.",
+            "user": {
+              "user_id": 2,
+              email: exampl@gmail.com
+              display_name: abekyelesh kassa 
+            },
+            "tags": [
+              { "tag_id": 1, "name": "Health" },
+              { "tag_id": 2, "name": "Wellness" }
+            ],
+            "images": [
+              { "blog_img_url": "http://example.com/image1.jpg" },
+              { "blog_img_url": "http://example.com/image2.jpg" }
+            ],
+            "related_blog_posts": [
+              { "blog_id": 2, "blog_title": "Second Blog Post" },
+              { "blog_id": 3, "blog_title": "Third Blog Post" }
+            ],
+            "created_at": "2024-08-01T12:00:00Z",
+            "updated_at": "2024-08-20T12:00:00Z"
+          },
+          {
+            "id": 1,
+            "blog": {
+              "blog_id": 1,
+              "blog_img": "/images/blog1.png",
+              "blog_title": "First Blog Post",
+              "blog_description": "This is the description of the first blog post.",
+            }
+            "detail_description": "Detailed description of the first blog post.",
+            "blog_main_highlight": "Main highlights of the first blog post.",
+            "blog_post_wrap_up": "Final thoughts of the first blog post.",
+            "user": {
+              "user_id": 2,
+              email: exampl@gmail.com
+              display_name: abekyelesh kassa 
+            },
+            "tags": [
+              { "tag_id": 1, "name": "Health" },
+              { "tag_id": 2, "name": "Wellness" }
+            ],
+            "images": [
+              { "blog_img_url": "http://example.com/image1.jpg" },
+              { "blog_img_url": "http://example.com/image2.jpg" }
+            ],
+            "related_blog_posts": [
+              { "blog_id": 2, "blog_title": "Second Blog Post" },
+              { "blog_id": 3, "blog_title": "Third Blog Post" }
+            ],
+            "created_at": "2024-08-01T12:00:00Z",
+            "updated_at": "2024-08-20T12:00:00Z"
+          }
+        ]
+      }
+    }
+    Error Responses:
+
+    400 Bad Request: Invalid request parameters.
+    json
+    {
+      "success": false,
+      "error": "Bad Request",
+      "message": "Provided parameter is invalid."
+    }
+    401 Unauthorized: User is not authenticated.
+    json
+    {
+      "success": false,
+      "error": "Unauthorized",
+      "message": "You are not authorized, please sign in."
+    }
+    403 Forbidden: User does not have permission to access this resource.
+    json
+    {
+      "success": false,
+      "error": "Forbidden",
+      "message": "You do not have permission."
+    }
+    500 Internal Server Error: Server encountered an unexpected condition.
+    json
+    {
+      "success": false,
+      "error": "Internal Server Error",
+      "message": "Something went wrong! Please try again later."
+   }
+  2.2 Get a Specific Blog Detail by Hash
+    Endpoint: GET /api/blog-details/{blog-detail-hash}
+    Description: Retrieves details of a specific blog identified by its hash.
+
+    Host/Base_URL: enathealthcare.com or localhost:2411
+
+    Request:
+
+    Authorization: Requires a valid access token (if implemented).
+    URL Path Parameter:
+    blog-detail-hash (string, required): The hash of the blog detail to retrieve.
+    Successful Response (200 OK):
+
+    json
+    {
+      "success": "true",
+      "message": "Blog detail retrieved successfully.",
+      "data": {
+        "blog_detail": {
+          "id": 1,
+          "blog": {
+              "blog_id": 1,
+              "blog_img": "/images/blog1.png",
+              "blog_title": "First Blog Post",
+              "blog_description": "This is the description of the first blog post.",
+            }
+          "detail_description": "Detailed description of the first blog post.",
+          "blog_main_highlight": "Main highlights of the first blog post.",
+          "blog_post_wrap_up": "Final thoughts of the first blog post.",
+          "user": {
+              "user_id": 2,
+              email: exampl@gmail.com
+              display_name: abekyelesh kassa 
+            },
+          "tags": [
+            { "tag_id": 1, "name": "Health" },
+            { "tag_id": 2, "name": "Wellness" }
+          ],
+          "images": [
+            { "blog_img_url": "http://example.com/image1.jpg" },
+            { "blog_img_url": "http://example.com/image2.jpg" }
+          ],
+          "related_blog_posts": [
+            { "blog_id": 2, "blog_title": "Second Blog Post" },
+            { "blog_id": 3, "blog_title": "Third Blog Post" }
+          ],
+          "created_at": "2024-08-01T12:00:00Z",
+          "updated_at": "2024-08-20T12:00:00Z"
+        }
+      }
+    }
+    Error Responses:
+
+    400 Bad Request: Invalid blog detail hash format.
+    json
+    {
+      "success": false,
+      "error": "Bad Request",
+      "message": "Provided parameter is invalid."
+    }
+    401 Unauthorized: User is not authenticated.
+    json
+    {
+      "success": false,
+      "error": "Unauthorized",
+      "message": "You are not authorized, please sign in."
+    }
+    403 Forbidden: User does not have permission to access this resource.
+    json
+    {
+      "success": false,
+      "error": "Forbidden",
+      "message": "You do not have permission."
+    }
+    404 Not Found: The specified blog detail does not exist.
+    json
+    {
+      "success": false,
+      "error": "404 Not Found",
+      "message": "The blog detail you are looking for was not found."
+    }
+    500 Internal Server Error: Server encountered an unexpected condition.
+    json
+    {
+      "success": false,
+      "error": "Internal Server Error",
+      "message": "Something went wrong! Please try again later."
+    }
+  2.3 Create a New Blog Detail
+    Endpoint: POST /api/blog-details
+    Description: Creates a new blog detail record along with associated tags, images, and related blog posts.
+
+    Host/Base_URL: enathealthcare.com or localhost:2411
+
+    Request:
+
+    Authorization: Requires a valid access token (if implemented).
+    Content-Type: application/json
+    Request Body:
+    json
+    {
+      "blog_id": 1,
+      "blog_title": "First Blog Post",
+      "detail_description": "Detailed description of the first blog post.",
+      "blog_main_highlight": "Main highlights of the first blog post.",
+      "blog_post_wrap_up": "Final thoughts of the first blog post.",
+      "tags": [
+        { "tag_id": 1 },
+        { "tag_id": 2 }
+      ],
+      "images": [
+        { "blog_img_url": "http://example.com/image1.jpg" },
+        { "blog_img_url": "http://example.com/image2.jpg" }
+      ],
+      "related_blog_posts": [
+        { "blog_id": 2 },
+        { "blog_id": 3 }
+      ]
+    }
+    Successful Response (201 Created):
+    json
+    {
+      "success": "true",
+      "message": "Blog detail created successfully.",
+      "data": {
+        "blog_detail": {
+          "id": 3,
+          "blog": {
+              "blog_id": 1,
+              "blog_img": "/images/blog1.png",
+              "blog_title": "First Blog Post",
+              "blog_description": "This is the description of the first blog post.",
+            }
+          "hash": "unique_hash_value",
+          "detail_description": "Detailed description of the first blog post.",
+          "blog_main_highlight": "Main highlights of the first blog post.",
+          "blog_post_wrap_up": "Final thoughts of the first blog post.",
+          "user": {
+              "user_id": 2,
+              email: exampl@gmail.com
+              display_name: abekyelesh kassa 
+          },
+          "tags": [
+            { "tag_id": 1, "name": "Health" },
+            { "tag_id": 2, "name": "Wellness" }
+          ],
+          "images": [
+            { "blog_img_url": "http://example.com/image1.jpg" },
+            { "blog_img_url": "http://example.com/image2.jpg" }
+          ],
+          "related_blog_posts": [
+            { "blog_id": 2, "blog_title": "Second Blog Post" },
+            { "blog_id": 3, "blog_title": "Third Blog Post" }
+          ],
+          "created_at": "2024-08-24T12:00:00Z",
+          "updated_at": "2024-08-24T12:00:00Z"
+        }
+      }
+    }
+    Error Responses:
+
+    400 Bad Request: Invalid input or missing required parameters.
+    json
+    {
+      "success": false,
+      "error": "Bad Request",
+      "message": "Provided parameter is invalid."
+    }
+    401 Unauthorized: User is not authenticated.
+    json
+    {
+      "success": false,
+      "error": "Unauthorized",
+      "message": "You are not authorized, please sign in."
+    }
+    403 Forbidden: User does not have permission to create a blog detail.
+    json
+    {
+      "success": false,
+      "error": "Forbidden",
+      "message": "You do not have permission."
+    }
+    409 Conflict: A blog detail with the specified hash already exists.
+    json
+    {
+      "success": false,
+      "error": "Conflict",
+      "message": "A blog detail with these details already exists."
+    }
+    500 Internal Server Error: Server encountered an unexpected condition.
+    json
+    {
+      "success": false,
+      "error": "Internal Server Error",
+      "message": "Something went wrong! Please try again later."
+    }
+  2.4 Update a Specific Blog Detail
+    Endpoint: PUT /api/blog-details/{blog-detail-hash}
+    Description: Updates the details of an existing blog identified by its hash.
+
+    Host/Base_URL: enathealthcare.com or localhost:2411
+
+    Request:
+
+    Authorization: Requires a valid access token (if implemented).
+    Content-Type: application/json
+    URL Path Parameter:
+    blog-detail-hash (string, required): The hash of the blog detail to update.
+    Request Body:
+    json
+     {
+      "blog_id": 1,
+      "blog_title": "First Blog Post",
+      "detail_description": "Detailed description of the first blog post.",
+      "blog_main_highlight": "Main highlights of the first blog post.",
+      "blog_post_wrap_up": "Final thoughts of the first blog post.",
+      "tags": [
+        { "tag_id": 1 },
+        { "tag_id": 2 }
+      ],
+      "images": [
+        { "blog_img_url": "http://example.com/image1.jpg" },
+        { "blog_img_url": "http://example.com/image2.jpg" }
+      ],
+      "related_blog_posts": [
+        { "blog_id": 2 },
+        { "blog_id": 3 }
+      ]
+    }
+    Successful Response (200 OK):
+    json
+    {
+      "success": "true",
+      "message": "Blog detail updated successfully.",
+      "data": {
+        "blog_detail": {
+          "id": 1,
+          "blog": {
+              "blog_id": 1,
+              "blog_img": "/images/blog1.png",
+              "blog_title": "First Blog Post",
+              "blog_description": "This is the description of the first blog post.",
+            }
+          "detail_description": "This is the updated description of the blog post.",
+          "blog_main_highlight": "Updated highlights of the blog post.",
+          "blog_post_wrap_up": "Updated final thoughts of the blog post.",
+          "user": {
+              "user_id": 2,
+              email: exampl@gmail.com
+              display_name: abekyelesh kassa 
+          },
+          "tags": [
+            { "tag_id": 1, "name": "Health" },
+            { "tag_id": 2, "name": "Wellness" }
+          ],
+          "images": [
+            { "blog_img_url": "http://example.com/image1.jpg" },
+            { "blog_img_url": "http://example.com/image2.jpg" }
+          ],
+          "related_blog_posts": [
+            { "blog_id": 2, "blog_title": "Second Blog Post" },
+            { "blog_id": 3, "blog_title": "Third Blog Post" }
+          ],
+          "created_at": "2024-08-01T12:00:00Z",
+          "updated_at": "2024-08-24T12:00:00Z"
+        }
+      }
+    }
+    Error Responses:
+
+    400 Bad Request: Invalid input or missing required parameters.
+    json
+    {
+      "success": false,
+      "error": "Bad Request",
+      "message": "Provided parameter is invalid."
+    }
+    401 Unauthorized: User is not authenticated.
+    json
+    {
+      "success": false,
+      "error": "Unauthorized",
+      "message": "You are not authorized, please sign in."
+    }
+    403 Forbidden: User does not have permission to update the blog detail.
+    json
+
+    {
+      "success": false,
+      "error": "Forbidden",
+      "message": "You do not have permission."
+    }
+    404 Not Found: The specified blog detail does not exist.
+    json
+    {
+      "success": false,
+      "error": "404 Not Found",
+      "message": "The blog detail you are looking for was not found."
+    }
+    409 Conflict: The update causes a conflict in the blog detail data.
+    json
+    {
+      "success": false,
+      "error": "Conflict",
+      "message": "The update caused a conflict in the blog detail data."
+    }
+    500 Internal Server Error: Server encountered an unexpected condition.
+    json
+    {
+      "success": false,
+      "error": "Internal Server Error",
+      "message": "Something went wrong! Please try again later."
+    }
+  2.5 Delete a Specific Blog Detail
+    Endpoint: DELETE /api/blog-details/{blog-detail-hash}
+    Description: Deletes a blog detail from the system identified by its hash.
+
+    Host/Base_URL: enathealthcare.com or localhost:2411
+
+    Request:
+
+    Authorization: Requires a valid access token with admin privileges (if implemented).
+    URL Path Parameter:
+    blog-detail-hash (string, required): The hash of the blog detail to delete.
+    Successful Response (200 OK):
+
+    json
+    {
+      "success": "true",
+      "message": "Blog detail deleted successfully."
+    }
+    Error Responses:
+
+    400 Bad Request: Invalid blog detail hash format.
+    json
+    {
+      "success": false,
+      "error": "Bad Request",
+      "message": "Provided parameter is invalid."
+    }
+    401 Unauthorized: User is not authenticated.
+    json
+    {
+      "success": false,
+      "error": "Unauthorized",
+      "message": "You are not authorized, please sign in."
+    }
+    403 Forbidden: User does not have permission to delete the blog detail.
+    json
+    {
+      "success": false,
+      "error": "Forbidden",
+      "message": "You do not have permission."
+    }
+    404 Not Found: The specified blog detail does not exist.
+    json
+    {
+      "success": false,
+      "error": "404 Not Found",
+      "message": "The blog detail you are looking for was not found."
+    }
+    500 Internal Server Error: Server encountered an unexpected condition.
+    json
+    {
+      "success": false,
+      "error": "Internal Server Error",
+      "message": "Something went wrong! Please try again later."
+    }
+ 

@@ -6,6 +6,8 @@ import NotFoundPage from "../pages/4O4/NotFoundPage";
 import UsersProfile from "../components/UsersProfile/UsersProfile";
 import SingleUserProfile from "../components/UsersProfile/SingleUserProfile";
 import Layout from "../layouts/Layout/Layout";
+import AdminDashboard from "../pages/AdminDashboard/AdminDashboard";
+import BlogsPage from "../pages/BlogsPage/BlogsPage";
 const AppRoutes = () => {
   return (
     <>
@@ -18,10 +20,12 @@ const AppRoutes = () => {
           <Route path="/departments" element={<h1>Departments Page</h1>} />
           <Route path="/doctors" element={<h1>Doctors Page</h1>} />
           <Route path="/appointment" element={<h1>Appointment Page</h1>} />
+          <Route path="/blogs" element={<BlogsPage />} />
           <Route path="/user-profile" element={<UsersProfile />}>
             <Route path=":userId" element={<SingleUserProfile />} />
           </Route>
-
+          {/* admin dashboard routes*/}
+          <Route path="/dashboard" element={<AdminDashboard />} />
           {/* 404 not found routes */}
           <Route path="*" element={<NotFoundPage />} />
         </Route>

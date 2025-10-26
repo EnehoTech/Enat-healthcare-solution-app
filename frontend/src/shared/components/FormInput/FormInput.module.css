@@ -1,0 +1,21 @@
+.input-form-wrapper {
+  position: relative;
+  margin-bottom: 20px;
+}
+.input-form--wrapper .input-form-form-control {
+  background-color: #fff !important;
+}
+.input-form-wrapper label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 12px;
+  color: #030a21;
+}
+.is-invalid {
+  border: 1px solid #dc3545 !important;
+  background-image: none !important;
+  padding-right: 0.75rem !important;
+}
+.input-form-wrapper label .required {
+  color: #dc3545;
+}
