@@ -1,3 +1,120 @@
+***Enathealthcare Solution Project API Design and documentation***
+** Base_URL=enathealthcare.com/ or localhost:2411/**
+**1.Auth API design**
+    1.1 POST api/auth/sign-up  create a new account
+    1.2 POST api/auth/sign-in  sign in using the created account
+**1. Auth API DOCS **
+  ***1.1 create user account (sign up) ***
+    endpoint: enathealthcare.com/api/auth/sign-up(POST)
+    Description: Creates a new user account.
+    Host/Base_URL: enathealthcare.com or localhost:2411
+    Request:
+    Content-Type: application/json
+    Body:
+    Json
+    {
+          "email": "enathealth@gmail.com",
+          "first_name": "Test",
+          "last_name": "Test",
+          "phone_number": "555-555-5555",
+          "password": "8HYsy&uud*7hh", 
+        }
+
+      Successful Response (201 CREATED):
+        Content-Type: application/json
+        {
+          "success":"true"
+          "message": "Account created and signed in successfully.",
+          "_u_at_i":"token generated "
+        }
+
+      Error Response:
+       description: Incorrect data inputs or missing parameters.
+       Status Code:  400 Bad Request
+       {
+        "success": false,
+         "error":  "Bad Request",
+         "message": "provided parameter is invalid.",
+       }
+       description:The specified resource does not exist.
+       Status Code: 404 Not Found
+       {
+           "success": false,
+           "error": "404 Not Found",
+           "message": "The request you are looking for was not found.",
+       }
+
+            Description:Email Already Registered: 
+            Status Code: 409 Conflict
+                {
+                  "success": false,
+                  "error":  "Conflict",
+                  "message": "Account already exists."
+                }
+
+            Description: A server error occurred while processing the request.
+            Status Code: 500 Internal Server Error
+
+                {
+                  "success": false,
+                  "error":  "Internal Server Error",
+                  "message": "Something went wrong! Please try again later.",
+                }  
+  ***1.2 sign in using an account (sign in) ***
+    endpoint: enathealthcare.com/api/auth/sign-in(POST)
+    Description: Creates a new user account.
+    Host/Base_URL: enathealthcare.com or localhost:2411
+    Request:
+    Content-Type: application/json
+    Body:
+    Json
+    {
+          "email": "enathealth@gmail.com",
+          "password": "8HYsy&uud*7hh", 
+        }
+
+      Successful Response (200 ok):
+        Content-Type: application/json
+        {
+          "success":"true"
+          "message": "User signed in successfully.",
+          "_u_at_i":"token generated "
+        }
+
+      Error Response:
+       description: Incorrect data inputs or missing parameters.
+       Status Code:  400 Bad Request
+       {
+        "success": false,
+         "error":  "Bad Request",
+         "message": "provided parameter is invalid.",
+       }
+       description: Either the email or password you entered is incorrect.
+       Status Code:  401 Bad Request
+       {
+        "success": false,
+         "error":  "Bad Request",
+         "message": "Either the email or password you entered is incorrect.",
+       }
+       description:The specified resource does not exist.
+       Status Code: 404 Not Found
+       {
+           "success": false,
+           "error": "404 Not Found",
+           "message": "Incorrect or no account exists.",
+       }
+
+      Description: A server error occurred while processing the request.
+      Status Code: 500 Internal Server Error
+      {
+        "success": false,
+        "error":  "Internal Server Error",
+        "message": "Something went wrong! Please try again later.",
+      }
+
+
+
+
 **1.blog API design **
   1.1  GET api/blogs:           Get all blogs.
   1.2  GET api/blogs/{blog-id}: Get a specific blog by ID.

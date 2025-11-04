@@ -9,7 +9,7 @@ import connection from "../config/db.config.js";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 // Construct the full path to the SQL file containing the database queries
-const queryFile = join(__dirname, "sql/enat-blog-queries.sql");
+const queryFile = join(__dirname, "sql/enat-db-sql-queries.sql");
 
 // Asynchronous function to install the database
 export const installService = async () => {
