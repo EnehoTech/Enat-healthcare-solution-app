@@ -1,0 +1,197 @@
+/* ---------- side bar css ---------- */
+.sidebar {
+  position: fixed;
+  top: 60px;
+  left: -300px;
+  bottom: 0;
+  width: 300px;
+  z-index: 9996;
+  transition: all 0.5s ease-in-out;
+  padding: 20px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #d7deeb transparent;
+  box-shadow: 0 0 20px rgba(1, 41, 112, 0.1);
+  background-color: #fff;
+}
+.sidebar:hover {
+  scrollbar-color: #aab7cfcc transparent;
+}
+
+.sidebar-nav {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.sidebar-nav li {
+  list-style: none;
+}
+.sidebar-nav .nav-item {
+  margin-bottom: 5px;
+}
+.sidebar-nav .nav-heading {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: #899bbd;
+  font-weight: 600;
+  margin: 10px 0 5px 15px;
+}
+.sidebar-nav .nav-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: #012970;
+  transition: all 0.5s ease;
+  background: #f6f9ff;
+  padding: 10px 15px;
+  border-radius: 4px;
+  border-left: 2px solid transparent;
+  letter-spacing: 0.7px;
+  line-height: 1.125rem;
+}
+.sidebar-nav .nav-link .plan-chang-request {
+  letter-spacing: normal;
+}
+.sidebar-nav .nav-link:is(:focus, :hover) {
+  color: #007bff;
+}
+.sidebar-nav .nav-link:is(:focus, :active) {
+  border-left: 2px solid #007bff;
+}
+.sidebar-nav .nav-link .sidebar-icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to right, #244cfd,#247efd, #15e4fd);
+  border-radius: 50%;
+  width: 1.25rem;
+  height: 1.25rem;
+}
+.sidebar-nav .nav-link .sidebar-icon {
+  width: 70%;
+  height: 70%;
+  color: #fff;
+  opacity: 0.85;
+}
+.sidebar-nav .nav-link .sidebar-icon:hover {
+  opacity: 1;
+}
+.sidebar-nav .nav-link .up-down-arrow-icon {
+  margin-left: auto;
+}
+
+.sidebar-nav .nav-link.collapsed {
+  color: #012970;
+  background: #f6f9ff;
+}
+.sidebar-nav .nav-link.collapsed:is(:focus, :hover) {
+  color: #007bff;
+}
+.sidebar-nav .nav-content {
+  padding-left: 0;
+  margin-bottom: 4px;
+}
+.sidebar-nav .nav-content li {
+  margin-bottom: 4px;
+  padding: 0.4rem 0 0.4rem 1.5rem;
+  border-left: 2px solid transparent;
+  border-radius: 4px;
+}
+.sidebar-nav .nav-content li:is(:hover, :focus) {
+  background: #f6f9ff;
+  border-left: 2px solid #fd5444;
+}
+.sidebar-nav .nav-content li:first-child {
+  margin-top: 4px;
+}
+.sidebar-nav .nav-content li {
+  margin-bottom: 4px;
+}
+.sidebar-nav .nav-content a {
+  color: #012970 !important;
+  font-weight: 400;
+  letter-spacing: 1px;
+  font-size: 0.75rem;
+}
+.sidebar-nav .nav-content a:is(:hover, :focus) {
+  color: #007bff !important;
+}
+.icon-expanded {
+  display: none;
+}
+
+[aria-expanded="true"] .icon-collapsed {
+  display: none;
+}
+
+[aria-expanded="true"] .icon-expanded {
+  display: block;
+}
+/* sign out css */
+.sign-out-section .nav-item {
+  list-style: none;
+}
+.sign-out-section .nav-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: #012970;
+  transition: all 0.5s ease;
+  background: #f6f9ff;
+  padding: 10px 15px;
+  border-radius: 4px;
+  border-left: 2px solid transparent;
+  letter-spacing: 1px;
+}
+.sign-out-section .nav-link:is(:focus, :hover) {
+  color: #007bff;
+}
+.sign-out-section .nav-link:is(:focus, :active) {
+  border-left: 2px solid #007bff;
+}
+.sign-out-section .nav-link .sidebar-icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to right, #244cfd,#247efd, #15e4fd);
+  border-radius: 50%;
+  width: 1.25rem;
+  height: 1.25rem;
+}
+.sign-out-section .nav-link .sidebar-icon {
+  width: 70%;
+  height: 70%;
+  color: #fff;
+  opacity: 0.85;
+}
+.sign-out-section .nav-link .sidebar-icon:hover {
+  opacity: 1;
+}
+
+.toggle-sidebar .sidebar {
+  left: 0;
+}
+
+@media (min-width: 1200px) {
+  .sidebar {
+    left: 0;
+  }
+  #main,
+  #footer {
+    margin-left: 300px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .toggle-sidebar .sidebar {
+    left: -300px;
+  }
+  .toggle-sidebar #main,
+  .toggle-sidebar #footer {
+    margin-left: 0;
+  }
+}

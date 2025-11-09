@@ -1,0 +1,140 @@
+.sign-in-wrapper {
+  padding-block: 70px;
+  position: relative;
+}
+.sign-in-form {
+  position: relative;
+  max-width: 550px;
+  border-radius: 5px;
+  padding: 40px;
+  background-color: #fff;
+  margin-left: auto;
+  margin-right: auto;
+}
+.sign-in-form h3 {
+  font-size: 1.75rem;
+  margin-bottom: 0.75rem;
+  letter-spacing: 2px;
+  font-weight: 700;
+}
+.sign-in-form .line-end {
+  width: 48px;
+  height: 2px;
+  margin: 0;
+  margin-top: 2px;
+  border-top: 2px solid #247efd;
+}
+.sign-in-form .welcome-back-text {
+  display: block;
+  font-size: 1rem;
+  letter-spacing: 2px;
+  margin-bottom: 0.75rem;
+  font-weight: 500;
+}
+.sign-in-form .welcome-back-text span {
+  position: relative;
+  background-image: linear-gradient(to right, #244cfd,#247efd, #15e4fd);;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-size: 0.875rem;
+  letter-spacing: 2px;
+  font-weight: 300;
+}
+.sign-in-form .welcome-back-text span::before {
+  width: 100%;
+  height: 1px;
+  position: absolute;
+  content: "";
+  left: 0;
+  bottom: 0;
+ transition: all 0.4s ease-out;
+  background: transparent;
+}
+.sign-in-form .welcome-back-text span::after {
+  width: 0;
+  height: 1px;
+  position: absolute;
+  content: "";
+  left: 0;
+  bottom: 0;
+  transition: all 0.4s ease-out;
+  background: linear-gradient(to right, #244cfd,#247efd, #15e4fd);
+}
+.sign-in-form .welcome-back-text span:hover::before {
+  width: 0;
+}
+.sign-in-form .welcome-back-text span:hover::after {
+  width: 100%;
+}
+
+.sign-in-form form .form-group {
+  position: relative;
+  margin-bottom: 25px;
+}
+.sign-in-form form .form-group .sign-in-form-control {
+  background-color: #f8f9fa !important;
+}
+
+/* forgot password css */
+.sign-in-form form .forgot-password-wrapper {
+  text-align: end;
+}
+.sign-in-form form .forgot-password-wrapper a {
+  display: inline-block;
+  position: relative;
+  font-size: 0.875rem;
+  letter-spacing: 2px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #247efd;
+}
+.sign-in-form form .forgot-password-wrapper a::before {
+  width: 100%;
+  height: 1px;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  content: "";
+  transition: all 0.4s ease-out;
+  background-color: transparent;
+}
+.sign-in-form form .forgot-password-wrapper a::after {
+  width: 0;
+  height: 1px;
+  position: absolute;
+  left: 0;
+  transition: all 0.4s ease-out;
+  bottom: 0;
+  content: "";
+   background: linear-gradient(to right, #244cfd,#247efd, #15e4fd);
+}
+.sign-in-form form .forgot-password-wrapper a:hover::before {
+  width: 0;
+}
+.sign-in-form form .forgot-password-wrapper a:hover::after {
+  width: 100%;
+}
+
+.sign-in-form form button {
+  margin-top: 20px;
+}
+.is-invalid {
+  border: 1px solid #dc3545 !important;
+  background-image: none !important;
+  padding-right: 0.75rem !important;
+}
+.hidden-password-icon-signIn {
+  position: absolute;
+  top: 50% !important;
+  right: 1rem;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #ccc;
+}
+
+
+.show-password-icon-signIn-color:hover,
+.hidden-password-icon-signIn:hover {
+  color: #07163d;
+}

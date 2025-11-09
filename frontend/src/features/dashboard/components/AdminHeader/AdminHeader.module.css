@@ -1,0 +1,38 @@
+.admin-header {
+  transition: all 0.5s;
+  z-index: 9999;
+  height: 60px;
+  box-shadow: 0 1px 6px 0 rgba(32, 33, 36, 0.28);
+  background-color: #fff;
+  padding: 0 20px;
+}
+/* logo css */
+.logo {
+  line-height: 1;
+}
+.logo img {
+  max-height: 32px;
+  margin-right: 8px;
+  min-height: 32px;
+  min-width: 32px;
+}
+
+.toggle-sidebar-btn {
+  width: 3rem;
+  height: 3rem;
+  margin-left: 1.25rem;
+  cursor: pointer;
+  color: #344764;
+  opacity: 0.85;
+}
+.toggle-sidebar-btn:hover {
+  opacity: 1;
+}
+
+/* media query css */
+@media (min-width: 576px) {
+  .logo-wrapper {
+    width: 216px;
+  }
+
+}

@@ -1,0 +1,32 @@
+/* admin footer css */
+.footer {
+  padding: 20px 0;
+  font-size: 0.873rem;
+  transition: all 0.3s;
+  border-top: 1px solid #cddfff;
+}
+.footer .copyright {
+  text-align: center;
+  color: #012970;
+  font-weight: 400;
+  letter-spacing: 2px;
+  line-height: 1.5;
+}
+.footer .copyright p {
+  margin-bottom: 0;
+}
+.footer .credits {
+  text-align: center;
+  font-size: 0.75rem;
+  color: #012970;
+  font-weight: 200;
+  line-height: 1.5;
+}
+.footer .credits a {
+  color: #fd5444 !important;
+  cursor: pointer;
+}
+.footer .credits a:hover {
+  color: #fd5444 !important;
+  text-decoration: underline !important;
+}

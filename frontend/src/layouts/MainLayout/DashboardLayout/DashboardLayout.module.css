@@ -1,0 +1,10 @@
+.dashboard-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+.main-dashboard-content {
+  flex: 1 0 auto;
+  /* Optional: for scrolling if content is long */
+  overflow-y: auto;
+}

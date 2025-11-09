@@ -1,0 +1,35 @@
+/* back to top css */
+.back-to-top {
+  position: fixed;
+  visibility: hidden;
+  opacity: 0;
+  right: 15px;
+  bottom: 15px;
+  z-index: 99999;
+  background: #fff;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  transition: all 0.4s ease-out;
+  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .3), 0 2px 6px 2px rgba(60, 64, 67, .15);
+  cursor: pointer;
+}
+.back-to-top .back-to-top-icon {
+  width: 80%;
+  height: 80%;
+  font-size: 24px;
+  color: #007bff;
+  line-height: 0;
+  opacity: 0.8;
+}
+.back-to-top:hover {
+  background: #fff;
+  color: #007bff;
+}
+.back-to-top .back-to-top-icon:hover {
+  opacity: 1;
+}
+.back-to-top.active {
+  visibility: visible;
+  opacity: 1;
+}

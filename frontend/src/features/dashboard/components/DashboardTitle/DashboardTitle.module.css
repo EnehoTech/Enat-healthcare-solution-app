@@ -1,0 +1,55 @@
+/* SectionTitle.module.css */
+.dashboard-title-wrapper {
+  background: #fff;
+  display: flex;
+  align-items: center;
+  height: 67px;
+  padding: 1.25rem;
+  border-radius: 4px;
+  gap: 0.5rem;
+  white-space: nowrap;
+  margin-bottom: 1rem;
+}
+.dashboard-title-wrapper.custom-style {
+  border-radius: 0px !important;
+}
+.dashboard-title {
+  color: #07163d;
+  font-size: 1.125rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 28px;
+  text-transform: capitalize;
+  margin-bottom: 0;
+}
+
+.dashboard-subtitle {
+  background: #f6f9ff;
+  font-size: 0.75rem;
+  color: #012970;
+  padding: 3px 16px;
+  border-radius: 16px;
+  margin-bottom: 0;
+}
+.dashboard-title-btn {
+  display: none;
+  border-radius: 0px !important;
+}
+
+.dashboard-subtitle {
+  background-color: #f8f8f8;
+}
+.subtitle-custom__color {
+  background: #3daa5c;
+  padding: 3px;
+  min-width: 50px;
+  border-radius: 16px;
+  color: #fff;
+  text-align: center;
+}
+
+@media (min-width: 992px) {
+  .dashboard-title-btn {
+    display: block;
+  }
+}

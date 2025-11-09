@@ -76,9 +76,9 @@ ol[role="list"] {
 
 a {
   text-decoration: none;
-  display: block;
+  /* display: block;
   max-width: -moz-fit-content;
-  max-width: fit-content;
+  max-width: fit-content; */
 }
 
 /* Set core root defaults */

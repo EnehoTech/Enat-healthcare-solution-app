@@ -65,7 +65,7 @@ h6 {
   padding-inline: 24px;
 }
 .main-header-container {
-  max-width: 992px;
+  max-width: 1400px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -312,7 +312,7 @@ h6 {
   z-index: 1;
 }
 .services-section .service-container {
-  max-width: 992px;
+  max-width: 1400px;
   display: flex;
   justify-content: space-between;
   margin: 0 7%;
@@ -399,7 +399,7 @@ h6 {
   z-index: 1;
 }
 .footer-links-container {
-  max-width: 992px;
+  max-width: 1400px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -477,7 +477,7 @@ h6 {
 }
 
 .sub-footer-links-container .sub-footer-links-item {
-  max-width: 992px;
+  max-width: 1400px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -602,7 +602,7 @@ h6 {
   }
   /* ======= hero section css  ======= */
   .hero-section-container {
-    width: 992px;
+    width: 1400px;
     margin: 0 auto;
     padding-inline: 24px;
   }
@@ -632,7 +632,7 @@ h6 {
     border-bottom: 1px solid rgb(232, 237, 241);
   }
   .top-header-container {
-    max-width: 992px;
+    max-width: 1400px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -690,7 +690,7 @@ h6 {
   }
   /* ======= about us  section css  ======= */
   /* .about-us-container {
-    max-width: 992px;
+    max-width: 1400px;
     flex-direction: row;
     padding-inline: 24px;
     margin: 0 auto;

@@ -1,0 +1,223 @@
+.admin-header-nav ul {
+  list-style: none;
+}
+.admin-header-nav > ul {
+  margin: 0;
+  padding: 0;
+}
+.admin-header-nav .notification-icon {
+  font-size: 2rem;
+  width: 2rem;
+  height: 2rem;
+  color: #344764;
+  position: relative;
+  opacity: 0.85;
+}
+.admin-header-nav .notification-icon:hover {
+  opacity: 1;
+}
+.admin-header-nav .nav-profile {
+  color: #012970;
+}
+.admin-header-nav .nav-profile img {
+  max-width: 36px;
+}
+.admin-header-nav .nav-profile span {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+.admin-header-nav .admin-profile-avatar-wrapper div {
+  font-size: 1rem;
+  font-family: var(--headingFontFamily);
+  font-weight: 600;
+  white-space: nowrap;
+  text-transform: capitalize;
+}
+.admin-header-nav .admin-profile-avatar-wrapper span {
+  font-size: 0.875rem;
+  color: var(--blackColor);
+  font-weight: 300;
+  white-space: nowrap;
+}
+.admin-header-nav .badge-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  inset: -8px -9px auto auto;
+  font-size: 0.6875rem;
+  font-weight: normal;
+  padding: 4px;
+  border-radius: 50%;
+  width: 75%;
+  height: 70%;
+}
+
+.admin-header-nav .notifications {
+  min-width: 310px;
+  inset: 11px -15px auto auto !important;
+}
+.admin-header-nav .notifications .dropdown-header {
+  padding: 0.75rem;
+  border-bottom: 1px solid #dadce0d1;
+  text-transform: capitalize;
+}
+.admin-header-nav .notifications .dropdown-header span {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #007bff;
+}
+.admin-header-nav .notifications .notification-item {
+  transition: 0.3s;
+  padding: 0.75rem;
+  border-bottom: 1px solid #dadce0d1;
+}
+.admin-header-nav .notifications .notification-item .notification-link {
+  display: flex;
+  gap: 8px;
+}
+.admin-header-nav .notifications .notification-item .notification-item-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  opacity: 0.85;
+}
+.admin-header-nav
+  .notifications
+  .notification-item
+  .notification-item-icon:hover {
+  opacity: 1;
+}
+.admin-header-nav .notifications .notification-item h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+.admin-header-nav .notifications .notification-item p {
+  font-size: 0.75rem;
+  line-height: 1;
+  color: #696969;
+  margin-bottom: 3px;
+}
+.admin-header-nav .notifications .notification-item p span {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #007bff;
+}
+.admin-header-nav .notifications .notification-item:hover {
+  background: #f6f9ff;
+}
+.admin-header-nav .messages {
+  min-width: 324px;
+  inset: 11px -15px auto auto !important;
+}
+.admin-header-nav .messages .dropdown-header {
+  padding: 0.75rem;
+  border-bottom: 1px solid #dadce0d1;
+  text-transform: capitalize;
+}
+.admin-header-nav .messages .dropdown-header span {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #fa1f44;
+}
+
+.admin-header-nav .message-icon {
+  font-size: 2rem;
+  width: 2rem;
+  height: 2rem;
+  color: #344764;
+  position: relative;
+  opacity: 0.85;
+}
+.admin-header-nav .message-badge-bg {
+  background: #fa1f44;
+}
+.admin-header-nav .message-icon:hover {
+  opacity: 1;
+}
+.admin-header-nav .messages .message-item {
+  transition: 0.3s;
+  padding: 0.75rem;
+  border-bottom: 1px solid #dadce0d1;
+}
+.admin-header-nav .messages .message-item a {
+  display: flex;
+}
+.admin-header-nav .messages .message-item h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0;
+}
+.admin-header-nav .messages .message-item p {
+  font-size: 0.75rem;
+  color: #696969;
+  line-height: 1.2;
+  margin-bottom: 3px;
+}
+.admin-header-nav .messages .message-item p span {
+  color: var(--blackColor);
+}
+.admin-header-nav .messages .message-item:hover {
+  background: #f6f9ff;
+}
+.admin-header-nav .admin-profile-list-items {
+  min-width: 281px;
+  padding-bottom: 0;
+  top: 5px !important;
+}
+.admin-header-nav .admin-profile-list-items .dropdown-header {
+  min-width: 240px;
+  padding-bottom: 0;
+  top: 8px !important;
+}
+.admin-header-nav .admin-profile-list-items .dropdown-header:hover {
+  background: #f6f9ff;
+}
+.admin-header-nav .admin-profile-list-items .dropdown-header h6 {
+  font-size: 1.125rem;
+  margin-bottom: 0;
+  font-weight: 600;
+  color: #444444;
+}
+.admin-header-nav .admin-profile-list-items .dropdown-header span {
+  font-size: 0.875rem;
+}
+.admin-header-nav .admin-profile-list-items .dropdown-item {
+  position: relative;
+  color: var(--blackColor);
+  transition: var(--transition);
+  font-weight: 400;
+  font-size: var(--fontSize);
+  padding-inline: 0;
+  white-space: nowrap;
+  cursor: pointer;
+  padding: 0.75rem;
+  border-bottom: 1px solid #dadce0d1;
+}
+
+.admin-header-nav .admin-profile-list-items .user-full-name {
+  font-size: 1rem;
+  font-weight: 400;
+  text-transform: capitalize;
+}
+.admin-header-nav .admin-profile-list-items .key-user-info {
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.admin-header-nav .admin-profile-list-items .dropdown-item .admin-profile-icon {
+  font-size: 1.125rem;
+  width: 1.125rem;
+  height: 1.125rem;
+}
+.admin-header-nav .admin-profile-list-items li:not(:first-child) {
+  text-transform: capitalize;
+}
+.admin-header-nav
+  .admin-profile-list-items
+  .dropdown-item.dropdown-1st-item:hover,
+.admin-header-nav
+  .admin-profile-list-items
+  .dropdown-item.dropdown-1st-item:focus {
+  background: none !important;
+}

@@ -1,5 +1,5 @@
-import logoSM from "../../assets/images/logo/logo-icon-2.png";
 import { Link } from 'react-router';
+import { images } from "../../constants/AssetsContainer";
 
 const Footer = () => {
   return (
@@ -7,12 +7,9 @@ const Footer = () => {
     <footer className="footer-section">
       <section className="footer-links-container d-none d-md-flex p-block-70 container">
         <section className="footer-logo-main-wrapper">
-          <section className="footer-logo-wrapper">
+          <section className="footer-logo-wrapper mb-3">
             <Link to="/">
-              <img
-                src={logoSM}
-                alt="footer-logo"
-              />
+              <img src={images.enatLogoSM} alt="footer-logo" />
             </Link>
           </section>
           <section className="slogan-content">
@@ -84,12 +81,9 @@ const Footer = () => {
                 aria-expanded="false"
                 aria-controls="flush-collapseOne"
               >
-                <section className="footer-logo-wrapper">
+                <section className="footer-logo-wrapper mb-3">
                   <a href="#">
-                    <img
-                      src={logoSM}
-                      alt="footer-logo"
-                    />
+                    <img src={images.enatLogoSM} alt="footer-logo" />
                   </a>
                 </section>
               </button>
