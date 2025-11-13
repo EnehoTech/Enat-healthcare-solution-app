@@ -101,7 +101,7 @@
 }
 .sidebar-nav .nav-content li:is(:hover, :focus) {
   background: #f6f9ff;
-  border-left: 2px solid #fd5444;
+  border-left: 2px solid #007bff;
 }
 .sidebar-nav .nav-content li:first-child {
   margin-top: 4px;

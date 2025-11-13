@@ -6,10 +6,11 @@ import NotFoundPage from "../pages/4O4/NotFoundPage";
 import UsersProfile from "../components/UsersProfile/UsersProfile";
 import SingleUserProfile from "../components/UsersProfile/SingleUserProfile";
 import MainLayout from "../layouts/MainLayout/MainLayout";
-import AdminDashboard from "../pages/AdminDashboard/AdminDashboard";
 import BlogsPage from "../pages/BlogsPage/BlogsPage";
-import SignIn from "../pages/Auth/SignIn/SignIn";
 import DashboardLayout from "../layouts/MainLayout/DashboardLayout/DashboardLayout";
+import SignIn from "../features/auth/pages/SignIn/SignIn";
+import AdminDashboard from "../features/dashboard/pages/AdminDashboard/AdminDashboard";
+import AddEmployee from "../features/dashboard/pages/AddEmployee/AddEmployee";
 const AppRoutes = () => {
   return (
     <>
@@ -28,11 +29,14 @@ const AppRoutes = () => {
           </Route>
           {/* auth routes */}
           <Route path="/sign-in" element={<SignIn />} />
+          {/* 404 not found routes */}
+          <Route path="*" element={<NotFoundPage />} />
         </Route>
         {/* admin dashboard routes*/}
         <Route element={<DashboardLayout />}>
           {/* main admin dashboard routes*/}
           <Route path="/dashboard" element={<AdminDashboard />} />
+          <Route path="/dashboard/sign-up" element={<AddEmployee />} />
         </Route>
         {/* 404 not found routes */}
         <Route path="*" element={<NotFoundPage />} />

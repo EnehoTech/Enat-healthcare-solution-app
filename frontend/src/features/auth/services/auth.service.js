@@ -1,6 +1,22 @@
 import { publicAxios } from "../../../lib/apiSetup";
 
 /**
+ * Sends a POST request to create a new user account.
+ * @param {Object} data - The data for creating the user account.
+ * @returns {Object} - The response data from the API.
+ * @throws {Error} - If the request fails.
+ */
+export const signUpService = async (data) => {
+  try {
+    const response = await publicAxios.post(`/auth/sign-up`, data);
+    return response.data;
+  } catch (error) {
+    console.error("Error creating user account:", error);
+    throw error;
+  }
+};
+
+/**
  * Sends a POST request to sign in a user.
  * @param {Object} data - The data for user sign-in, including email and password.
  * @returns {Object} - The response data from the API containing user details and access token.
