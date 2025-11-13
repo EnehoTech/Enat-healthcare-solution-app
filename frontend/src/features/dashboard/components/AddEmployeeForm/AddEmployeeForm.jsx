@@ -16,6 +16,7 @@ import FormInput from "../../../../shared/components/FormInput/FormInput";
 import Alert from '../../../../shared/components/Alert/Alert';
 import { signUpService } from '../../../auth/services/auth.service';
 import { Slide, toast } from "react-toastify";
+import PreLoader from '../../../../shared/components/PreLoader/PreLoader';
 
 
 // Define the validation schema using yup
@@ -119,137 +120,151 @@ function AddEmployeeForm() {
           <div className="col-lg-8">
             <div className="row">
               <div className="col-12">
-                <div className={`p-block-30 ${styles["form-section-wrapper"]}`}>
-                  <form onSubmit={handleSignUpValidation} noValidate>
-                    <div className="col-md-12">
-                      <div className={`${styles["input-field-main-wrapper"]}`}>
+                {isLoading ? (
+                  <PreLoader />
+                ) : (
+                  <div
+                    className={`p-block-30 ${styles["form-section-wrapper"]}`}
+                  >
+                    <form onSubmit={handleSignUpValidation} noValidate>
+                      <div className="col-md-12">
                         <div
-                          className={`${styles["input-field-title-wrapper"]}`}
+                          className={`${styles["input-field-main-wrapper"]}`}
                         >
                           <div
-                            className={`${styles["input-field-title-icon-wrapper"]}`}
+                            className={`${styles["input-field-title-wrapper"]}`}
                           >
-                            <div className={`${styles["inner-icon-wrapper"]}`}>
-                              <MdOutlineStorage />
-                            </div>
-                          </div>
-                          <h3>
-                            Add Employee
-                            <label className={`${styles["line-end"]}`}></label>
-                          </h3>
-                        </div>
-
-                        <div className={`${styles["input-field-wrapper"]}`}>
-                          {apiErrors && (
-                            <Alert
-                              message={apiErrors}
-                              alertBg="bg-red-25"
-                              alertClass="alert-danger"
-                              messageColor="text-danger"
-                            />
-                          )}
-                          <div className="row">
-                            <div className="col-lg-12 col-md-12">
-                              <FormInput
-                                label="E-mail Address"
-                                type="email"
-                                name="email"
-                                placeholder="Enter Email Address"
-                                register={register}
-                                onInputChange={handleInputChange}
-                                error={errors.email}
-                              />
-                            </div>
-
-                            <div className="col-lg-6">
-                              <FormInput
-                                label="First Name"
-                                type="text"
-                                name="first_name"
-                                placeholder="Enter First Name"
-                                register={register}
-                                onInputChange={handleInputChange}
-                                error={errors.first_name}
-                              />
-                            </div>
-                            <div className="col-lg-6">
-                              <FormInput
-                                label="Last Name"
-                                type="text"
-                                name="last_name"
-                                placeholder="Enter Last Name"
-                                register={register}
-                                onInputChange={handleInputChange}
-                                error={errors.last_name}
-                              />
-                            </div>
-                            <div className="col-lg-12 col-md-12">
-                              <FormInput
-                                label="Phone Number"
-                                type="text"
-                                name="phone_number"
-                                placeholder="Enter Phone Number"
-                                register={register}
-                                onInputChange={handleInputChange}
-                                error={errors.phone_number}
-                              />
-                            </div>
-                            <div className="col-lg-12 col-md-12">
-                              <div className={`${styles["form-group"]}`}>
-                                <label>
-                                  Password:{" "}
-                                  <span className={`${styles["required"]}`}>
-                                    *
-                                  </span>
-                                </label>
-                                <input
-                                  type={showPassword ? "text" : "password"}
-                                  placeholder="password"
-                                  className={`form-control ${
-                                    styles["sign-up-form-control"]
-                                  } ${
-                                    errors.password ? styles["is-invalid"] : ""
-                                  }`}
-                                  {...register("password")}
-                                  onChange={handleInputChange}
-                                />
-                                <span
-                                  className={` ${
-                                    styles["hidden-password-icon"]
-                                  } ${
-                                    showPassword
-                                      ? styles["show-password-icon-color"]
-                                      : ""
-                                  } ${
-                                    errors.password
-                                      ? styles["is-invalid-password"]
-                                      : ""
-                                  } `}
-                                  onClick={togglePasswordVisibility}
-                                >
-                                  {showPassword ? (
-                                    <IoEyeOutline />
-                                  ) : (
-                                    <IoEyeOffOutline />
-                                  )}
-                                </span>
-                                {errors.password && (
-                                  <div className="d-block invalid-feedback">
-                                    {errors.password.message}
-                                  </div>
-                                )}
+                            <div
+                              className={`${styles["input-field-title-icon-wrapper"]}`}
+                            >
+                              <div
+                                className={`${styles["inner-icon-wrapper"]}`}
+                              >
+                                <MdOutlineStorage />
                               </div>
                             </div>
+                            <h3>
+                              Add Employee
+                              <label
+                                className={`${styles["line-end"]}`}
+                              ></label>
+                            </h3>
                           </div>
-                          <button className="main-btn w-100" type="submit">
-                            Add employee
-                            <GoPlus size={18} />
-                          </button>
+
+                          <div className={`${styles["input-field-wrapper"]}`}>
+                            {apiErrors && (
+                              <Alert
+                                message={apiErrors}
+                                alertBg="bg-red-25"
+                                alertClass="alert-danger"
+                                messageColor="text-danger"
+                              />
+                            )}
+                            <div className="row">
+                              <div className="col-lg-12 col-md-12">
+                                <FormInput
+                                  label="E-mail Address"
+                                  type="email"
+                                  name="email"
+                                  placeholder="Enter Email Address"
+                                  register={register}
+                                  onInputChange={handleInputChange}
+                                  error={errors.email}
+                                />
+                              </div>
+
+                              <div className="col-lg-6">
+                                <FormInput
+                                  label="First Name"
+                                  type="text"
+                                  name="first_name"
+                                  placeholder="Enter First Name"
+                                  register={register}
+                                  onInputChange={handleInputChange}
+                                  error={errors.first_name}
+                                />
+                              </div>
+                              <div className="col-lg-6">
+                                <FormInput
+                                  label="Last Name"
+                                  type="text"
+                                  name="last_name"
+                                  placeholder="Enter Last Name"
+                                  register={register}
+                                  onInputChange={handleInputChange}
+                                  error={errors.last_name}
+                                />
+                              </div>
+                              <div className="col-lg-12 col-md-12">
+                                <FormInput
+                                  label="Phone Number"
+                                  type="text"
+                                  name="phone_number"
+                                  placeholder="Enter Phone Number"
+                                  register={register}
+                                  onInputChange={handleInputChange}
+                                  error={errors.phone_number}
+                                />
+                              </div>
+                              <div className="col-lg-12 col-md-12">
+                                <div className={`${styles["form-group"]}`}>
+                                  <label>
+                                    Password:{" "}
+                                    <span className={`${styles["required"]}`}>
+                                      *
+                                    </span>
+                                  </label>
+                                  <input
+                                    type={showPassword ? "text" : "password"}
+                                    placeholder="password"
+                                    className={`form-control ${
+                                      styles["sign-up-form-control"]
+                                    } ${
+                                      errors.password
+                                        ? styles["is-invalid"]
+                                        : ""
+                                    }`}
+                                    {...register("password")}
+                                    onChange={handleInputChange}
+                                  />
+                                  <span
+                                    className={` ${
+                                      styles["hidden-password-icon"]
+                                    } ${
+                                      showPassword
+                                        ? styles["show-password-icon-color"]
+                                        : ""
+                                    } ${
+                                      errors.password
+                                        ? styles["is-invalid-password"]
+                                        : ""
+                                    } `}
+                                    onClick={togglePasswordVisibility}
+                                  >
+                                    {showPassword ? (
+                                      <IoEyeOutline />
+                                    ) : (
+                                      <IoEyeOffOutline />
+                                    )}
+                                  </span>
+                                  {errors.password && (
+                                    <div className="d-block invalid-feedback">
+                                      {errors.password.message}
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                            <button className="main-btn w-100" type="submit">
+                              Add employee
+                              <GoPlus size={18} />
+                            </button>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </form>
-                </div>
+                    </form>
+                  </div>
+                )}
               </div>
             </div>
           </div>
