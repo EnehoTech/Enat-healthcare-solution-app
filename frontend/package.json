@@ -11,10 +11,12 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
+    "apexcharts": "^5.3.6",
     "axios": "^1.12.2",
     "bootstrap": "^5.3.8",
     "date-fns": "^4.1.0",
     "react": "^19.1.1",
+    "react-apexcharts": "^1.8.0",
     "react-bootstrap": "^2.10.10",
     "react-dom": "^19.1.1",
     "react-hook-form": "^7.65.0",

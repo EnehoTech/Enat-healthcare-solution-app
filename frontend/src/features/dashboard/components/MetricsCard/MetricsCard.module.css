@@ -1,0 +1,40 @@
+/* dashboard card css */
+.dashboard-card .info-card {
+  position: relative;
+  padding-bottom: 16px;
+  cursor: pointer;
+  height: 84%;
+}
+.dashboard-card .info-card h6 {
+  font-size: 1.125rem;
+  color: #012970;
+  font-weight: 700;
+  margin: 0;
+  padding: 0;
+}
+.dashboard-card .card-icon {
+  font-size: 32px;
+  line-height: 0;
+  width: 64px;
+  height: 64px;
+  flex-shrink: 0;
+  flex-grow: 0;
+}
+.dashboard-card .card-icon svg {
+  width: 50%;
+  height: 50%;
+}
+
+.dashboard-card .app-statistics-card .card-icon {
+  color: #247efd;
+  background: #f6f9ff;
+  transition: all 0.7s ease;
+}
+.dashboard-card .info-card:hover .card-icon {
+  color: #fff;
+  background: linear-gradient(to right, #244cfd, #247efd, #15e4fd);
+  cursor: pointer;
+}
+.dashboard-card .percentage-desc {
+  color: #030a21;
+}

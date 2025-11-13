@@ -77,7 +77,6 @@ textarea.form-control {
   background-color: #e9f5f8;
 }
 
-
 /* Dash Board  css */
 /* Dashboard hero css */
 #main {
@@ -90,9 +89,6 @@ textarea.form-control {
     padding: 20px 30px;
   }
 }
-
-
-
 
 /*override bootstrap css */
 .dropdown-menu {
@@ -172,7 +168,6 @@ textarea.form-control {
   }
 }
 
-
 /* card css  */
 .card {
   margin-bottom: 30px;
@@ -219,7 +214,6 @@ textarea.form-control {
 .card-img-overlay {
   background-color: rgba(255, 255, 255, 0.6);
 }
-
 
 /* admin blog post list css*/
 .dashboard .news .post-item + .post-item {
@@ -328,16 +322,17 @@ textarea.form-control {
 }
 
 @media (min-width: 1600px) {
-.dashboard .news .posted-by {
-  flex-direction: row !important;
-  align-items: center !important;
-  gap: 1rem !important;
-}
+  .dashboard .news .posted-by {
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 1rem !important;
+  }
 }
 
 /* *** dashboard filter css */
-.dashboard {
+.dashboard.dashboard-section {
   position: relative !important;
+  z-index: 1;
 }
 .dashboard .filter {
   position: absolute;
@@ -370,7 +365,6 @@ textarea.form-control {
   padding: 8px 15px;
 }
 
-
 /* avatar global css */
 .avatar-outer-wrapper {
   display: flex;
@@ -392,7 +386,6 @@ textarea.form-control {
   border-radius: 50%;
   border: 1px solid #007bff;
 }
-
 
 /* toast css */
 .Toastify__toast-container--top-right {
