@@ -6,7 +6,6 @@ import * as yup from "yup";
 import Breadcrumb from '../../../../shared/components/Breadcrumb/Breadcrumb';
 import { breadcrumbItems } from '../../../../constants/appConfig/breadcrumbItemsConfig/breadcrumbItems';
 import DashboardTitle from '../DashboardTitle/DashboardTitle';
-import StoryBoard from '../../../../../../../../Enat-healthcare-solution-app/frontend/src/features/dashboard/components/StoryBoard/StoryBoard';
 import { images } from '../../../../constants/AssetsContainer';
 import handleError from '../../../../utils/handleError';
 import { MdOutlineStorage } from "react-icons/md";
@@ -17,6 +16,7 @@ import Alert from '../../../../shared/components/Alert/Alert';
 import { signUpService } from '../../../auth/services/auth.service';
 import { Slide, toast } from "react-toastify";
 import PreLoader from '../../../../shared/components/PreLoader/PreLoader';
+import StoryBoard from '../StoryBoard/StoryBoard';
 
 
 // Define the validation schema using yup

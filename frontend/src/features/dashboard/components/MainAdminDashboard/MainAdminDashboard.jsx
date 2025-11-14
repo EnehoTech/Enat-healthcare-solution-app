@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import StoryBoard from "../../../../../../../../Enat-healthcare-solution-app/frontend/src/features/dashboard/components/StoryBoard/StoryBoard";
 import { breadcrumbItems } from "../../../../constants/appConfig/breadcrumbItemsConfig/breadcrumbItems";
 import { images } from "../../../../constants/AssetsContainer";
 import Breadcrumb from "../../../../shared/components/Breadcrumb/Breadcrumb";
 import DashboardTitle from "../DashboardTitle/DashboardTitle";
 import MetricsCard from "../MetricsCard/MetricsCard";
 import Reports from "../Reports/Reports";
+import StoryBoard from "../StoryBoard/StoryBoard";
 const MainAdminDashboard = () => {
   const [cardData, setCardData] = useState([]);
   const appStatistics = [

@@ -47,7 +47,7 @@
   font-weight: 500;
   background: linear-gradient(to right, #244cfd,#247efd, #15e4fd);
   padding: 12px 32px;
-  width: 224px;
+  width: 100%;
   font-size: 16px;
   color: #fff;
   border-radius: 5px;
@@ -76,6 +76,11 @@
 }
 
 /* media query css */
+@media (min-width: 375px) {
+  .story-board-section-btn {
+    width: 224px;
+  }
+}
 @media (min-width: 768px) {
   .story-board-section {
     padding: 60px 0px;
