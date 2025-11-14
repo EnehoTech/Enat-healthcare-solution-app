@@ -3,8 +3,11 @@
 ## Description
 This repository contains the codebase for the Enat Healthcare Solution, a modern clinic management system designed to streamline clinical workflows, enhance patient communication, and eliminate time-wasting administrative tasks for staff (Doctors, Nurses, and Receptionists).
 
+
 **Goal:** To provide a comprehensive, secure, and user-friendly platform that handles patient check-in, EMR/charting, appointments, and communication, driving efficiency and cost savings for the clinic.
+
 **Technology Stack:** Built using a standard MERN stack architecture (MySql, Express, React, Node.js) to ensure scalability and developer familiarity.
+
 **Key Features:** Patient Profiles persistence, quick EMR charting templates, automated reminders, and staff role-based access control.
 
 ## Prerequisites
