@@ -1,12 +1,12 @@
 
-import Blogs from "../../components/Blogs/Blogs";
+// import Blogs from "../../components/Blogs/Blogs";
 import HeroSection from "../../components/HeroSection/HeroSection";
 
 const Home = () => {
   return (
     <>
       <HeroSection />
-      <Blogs  />
+      {/* <Blogs  /> */}
     </>
   );
 };

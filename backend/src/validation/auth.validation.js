@@ -26,7 +26,8 @@ export const createAccountValidator = [
     .trim()
     .notEmpty()
     .withMessage("Phone number is required.")
-    .matches(/^[0-9]{9,15}$/)
+    .customSanitizer((value) => value.replace(/\s+/g, ""))
+    .matches(/^\+?[1-9]\d{7,14}$/)
     .withMessage("Phone number must be between 9 and 15 digits."),
   body("password")
     .isString()

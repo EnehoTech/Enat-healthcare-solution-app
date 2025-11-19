@@ -112,6 +112,1573 @@
         "message": "Something went wrong! Please try again later.",
       }
 
+**2.users management API design and DOCS**
+  **2.1 users  API design**
+    2.1.1 GET api/users                  list all users
+    2.1.2 GET api/users/{user-id}        list a single user
+  **2.1 users  API DOCS**
+    *** 2.1.1 get all users data***
+        Endpoint: enathealthcare.com/api/users/ (GET) (Authorization Required )
+        Description: Retrieves a paginated list of basic user information (requires admin privileges). This approach protects sensitive user data.
+        Host/Base_URL: enathealthcare.com or localhost:2411
+
+      Request:
+      Authorization header with a valid access token  (if implemented).
+      Optional query parameters for pagination (e.g., page=2, limit=10) if implemented.
+      Successful Response (200 OK):
+      Content-Type: application/json
+        JSON
+          {
+          "success": "true",
+          message:"Users data retrieved successfully."
+          "data":{
+              users: [
+              {
+                  "id": 7,
+                  "email": "abush@gmail.com",
+                  "role_id": 1,
+                  "role_name": "super_admin",
+                  "first_name": "Abush",
+                  "last_name": "Bereket",
+                  "phone_number": "+251911234567",
+                  "user_name": "_AB-f3e",
+                  "user_color": "#d3f044",
+                  "profile_picture": null
+              },
+              {
+                  "id": 6,
+                  "email": "abekless@gmail.com",
+                  "role_id": 0,
+                  "role_name": "guest",
+                  "first_name": "abekyelesh",
+                  "last_name": "yimer",
+                  "phone_number": "0911030305",
+                  "user_name": "_ay-aa6",
+                  "user_color": "#db22dd",
+                  "profile_picture": null
+              },
+            
+              ...
+          ],
+
+          }
+          
+        }
+
+
+
+        Error Response:
+        description: Incorrect data inputs or missing parameters.
+        Status Code: 400 Bad Request
+        {
+          "success": false,
+          "error": "Bad Request",
+          "message": "provided parameter is invalid.",
+        }
+
+
+        description: When the user is not signed in and try to access the route.
+        Status Code: 401 (Unauthorized)
+        {
+            "success": false,
+            "error":  "Unauthorized",
+            "message": "You are not authorized, Please sign in.",
+        }
+        description: User is authenticated but does not have the necessary permissions or privileges to access.
+        Status Code: 403 Forbidden
+        {  
+            "success": false,
+            "error": "Forbidden",
+            "message": "You do not have permission.",
+        }
+        description:The specified resource does not exist.
+        Status Code: 404 Not Found
+        {
+            "success": false,
+            "error": "404 Not Found",
+            "message": "The request you are looking for was not found.",
+        }
+
+        
+        Description: A server error occurred while processing the request.
+        Status Code: 500 Internal Server Error
+        {
+          "success": false,
+          "error":  "Internal Server Error",
+          "message": "Something went wrong! Please try again later.",
+        }
+
+    *** 2.1.2 get single user data ***
+    endpoint: enathealthcare.com/api/users/{user_id} (GET) (Authorization Required)
+    Description: Retrieves detailed information for a specific user.
+    Request:
+    Include the user ID in the URL path (e.g., /enathealthcare.com/api/users/123).
+    Authorization header with a valid access token (if implemented).
+    Successful Response (200 OK):
+      JSON
+      {
+      "success": "true",
+      "message": "User data retrieved successfully.",
+      "data": {
+          "user": {
+              "id": 7,
+              "email": "abush@gmail.com",
+              "role_id": 1,
+              "role_name": "super_admin",
+              "first_name": "Abush",
+              "last_name": "Bereket",
+              "phone_number": "+251911234567",
+              "user_name": "_AB-f3e",
+              "user_color": "#d3f044",
+              "profile_picture": null
+          }
+
+    }
+          
+    }
+
+      Error Response:
+        
+      description: incorrect data inputs or missing parameters.
+      Status Code: 400 Bad Request
+        {
+          "success": false,
+          "error": "Bad Request",
+          "message": "provided parameter is invalid.",
+        }
+        description: When the user is not signed in and try to access the route.
+        Status Code: 401 (Unauthorized)
+        {
+            "success": false,
+            "error":  "Unauthorized",
+            "message": "You are not authorized, Please sign in.",
+        }
+        description: User is authenticated but does not have the necessary permissions or privileges to access.
+        Status Code: 403 Forbidden
+        {  
+            "success": false,
+            "error": "Forbidden",
+            "message": "You do not have permission.",
+        }
+        
+        description:The specified resource does not exist.
+        Status Code: 404 Not Found
+        {
+            "success":false,
+            "error": "404 Not Found",
+            "message": "The request you are looking for was not found.",
+        }
+
+
+        Description: A server error occurred while processing the request.
+        Status Code: 500 Internal Server Error
+        {
+          "success": false,
+          "error": "Internal Server Error",
+          "message": "Something went wrong! Please try again later.",
+        }
+  **2.2 user Onboarding API design**
+    2.2.1 GET /api/users/onboarding/stage Get the authenticated user’s current onboarding stage.
+    2.2.2 PATCH /api/users/onboarding/stage-id  Increment the authenticated user’s onboarding stage ID by 1 (until the max stage is reached).
+  **2.2 users Onboarding API DOCS**
+    ** 2.2.1 Get Authenticated User Onboarding Stage **
+
+      Endpoint:
+      GET /api/users/onboarding/stage
+
+      Host/Base_URL:
+      enathealthcare.com or localhost:2411
+
+      Description:
+      Retrieves the current onboarding stage of the authenticated user.
+      The user ID is taken from the authenticated JWT (req.user.user_id).
+
+      Request
+
+      Authorization:
+      Requires a valid access token (e.g. Bearer token) so that authn middleware can set req.user.
+
+      URL Path Parameters:
+      None.
+
+      Query Parameters:
+      None.
+
+      Request Body:
+      None.
+
+      Successful Response (200 OK)
+
+      Content-Type: application/json
+
+      Response Body:
+
+      {
+        "success": true,
+        "message": "User onboarding stage retrieved successfully.",
+        "data": {
+          "onboarding_stage": {
+            "id": 1,
+            "stage_name": "Add Address",
+            "description": "User must add their primary address information."
+          }
+        }
+      }
+
+
+      Where:
+
+      id – Onboarding stage ID from onboarding_stage table
+
+      stage_name – Human-readable name of the stage
+
+      description – Description of what the stage represents
+
+      Error Responses
+
+      400 Bad Request: (optional, e.g., malformed token or invalid user context)
+
+      {
+        "success": false,
+        "error": "Bad Request",
+        "message": "Provided parameter is invalid."
+      }
+
+
+      401 Unauthorized: User is not authenticated (e.g., missing/invalid token, authn fails).
+
+      {
+        "success": false,
+        "error": "Unauthorized",
+        "message": "You are not authorized, Please sign in."
+      }
+
+
+      403 Forbidden: User is authenticated but does not have permission to access onboarding stage (if role-based checks are added around authn).
+
+      {
+        "success": false,
+        "error": "Forbidden",
+        "message": "You do not have permission."
+      }
+
+
+      404 Not Found: No onboarding stage/profile found for the authenticated user
+      (from:
+
+      message: "The request stage Id you are looking for was not found."
+
+
+      in getOnboardingStageByUserIdController)
+
+      {
+        "success": false,
+        "error": "404 Not Found",
+        "message": "The request stage Id you are looking for was not found."
+      }
+
+
+      500 Internal Server Error: Server encountered an unexpected condition
+      (from the generic catch in the controller)
+
+      {
+        "success": false,
+        "error": "Internal Server Error",
+        "message": "Something went wrong! Please try again later."
+      }
+    ** 2.2.2 Update (Increment) Authenticated User Onboarding Stage ID **
+
+      Endpoint:
+      PATCH /api/users/onboarding/stage-id
+
+      Host/Base_URL:
+      enathealthcare.com or localhost:2411
+
+      Description:
+      Increments the authenticated user’s onboarding_stage_id by 1 in the user_profile table, as long as the user is not already at the maximum stage.
+
+      Logic (per your service + controller):
+
+      Get current onboarding stage for the user via getOnboardingStageByUserIdService(user_id).
+
+      Get maximum onboarding stage ID via getMaxOnboardingStageId().
+
+      If the current stage ID is already equal to or greater than the maximum, return 400 Bad Request with a specific message.
+
+      Otherwise, run UPDATE user_profile SET onboarding_stage_id = onboarding_stage_id + 1 WHERE user_id = ?.
+
+      Return the updated user_profile row (id, user_id, onboarding_stage_id).
+
+      Request
+
+      Authorization:
+      Requires a valid access token so that authn middleware populates req.user.user_id.
+
+      URL Path Parameters:
+      None.
+
+      Query Parameters:
+      None.
+
+      Request Body:
+      None.
+      (The update is driven entirely by the authenticated user and the internal stage progression logic.)
+
+      Successful Response (200 OK)
+
+      Content-Type: application/json
+
+      Response Body:
+
+      {
+        "success": true,
+        "message": "Onboarding stage Id updated successfully.",
+        "data": {
+          "user_profile_onboarding_stage_Id": {
+            "id": 5,
+            "user_id": 1,
+            "onboarding_stage_id": 2
+          }
+        }
+      }
+
+
+      Where:
+
+      id – Primary key of the user_profile record
+
+      user_id – ID of the user whose stage was updated
+
+      onboarding_stage_id – New onboarding stage ID (previous value + 1)
+
+      Error Responses
+
+      400 Bad Request: User is already at the maximum onboarding stage
+      (from:
+
+      message: "User is already at the maximum onboarding stage."
+
+
+      in updateStageIdByUserIdController)
+
+      {
+        "success": false,
+        "error": "Bad Request",
+        "message": "User is already at the maximum onboarding stage."
+      }
+
+
+      You may also reuse the generic validation message for other bad input cases if needed:
+
+      {
+        "success": false,
+        "error": "Bad Request",
+        "message": "Provided parameter is invalid."
+      }
+
+
+      401 Unauthorized: User is not authenticated (e.g., missing/invalid token, authn fails).
+
+      {
+        "success": false,
+        "error": "Unauthorized",
+        "message": "You are not authorized, Please sign in."
+      }
+
+
+      403 Forbidden: User is authenticated but does not have permission to modify onboarding stage (if you later add role/permission checks around this route).
+
+      {
+        "success": false,
+        "error": "Forbidden",
+        "message": "You do not have permission."
+      }
+
+
+      404 Not Found:
+
+      There are two 404 scenarios in your controller:
+
+      When no profile/onboarding stage exists for the user:
+
+      message: "User profile you are looking for was not found."
+
+      {
+        "success": false,
+        "error": "404 Not Found",
+        "message": "User profile you are looking for was not found."
+      }
+
+
+      When the update query affected 0 rows (no matching user/profile for increment):
+
+      message: "The request Stage Id you are looking for was not found."
+
+      {
+        "success": false,
+        "error": "404 Not Found",
+        "message": "The request Stage Id you are looking for was not found."
+      }
+
+
+      500 Internal Server Error: Server encountered an unexpected condition
+      (from the catch block in updateStageIdByUserIdController):
+
+      {
+        "success": false,
+        "error": "Internal Server Error",
+        "message": "Something went wrong! Please try again later."
+      }
+  **2.3 user  profile picture  API design**
+    2.3.1  GET   api/users/pp/avatar: Get all user profile picture.
+    2.3.2  GET   api/users/pp/avatar/avatar_id:   Get a user's profile picture.
+    2.3.3  POST   api/users/pp/avatar:  Upload a new profile picture for a user.(mandatory)
+    2.3.4  PATCH   api/users/pp/avatar/avatar_id: Update a user's profile picture.
+    2.3.5  DELETE   api/users/pp/avatar/avatar_id: Delete a user's profile picture.
+  **2.3 user  profile picture  API DOCS**
+    2.3.1 Get All User Profile Pictures
+      Endpoint:
+      GET /api/users/pp/avatar
+
+      Host/Base_URL:
+      enathealthcare.com or localhost:2411
+
+      Description:
+      Retrieves a list of all user profile pictures.
+
+      Request
+
+      Authorization:
+      Requires a valid access token (via authn middleware).
+
+      URL Path Parameters:
+      None.
+
+      Query Parameters:
+      None.
+
+      Request Body:
+      None.
+
+      Successful Response (200 OK)
+
+      Content-Type: application/json
+
+      Response Body:
+
+      {
+        "success": true,
+        "message": "User profile picture retrieved successfully.",
+        "data": {
+          "profile_pictures": [
+            {
+              "id": 1,
+              "user_id": 2,
+              "profile_picture": "/uploads/profile_picture/u-avatar-2-pp.png"
+            },
+            {
+              "id": 2,
+              "user_id": 3,
+              "profile_picture": "/uploads/profile_picture/u-avatar-3-pp.png"
+            
+            }
+          ]
+        }
+      }
+
+
+      (Field names come from SELECT * FROM user_profile_picture.)
+
+      Error Responses
+
+      400 Bad Request: (e.g., from validation middleware if you later add filters)
+
+      {
+        "success": false,
+        "error": "Bad Request",
+        "message": "Provided parameter is invalid."
+      }
+
+
+      401 Unauthorized: User is not authenticated.
+
+      {
+        "success": false,
+        "error": "Unauthorized",
+        "message": "You are not authorized, Please sign in."
+      }
+
+
+      403 Forbidden: User does not have permission to access this resource.
+
+      {
+        "success": false,
+        "error": "Forbidden",
+        "message": "You do not have permission."
+      }
+
+
+      404 Not Found: No profile pictures found.
+      (from getUserProfilePicturesController)
+
+      {
+        "success": false,
+        "error": "404 Not Found",
+        "message": "The profile picture you are looking for was not found."
+      }
+
+
+      500 Internal Server Error:
+
+      {
+        "success": false,
+        "error": "Internal Server Error",
+        "message": "Something went wrong! Please try again later."
+      }
+    2.3.2 Get a User’s Profile Picture by Avatar ID
+      Endpoint:
+      GET /api/users/pp/avatar/{avatar_id}
+
+      Host/Base_URL:
+      enathealthcare.com or localhost:2411
+
+      Description:
+      Retrieves a single user profile picture by its avatar ID.
+
+      Request
+
+      Authorization:
+      Requires a valid access token (authn middleware).
+
+      URL Path Parameter:
+
+      avatar_id (integer, required):
+      The ID of the profile picture record in user_profile_picture table.
+
+      Request Body:
+      None.
+
+      Successful Response (200 OK)
+
+      Content-Type: application/json
+
+      Response Body:
+
+      {
+        "success": true,
+        "message": "User profile picture retrieved successfully.",
+        "data": {
+          "profile_picture": {
+            "id": 1,
+            "user_id": 2,
+            "profile_picture": "/uploads/profile_picture/u-avatar-2-pp.png"
+          }
+        }
+      }
+
+      Error Responses
+
+      400 Bad Request: Invalid avatar_id format
+      (from userProfilePictureByIdValidator):
+
+      {
+        "success": false,
+        "error": "Bad Request",
+        "message": "Provided parameter is invalid."
+      }
+
+
+      401 Unauthorized: User is not authenticated.
+
+      {
+        "success": false,
+        "error": "Unauthorized",
+        "message": "You are not authorized, Please sign in."
+      }
+
+
+      403 Forbidden: User does not have permission to access this resource.
+
+      {
+        "success": false,
+        "error": "Forbidden",
+        "message": "You do not have permission."
+      }
+
+
+      404 Not Found: Profile picture with the given avatar_id does not exist.
+      (from getUserProfilePictureByIdController):
+
+      {
+        "success": false,
+        "error": "404 Not Found",
+        "message": "The profile picture you are looking for was not found."
+      }
+
+
+      500 Internal Server Error:
+
+      {
+        "success": false,
+        "error": "Internal Server Error",
+        "message": "Something went wrong! Please try again later."
+      }
+    2.3.3 Upload a New Profile Picture for the Authenticated User
+
+      Endpoint:
+      POST /api/users/pp/avatar
+
+      Host/Base_URL:
+      enathealthcare.com or localhost:2411
+
+      Description:
+      Uploads a new profile picture for the authenticated user.
+      If a profile picture already exists, the old file is deleted and the record is updated.
+      If it’s the first time, a new record is inserted and the user’s onboarding_stage_id is incremented by 1.
+
+      Request
+
+      Authorization:
+      Requires a valid access token (user ID comes from req.user.user_id via authn).
+
+      Content-Type:
+      multipart/form-data
+
+      URL Path Parameters:
+      None.
+
+      Request Body:
+
+      profile_picture (file, optional in code, but logically required for actual upload):
+      The profile picture file to upload.
+
+      Successful Response (201 Created)
+
+      Content-Type: application/json
+
+      Response Body:
+      (from createUserProfilePictureController)
+
+      {
+        "success": true,
+        "message": "Profile picture uploaded successfully",
+        "data": {
+          "profilePicture": {
+            "id": 5,
+            "user_id": 2,
+            "profile_picture": "/uploads/profile_picture/u-avatar-2-pp.png"
+          }
+        }
+      }
+
+      Error Responses
+
+      400 Bad Request: User is already at the maximum onboarding stage.
+      (from controller check with getMaxOnboardingStageId())
+
+      {
+        "success": false,
+        "error": "Bad Request",
+        "message": "User is already at the maximum onboarding stage."
+      }
+
+
+      You can also use generic validation error if additional validations are added:
+
+      {
+        "success": false,
+        "error": "Bad Request",
+        "message": "Provided parameter is invalid."
+      }
+
+
+      401 Unauthorized: User is not authenticated.
+
+      {
+        "success": false,
+        "error": "Unauthorized",
+        "message": "You are not authorized, Please sign in."
+      }
+
+
+      403 Forbidden: User does not have permission to upload a profile picture.
+
+      {
+        "success": false,
+        "error": "Forbidden",
+        "message": "You do not have permission."
+      }
+
+
+      404 Not Found: User profile not found when trying to check onboarding stage.
+      (from createUserProfilePictureController):
+
+      {
+        "success": false,
+        "error": "404 Not Found",
+        "message": "User profile you are looking for was not found."
+      }
+
+
+      500 Internal Server Error:
+
+      {
+        "success": false,
+        "error": "Internal Server Error",
+        "message": "Something went wrong! Please try again later."
+      }
+    2.3.4 Update a User’s Profile Picture by Avatar ID
+
+      Endpoint:
+      PATCH /api/users/pp/avatar/{avatar_id}
+
+      Host/Base_URL:
+      enathealthcare.com or localhost:2411
+
+      Description:
+      Updates an existing user profile picture identified by avatar_id.
+      If a new file is provided, the old image file is deleted and replaced.
+
+      Request
+
+      Authorization:
+      Requires a valid access token (authn middleware).
+      The user ID is taken from req.user.user_id.
+
+      Content-Type:
+      multipart/form-data
+
+      URL Path Parameter:
+
+      avatar_id (integer, required):
+      ID of the profile picture record to update.
+
+      Request Body:
+
+      profile_picture (file, optional):
+      New profile picture file.
+
+      If provided → old file is deleted and the record is updated.
+
+      If not provided → existing profile picture remains unchanged.
+
+      Successful Response (200 OK)
+
+      Content-Type: application/json
+
+      Response Body:
+      (from updateUserProfilePictureByIdController)
+
+      {
+        "success": true,
+        "message": "Profile picture updated successfully.",
+        "data": {
+          "profile_picture": {
+            "id": 5,
+            "user_id": 2,
+            "profile_picture": "/uploads/profile_picture/u-avatar-2-pp.png"
+          }
+        }
+      }
+
+
+      (Returned object is whatever updateUserProfilePictureByIdService selects from user_profile_picture.)
+
+      Error Responses
+
+      400 Bad Request: Invalid avatar_id (e.g., validator failure or bad input):
+
+      {
+        "success": false,
+        "error": "Bad Request",
+        "message": "Provided parameter is invalid."
+      }
+
+
+      401 Unauthorized: User is not authenticated.
+
+      {
+        "success": false,
+        "error": "Unauthorized",
+        "message": "You are not authorized, Please sign in."
+      }
+
+
+      403 Forbidden: User does not have permission to update this profile picture.
+
+      {
+        "success": false,
+        "error": "Forbidden",
+        "message": "You do not have permission."
+      }
+
+
+      404 Not Found:
+      Profile picture not found for the provided avatar_id.
+      (from updateUserProfilePictureByIdController via service returning null):
+
+      {
+        "success": false,
+        "error": "404 Not Found",
+        "message": "The user or profile picture you are looking for was not found."
+      }
+
+
+      500 Internal Server Error:
+
+      {
+        "success": false,
+        "error": "Internal Server Error",
+        "message": "Something went wrong! Please try again later."
+      }
+    2.3.5 Delete a User’s Profile Picture by Avatar ID
+
+      Endpoint:
+      DELETE /api/users/pp/avatar/{avatar_id}
+
+      Host/Base_URL:
+      enathealthcare.com or localhost:2411
+
+      Description:
+      Deletes the user’s profile picture file from storage and sets profile_picture to null in user_profile_picture, without deleting the record itself.
+
+      Request
+
+      Authorization:
+      Requires a valid access token (authn middleware).
+      The user ID is taken from req.user.user_id.
+
+      URL Path Parameter:
+
+      avatar_id (integer, required):
+      ID of the profile picture record to delete.
+
+      Request Body:
+      None.
+
+      Successful Response (200 OK)
+
+      Content-Type: application/json
+
+      Response Body:
+      (from deleteUserProfilePictureController)
+
+      {
+        "success": true,
+        "message": "Profile picture remove successfully."
+      }
+
+
+      (Note: message text matches exactly what’s in your controller.)
+
+      Error Responses
+
+      400 Bad Request: Invalid avatar_id or validation failure.
+
+      {
+        "success": false,
+        "error": "Bad Request",
+        "message": "Provided parameter is invalid."
+      }
+
+
+      401 Unauthorized: User is not authenticated.
+
+      {
+        "success": false,
+        "error": "Unauthorized",
+        "message": "You are not authorized, Please sign in."
+      }
+
+
+      403 Forbidden: User does not have permission to delete this profile picture.
+
+      {
+        "success": false,
+        "error": "Forbidden",
+        "message": "You do not have permission."
+      }
+
+
+      404 Not Found:
+      Profile picture not found for the given avatar_id.
+      (from deleteUserProfilePictureService/controller when it returns null):
+
+      {
+        "success": false,
+        "error": "404 Not Found",
+        "message": "The profile picture you are looking for was not found."
+      }
+
+
+      500 Internal Server Error:
+
+      {
+        "success": false,
+        "error": "Internal Server Error",
+        "message": "Something went wrong! Please try again later."
+      }
+  **2.4 assign  role for user  API design**
+    2.4.1 GET api/users/assign/user-roles: Get all  role assigned to a user.
+    2.4.2 GET api/users/assign/user-roles/{user-role_id}: Get a role assigned to a user.
+    2.4.3 PATCH api/users/assign/user-roles/{user-role_id}: Assign a new role to a user.
+  **2.4 assign  role for user  API DOCS**
+    2.4.1 Get All Roles Assigned to Users
+
+      Endpoint:
+      GET /api/users/assign/user-roles
+
+      Host/Base_URL:
+      enathealthcare.com or localhost:2411
+
+      Description:
+      Retrieves a list of all user-role assignments in the system, including user details, role details, and information about who last updated the role.
+
+      This endpoint is admin-only (protected by authn + authz(adminAndAbove)).
+
+      Request
+
+      Authorization:
+      Requires a valid access token with admin or above privileges.
+
+      URL Path Parameters:
+      None.
+
+      Query Parameters:
+      None.
+
+      Request Body:
+      None.
+
+      Successful Response (200 OK)
+
+      Content-Type: application/json
+
+      Response Body:
+      (from getUserRolesController + getUserRolesService):
+
+      {
+        "success": true,
+        "message": "Roles assigned to a user retrieved successfully.",
+        "data": {
+          "user_roles": [
+            {
+              "user_role_id": 3,
+              "user_id": 123,
+              "user": {
+                "user_id": 123,
+                "email": "john.doe@example.com",
+                "first_name": "John",
+                "last_name": "Doe",
+                "profile_picture": "/uploads/profile_picture/john-avatar.png",
+                "user_name": "_JD-001",
+                "user_color": "#d96ef8"
+              },
+              "app_role": {
+                "id": 2,
+                "app_role_name": "ADMIN"
+              },
+              "updated_by": {
+                "user_id": 1,
+                "first_name": "Super",
+                "last_name": "Admin"
+              }
+            },
+            {
+              "user_role_id": 4,
+              "user_id": 124,
+              "user": {
+                "user_id": 124,
+                "email": "jane.smith@example.com",
+                "first_name": "Jane",
+                "last_name": "Smith",
+                "profile_picture": null,
+                "user_name": "_JS-002",
+                "user_color": "#a1b2c3"
+              },
+              "app_role": {
+                "id": 3,
+                "app_role_name": "DOCTOR"
+              },
+              "updated_by": null
+            }
+          ]
+        }
+      }
+
+      Error Responses
+
+      400 Bad Request: Invalid query parameters (if added later).
+
+      {
+        "success": false,
+        "error": "Bad Request",
+        "message": "Provided parameter is invalid."
+      }
+
+
+      401 Unauthorized: User is not authenticated.
+
+      {
+        "success": false,
+        "error": "Unauthorized",
+        "message": "You are not authorized, Please sign in."
+      }
+
+
+      403 Forbidden: User is authenticated but does not have admin (or above) permission.
+
+      {
+        "success": false,
+        "error": "Forbidden",
+        "message": "You do not have permission."
+      }
+
+
+      404 Not Found: No user-role assignments found.
+      (from getUserRolesController when getUserRolesService() returns null)
+
+      {
+        "success": false,
+        "error": "404 Not Found",
+        "message": "The user roles you are looking for was not found."
+      }
+
+
+      500 Internal Server Error:
+
+      {
+        "success": false,
+        "error": "Internal Server Error",
+        "message": "Something went wrong! Please try again later."
+      }
+    2.4.2 Get a Role Assigned to a User (by User Role ID)
+
+      Endpoint:
+      GET /api/users/assign/user-roles/{user_role_id}
+
+      Host/Base_URL:
+      enathealthcare.com or localhost:2411
+
+      Description:
+      Retrieves details of a specific user-role assignment by its user_role_id.
+
+      Protected by authn + authz(adminAndAbove).
+
+      Request
+
+      Authorization:
+      Requires a valid access token with admin or above privileges.
+
+      URL Path Parameters:
+
+      user_role_id (integer, required):
+      The ID of the user-role assignment in the user_role table.
+
+      Request Body:
+      None.
+
+      Successful Response (200 OK)
+
+      Content-Type: application/json
+
+      Response Body:
+      (from getUserRoleByIdController + getUserRoleByIdService, which returns SELECT * FROM user_role):
+
+      {
+        "success": true,
+        "message": "User role retrieved successfully.",
+        "data": {
+          "user_role": {
+            "id": 456,
+            "user_id": 123,
+            "app_role_id": 3,
+            "updated_by": null,
+            "created_at": "2024-08-01T12:00:00Z",
+            "updated_at": "2024-08-20T12:00:00Z"
+          }
+        }
+      }
+
+
+      Note: Field names come directly from user_role table (id, user_id, app_role_id, updated_by, timestamps, etc.).
+
+      Error Responses
+
+      400 Bad Request: Invalid user_role_id format (from userRoleIdValidator).
+
+      {
+        "success": false,
+        "error": "Bad Request",
+        "message": "Provided parameter is invalid."
+      }
+
+
+      401 Unauthorized: User is not authenticated.
+
+      {
+        "success": false,
+        "error": "Unauthorized",
+        "message": "You are not authorized, Please sign in."
+      }
+
+
+      403 Forbidden: User does not have permission to access this information.
+
+      {
+        "success": false,
+        "error": "Forbidden",
+        "message": "You do not have permission."
+      }
+
+
+      404 Not Found: The specified user-role assignment does not exist.
+      (from getUserRoleByIdController when getUserRoleByIdService() returns null):
+
+      {
+        "success": false,
+        "error": "404 Not Found",
+        "message": "The user role you are looking for was not found."
+      }
+
+
+      500 Internal Server Error:
+
+      {
+        "success": false,
+        "error": "Internal Server Error",
+        "message": "Something went wrong! Please try again later."
+      }
+    2.4.3 Assign a New Role to a User (Update User Role)
+
+      Endpoint:
+      PATCH /api/users/assign/user-roles/{user_role_id}
+
+      Host/Base_URL:
+      enathealthcare.com or localhost:2411
+
+      Description:
+      Updates an existing user-role assignment by changing the app_role_id for a specific user_role_id.
+      Also stores which admin updated it via the updated_by field (from req.user.user_id).
+
+      Protected by authn + authz(adminAndAbove).
+
+      Request
+
+      Content-Type:
+      application/json
+
+      Authorization:
+      Requires a valid access token with admin or above privileges.
+
+      URL Path Parameter:
+
+      user_role_id (integer, required):
+      The ID of the user-role assignment to update.
+
+      Request Body:
+
+      {
+        "app_role_id": 3
+      }
+
+
+      Where:
+
+      app_role_id – The ID of the role from the app_role table to assign to this user.
+
+      Successful Response (200 OK)
+
+      Content-Type: application/json
+
+      Response Body:
+      (from assignRoleController — note: it does not return the updated object, only a message)
+
+      {
+        "success": true,
+        "message": "Role assigned to user successfully."
+      }
+
+
+      If you later want to return the updated record, you’ll need to change the controller. Right now it just uses assignRoleService() and returns a success message.
+
+      Error Responses
+
+      400 Bad Request: Invalid user_role_id format or invalid/missing app_role_id (via validator or manual check).
+
+      {
+        "success": false,
+        "error": "Bad Request",
+        "message": "Provided parameter is invalid."
+      }
+
+
+      401 Unauthorized: User is not authenticated.
+
+      {
+        "success": false,
+        "error": "Unauthorized",
+        "message": "You are not authorized, Please sign in."
+      }
+
+
+      403 Forbidden: User does not have permission to assign roles (not admin/above).
+
+      {
+        "success": false,
+        "error": "Forbidden",
+        "message": "You do not have permission."
+      }
+
+
+      404 Not Found: The specified user_role_id does not exist.
+      (from assignRoleController when assignRoleService() returns null):
+
+      {
+        "success": false,
+        "error": "404 Not Found",
+        "message": "The user role you are looking for was not found."
+      }
+
+
+      500 Internal Server Error:
+
+      {
+        "success": false,
+        "error": "Internal Server Error",
+        "message": "Something went wrong! Please try again later."
+      }
+
+**3.app_role API design **
+  3.1 GET api/roles: Get all roles.
+  3.2 GET api/roles/{app-role-id}: Get a specific role by ID.
+  3.3 POST api/roles: Create a new role.
+  3.4 PATCH api/roles/{app-role-id}: Update an existing role by ID.
+  3.5 DELETE api/roles/{app-role-id}: Delete a role by ID.
+**3.app_role API DOCS**
+  3.1 Get All Roles
+    Endpoint: GET /api/roles
+    Description: Retrieves a list of all roles available in the system.
+    Host/Base_URL: aac.org or localhost:4423
+
+    Request:
+    Authorization: Requires a valid access token (if implemented).
+
+    Successful Response (200 OK):
+    Content-Type: application/json
+    Response Body:
+    {
+      "success": "true",
+      "message": "App roles retrieved successfully.",
+      "data": {
+          "roles": [
+              {
+                  "app_role_id": 1,
+                  "app_role_name": "user"
+              },
+              {
+                  "app_role_id": 2,
+                  "app_role_name": "admin"
+              }
+              ...
+          ],
+      }
+    }
+
+    Error Responses:
+
+    400 Bad Request: Invalid input or query parameters.
+    {
+      "success": false,
+      "error": "Bad Request",
+      "message": "Provided parameter is invalid."
+    }
+    401 Unauthorized: User is not authenticated.
+    {
+      "success": false,
+      "error": "Unauthorized",
+      "message": "You are not authorized, Please sign in."
+    }
+    403 Forbidden: User does not have permission to access this resource.
+
+    {
+      "success": false,
+      "error": "Forbidden",
+      "message": "You do not have permission."
+    }
+    404 Not Found: The specified role does not exist.
+
+    {
+      "success": false,
+      "error": "404 Not Found",
+      "message": "The roles you are looking for was not found."
+    }
+    500 Internal Server Error: Server encountered an unexpected condition.
+    {
+      "success": false,
+      "error": "Internal Server Error",
+      "message": "Something went wrong! Please try again later."
+    }
+  
+  3.2 Get a Specific Role by ID
+    Endpoint: GET /api/roles/{app_role_id}
+
+    Description: Retrieves details of a specific role by its ID.
+    Request:
+    Authorization: Requires a valid access token (if implemented).
+    URL Path Parameter:
+    app_role_id (integer, required): The ID of the role to retrieve.
+    Successful Response (200 OK):
+
+    Content-Type: application/json
+    Response Body:
+
+    {
+      "success": "true",
+      "message": "App role retrieved successfully.",
+      "data":{
+        "role": {
+          "app_role_id": 1,
+          "app_role_name": "admin"
+      }
+      }
+    }
+
+    Error Responses:
+
+    400 Bad Request: Invalid role ID format.
+
+    {
+      "success": false,
+      "error": "Bad Request",
+      "message": "Provided parameter is invalid."
+    }
+    401 Unauthorized: User is not authenticated.
+    {
+      "success": false,
+      "error": "Unauthorized",
+      "message": "You are not authorized, Please sign in."
+    }
+    403 Forbidden: User does not have permission to access this resource.
+
+    {
+      "success": false,
+      "error": "Forbidden",
+      "message": "You do not have permission."
+    }
+    404 Not Found: The specified role does not exist.
+
+    {
+      "success": false,
+      "error": "404 Not Found",
+      "message": "The role you are looking for was not found."
+    }
+    500 Internal Server Error: Server encountered an unexpected condition.
+    {
+      "success": false,
+      "error": "Internal Server Error",
+      "message": "Something went wrong! Please try again later."
+    }
+ 
+  3.3 Create a New Role
+    Endpoint: POST /api/roles
+
+    Description: Creates a new role in the system.
+
+    Request:
+
+    Content-Type: application/json
+    Authorization: Requires a valid access token with admin privileges (if implemented).
+    Request Body:
+    {
+      "app_role_name": "editor"
+    }
+    Successful Response (201 Created):
+
+    Content-Type: application/json
+    Response Body:
+
+    {
+      "success": "true",
+      "message": "App role created successfully.",
+       "data":{
+        "role": {
+          "app_role_id": 1,
+          "app_role_name": "editor"
+          "created_at":"2024-09-02 16:43:31",
+          "updated_at":"2024-09-02 16:43:31",
+          "deleted_at":null,
+      }
+      }
+    }
+    Error Responses:
+
+    400 Bad Request: Invalid input or missing required parameters.
+
+    {
+      "success": false,
+      "error": "Bad Request",
+      "message": "Provided parameter is invalid."
+    }
+    401 Unauthorized: User is not authenticated.
+
+    {
+      "success": false,
+      "error": "Unauthorized",
+      "message": "You are not authorized, Please sign in."
+    }
+    403 Forbidden: User does not have permission to create a new role.
+
+    {
+      "success": false,
+      "error": "Forbidden",
+      "message": "You do not have permission."
+    }
+    409 Conflict: A role with the same name already exists.
+
+    {
+      "success": false,
+      "error": "Conflict",
+      "message": "Role already exists."
+    }
+    500 Internal Server Error: Server encountered an unexpected condition.
+    {
+      "success": false,
+      "error": "Internal Server Error",
+      "message": "Something went wrong! Please try again later."
+    }
+  
+  3.4 Update an Existing Role by ID
+    Endpoint: PATCH /api/roles/{app_role_id}
+
+    Description: Updates the details of an existing role.
+
+    Request:
+    Content-Type: application/json
+    Authorization: Requires a valid access token with admin privileges (if implemented).
+    URL Path Parameter:
+    app_role_id (integer, required): The ID of the role to update.
+    Request Body:
+
+    {
+      "app_role_name": "senior_editor"  // Example update
+    }
+    Successful Response (200 OK):
+
+    Content-Type: application/json
+    Response Body:
+
+    {
+      "success": "true",
+      "message": "Role updated successfully."
+      "data":{
+        "role": {
+          "app_role_id": 1,
+          "app_role_name": "admin"
+      }
+      }
+    }
+
+    Error Responses:
+
+    400 Bad Request: Invalid input or missing required parameters.
+
+    {
+      "success": false,
+      "error": "Bad Request",
+      "message": "Provided parameter is invalid."
+    }
+    401 Unauthorized: User is not authenticated.
+
+    {
+      "success": false,
+      "error": "Unauthorized",
+      "message": "You are not authorized, Please sign in."
+    }
+    403 Forbidden: User does not have permission to update this role.
+
+    {
+      "success": false,
+      "error": "Forbidden",
+      "message": "You do not have permission."
+    }
+    404 Not Found: The specified role does not exist.
+
+    {
+      "success": false,
+      "error": "404 Not Found",
+      "message": "The role you are looking for was not found."
+    }
+    409 Conflict: A role with the updated name already exists.
+
+    {
+      "success": false,
+      "error": "Conflict",
+      "message": "Role already exists."
+    }
+    500 Internal Server Error: Server encountered an unexpected condition.
+    {
+      "success": false,
+      "error": "Internal Server Error",
+      "message": "Something went wrong! Please try again later."
+    }
+
+  3.5 Delete a Role by ID
+    Endpoint: DELETE /api/roles/{app_role_id}
+
+    Description: Deletes a role from the system.
+
+    Request:
+
+    Authorization: Requires a valid access token with admin privileges (if implemented).
+    URL Path Parameter:
+    app_role_id (integer, required): The ID of the role to delete.
+    Successful Response (200 OK):
+
+    Content-Type: application/json
+    Response Body:
+
+    {
+      "success": "true",
+      "message": "Role deleted successfully."
+    }
+
+    Error Responses:
+
+    400 Bad Request: Invalid role ID format.
+
+    {
+      "success": false,
+      "error": "Bad Request",
+      "message": "Provided parameter is invalid."
+    }
+    401 Unauthorized: User is not authenticated.
+
+    {
+      "success": false,
+      "error": "Unauthorized",
+      "message": "You are not authorized, Please sign in."
+    }
+    403 Forbidden: User does not have permission to delete this role.
+
+    {
+      "success": false,
+      "error": "Forbidden",
+      "message": "You do not have permission."
+    }
+    404 Not Found: The specified role does not exist.
+
+    {
+      "success": false,
+      "error": "404 Not Found",
+      "message": "The role you are looking for was not found."
+    }
+    500 Internal Server Error: Server encountered an unexpected condition.
+    {
+      "success": false,
+      "error": "Internal Server Error",
+      "message": "Something went wrong! Please try again later."
+    }  
 
 
 

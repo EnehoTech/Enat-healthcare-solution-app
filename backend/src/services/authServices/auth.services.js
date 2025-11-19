@@ -31,6 +31,33 @@ export const checkIfUserExists = async (email) => {
   }
 };
 
+/**
+ * Checks whether a phone number already exists in the user_profile table.
+ *
+ * This function optionally normalizes the phone number (e.g., removes spaces)
+ * and queries the database to determine if any user profile is already using it.
+ *
+ * @async
+ * @function checkIfPhoneExists
+ * @param {string} phone_number - The phone number to check for uniqueness.
+ * @returns {Promise<boolean>} - Returns `true` if the phone number exists, otherwise `false`.
+ * @throws {Error} - Throws an error if the database query fails.
+ */
+export const checkIfPhoneExists = async (phoneNumber) => {
+  try {
+    const query = `
+    SELECT up.id 
+    FROM user_profile up 
+    WHERE up.phone_number = ? 
+    LIMIT 1
+  `;
+    const rows = await connection.query(query, [phoneNumber]);
+
+    return rows.length > 0;
+  } catch (error) {
+    throw err;
+  }
+};
 
 /**
  * Function to get user data by email.
@@ -152,6 +179,19 @@ export const createAccountService = async (user) => {
     });
   } catch (error) {
     console.error("Error while creating account:", error);
+    // MySQL duplicate key error
+    if (error.code === "ER_DUP_ENTRY") {
+      if (error.message?.includes("user_profile.phone_number")) {
+        const err = new Error("Phone number already exists.");
+        err.statusCode = 409;
+        throw err;
+      }
+      if (error.message?.includes("user.email")) {
+        const err = new Error("Email already exists.");
+        err.statusCode = 409;
+        throw err;
+      }
+    }
     throw error;
   }
   return createdAccount;
