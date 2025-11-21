@@ -1,0 +1,80 @@
+.onboarding-section-wrapper {
+  position: relative;
+  z-index: 1;
+}
+.onboarding-content-wrapper {
+  position: relative;
+  padding: 30px 30px;
+  background-color: #f7f7f9;
+}
+
+.input-field-title-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 30px;
+  background: linear-gradient(to right, #244cfd,#247efd, #15e4fd);
+  padding: 16px 64px;
+  margin-right: -30px;
+  margin-left: -30px;
+  margin-top: -30px;
+}
+.input-field-title-wrapper .input-field-title-icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  border-radius: 50%;
+  background: #fff;
+  transition: all 0.4s ease-out;
+}
+.onboarding-content-wrapper
+  .input-field-title-icon-wrapper
+  .inner-icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  min-height: 32px;
+  border-radius: 50%;
+  transition: all 0.4s ease-out;
+  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3),
+    0 2px 6px 2px rgba(60, 64, 67, 0.15);
+}
+.onboarding-content-wrapper
+  .input-field-title-icon-wrapper
+  .inner-icon-wrapper
+  svg {
+  color: #007bff;
+  width: 60%;
+  height: 60%;
+}
+.input-field-title-wrapper h3 {
+  font-size: 24px;
+  color: #fff;
+  line-height: 1.2;
+  font-weight: 500;
+  margin-bottom: 0;
+}
+
+.onboarding-content-wrapper .line-end {
+  width: 44px;
+  height: 2px;
+  margin: 0;
+  margin-left: 5px;
+  margin-top: 2px;
+  border-top: 2px solid #fff;;
+}
+.onboarding-content-wrapper .input-field-wrapper {
+  padding: 0.5rem 1rem;
+}
+
+/* media query css */
+
+@media (min-width: 768px) {
+  .onboarding-content-wrapper .input-field-wrapper {
+    padding: 1rem 2.5rem;
+  }
+}

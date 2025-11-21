@@ -8,6 +8,7 @@ import { PiSignOut } from "react-icons/pi";
 import { Link, Navigate } from "react-router";
 import MiniAvatar from "../../../../shared/components/Avatar/MiniAvatar/MiniAvatar";
 import Avatar from "../../../../shared/components/Avatar/Avatar";
+import { signOutService } from "../../../auth/services/auth.service";
 
 
 

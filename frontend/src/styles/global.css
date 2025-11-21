@@ -1,3 +1,23 @@
+.p-block-70 {
+  padding-block: 70px;
+}
+.p-block-100 {
+  padding-block: 100px;
+}
+
+
+/* alert bg css */
+.bg-red-25 {
+  background-color: #fffbfa;
+}
+.bg-red-50 {
+  background-color: #fef3f2;
+}
+.bg-info-25 {
+  background-color: #e9f5f8;
+}
+
+
 /* common button css */
 button.main-btn {
   display: block;
@@ -18,21 +38,57 @@ button.main-btn:hover {
   color: #fff;
   opacity: 0.8;
 }
+
+button.main-btn-light {
+  display: block;
+  color: #030a21;
+  text-transform: capitalize;
+  font-weight: 400;
+  padding: 10px 24px !important;
+  transition: all 0.4s ease-out;
+  text-align: center;
+  white-space: nowrap;
+  border-radius: 4px;
+  border: 1px solid transparent; /* needed for border-box */
+  background:
+    /* inner background (button fill) */
+    linear-gradient(#ffffff, #ffffff) padding-box,
+    /* outer gradient border */
+    linear-gradient(to right, #244cfd, #15e4fd) border-box;
+}
+button.main-btn-light:hover {
+  background:
+    /* inner background (now gradient too) */
+    linear-gradient(to right, #244cfd, #15e4fd) padding-box,
+    /* outer gradient border (same as before) */
+    linear-gradient(to right, #244cfd, #15e4fd) border-box;
+  color: #fff !important;
+  opacity: 0.8;
+}
+
 a.main-btn-light {
   display: block;
   color: #030a21;
-  border: 1px solid transparent;
-  border-image: linear-gradient(to right, #244cfd, #15e4fd) 1;
   text-transform: capitalize;
   font-weight: 400;
-  padding: 12px 24px !important;
+  padding: 10px 24px !important;
   transition: all 0.4s ease-out;
-  border-radius: 4px;
   text-align: center;
   white-space: nowrap;
+  border-radius: 4px;
+  border: 1px solid transparent; /* needed for border-box */
+  background:
+    /* inner background (button fill) */
+    linear-gradient(#ffffff, #ffffff) padding-box,
+    /* outer gradient border */
+    linear-gradient(to right, #244cfd, #15e4fd) border-box;
 }
 a.main-btn-light:hover {
-  background: linear-gradient(to right, #244cfd, #15e4fd);
+  background:
+    /* inner background (now gradient too) */
+    linear-gradient(to right, #244cfd, #15e4fd) padding-box,
+    /* outer gradient border (same as before) */
+    linear-gradient(to right, #244cfd, #15e4fd) border-box;
   color: #fff !important;
   opacity: 0.8;
 }
@@ -66,16 +122,7 @@ textarea.form-control {
   height: auto;
 }
 
-/* alert bg css */
-.bg-red-25 {
-  background-color: #fffbfa;
-}
-.bg-red-50 {
-  background-color: #fef3f2;
-}
-.bg-info-25 {
-  background-color: #e9f5f8;
-}
+
 
 /* Dash Board  css */
 /* Dashboard hero css */

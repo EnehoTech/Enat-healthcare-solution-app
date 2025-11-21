@@ -151,6 +151,7 @@ h6 {
   transition: var(--transition);
   border-radius: 4px;
   text-align: center;
+   white-space: nowrap;
 }
 .hero-content a.main-btn:hover {
   color: #fff;
@@ -160,19 +161,35 @@ h6 {
 .hero-content a.main-btn-light {
   display: block;
   color: #030a21;
-  border: 1px solid transparent;
-  border-image: var(--main-gradient) 1;
   font-family: var(--secondary-font-family);
   text-transform: capitalize;
   font-weight: 400;
   padding: 12px 24px !important;
   transition: var(--transition);
-  border-radius: 4px;
   margin-top: 12px;
   text-align: center;
+  border-radius: 4px;
+  border: 1px solid transparent; /* needed for border-box */
+  background:
+    /* inner background (button fill) */ linear-gradient(
+        #ffffff,
+        #ffffff
+      )
+      padding-box,
+    /* outer gradient border */ linear-gradient(to right, #244cfd, #15e4fd)
+      border-box;
 }
-.hero-content a.main-btn:hover {
-  color: #fff;
+.hero-content a.main-btn-light:hover {
+  background:
+    /* inner background (now gradient too) */ linear-gradient(
+        to right,
+        #244cfd,
+        #15e4fd
+      )
+      padding-box,
+    /* outer gradient border (same as before) */
+      linear-gradient(to right, #244cfd, #15e4fd) border-box;
+  color: #fff !important;
   opacity: 0.8;
 }
 
@@ -537,7 +554,8 @@ h6 {
 .container {
   max-width: 992px !important;
 }
-.not-found-page-section div.main-btn {
+.not-found-page-section div.main-btn,
+.unauthorized-section div.main-btn {
   display: block;
   width: 210px;
   color: #fff;
@@ -550,18 +568,21 @@ h6 {
   border-radius: 4px;
   text-align: center !;
 }
-.not-found-page-section div.main-btn a {
+.not-found-page-section div.main-btn a,
+.unauthorized-section div.main-btn a {
   color: #fff;
   text-align: center;
   max-width: none;
 }
-.not-found-page-section div.main-btn a:hover {
+.not-found-page-section div.main-btn a:hover,
+.unauthorized-section div.main-btn a:hover {
   color: #fff;
   opacity: 0.8;
 }
 
 /* mobile device footer css */
-.md-footer-links-wrapper h2, .md-footer-links-wrapper h4 {
+.md-footer-links-wrapper h2,
+.md-footer-links-wrapper h4 {
   color: #fff !important;
 }
 .md-footer-links-wrapper .accordion .accordion-item {
@@ -581,8 +602,6 @@ h6 {
 .md-footer-links-wrapper .accordion .accordion-button:not(.collapsed)::after {
   background-image: url("../icons/minus-icon.svg");
 }
-
-
 
 /* ======= media query css  ======= */
 
@@ -780,6 +799,7 @@ h6 {
     padding: 12px 24px !important;
     transition: var(--transition);
     border-radius: 4px;
+     white-space: nowrap;
   }
   .main-header .nav-items li a.main-btn:hover {
     color: #fff;

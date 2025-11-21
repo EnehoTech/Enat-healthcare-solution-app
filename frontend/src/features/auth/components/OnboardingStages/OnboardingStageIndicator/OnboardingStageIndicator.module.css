@@ -1,0 +1,32 @@
+/* Onboarding Stage Indicator css */
+
+.onboarding-stage-indicator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px; /* space between dots */
+  padding: 2rem 0;
+  background-color: #ffffff;
+  margin-top: 1rem;
+  border: 0.5px solid #d2e1fed1;
+  border-radius: 0.25rem;
+}
+
+/* default (inactive) dots: soft grey circles */
+.onboarding-stage-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 9999px;
+  background: #f7f7f9;
+  border: 0.5px solid #18181b1a;
+  transition: all 0.25s ease-out;
+}
+
+/* active step: pill shape, dark, sharper */
+.onboarding-stage-dot-active {
+  width: 42px;
+  height: 14px;
+  background: linear-gradient(to right, #244cfd, #247efd, #15e4fd);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.125);
+  border: none;
+}

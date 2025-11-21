@@ -10,6 +10,10 @@ import Alert from "../../../../shared/components/Alert/Alert";
 import PreLoader from "../../../../shared/components/PreLoader/PreLoader";
 import handleError from "../../../../utils/handleError";
 import { signInService } from "../../services/auth.service";
+import { decodeAccessToken } from "../../../../hooks/useDecodeAccessToken";
+import { useDispatch } from "react-redux";
+import { login } from "../../../../redux/slices/authSlice";
+import { fetchOnboardingStage } from "../../../../redux/slices/onboardingSlice";
 
 // Define the validation schema using yup
 const signInvalidationSchema = yup.object().shape({
@@ -40,6 +44,7 @@ const SignInForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch(); // Initialize the useDispatch hook
   const {
     register,
     handleSubmit,
@@ -60,23 +65,28 @@ const SignInForm = () => {
       // set user access token to local storage
       localStorage.setItem("_u_at_i", response?._u_at_i);
       // get access token stored in users local storage
-      // const getAccessToken = localStorage.getItem("_u_at_i"); // _u_at_i stands for user access token Id.
-      // if (getAccessToken) {
-      //   // use the custom hooks to decode accessToken
-      //   const decodedToken = await decodeAccessToken(getAccessToken);
-      //   const decodedAuthData = {
-      //     isAuth: true,
-      //     u_id: decodedToken.u_id,
-      //     role_id: decodedToken.role_id,
-      //     stage_id: decodedToken.stage_id,
-      //     email: decodedToken.email,
-      //     first_name: decodedToken.first_name,
-      //     last_name: decodedToken.last_name,
-      //     user_name: decodedToken.user_name,
-      //   };
-      // } else {
-      //   throw new Error("Access token not found.");
-      // }
+      const getAccessToken = localStorage.getItem("_u_at_i"); // _u_at_i stands for user access token Id.
+      if (getAccessToken) {
+        // use the custom hooks to decode accessToken
+        const decodedToken = await decodeAccessToken(getAccessToken);
+        console.log("decodedToken", decodedToken);
+        const decodedAuthData = {
+          isAuth: true,
+          user_id: decodedToken.user_id,
+          role_id: decodedToken.role_id,
+          stage_id: decodedToken.stage_id,
+          email: decodedToken.email,
+          first_name: decodedToken.first_name,
+          last_name: decodedToken.last_name,
+          user_name: decodedToken.user_name,
+        };
+        // Dispatch the login action to update global state
+        // pass decodedToken to login reducer
+        dispatch(login(decodedAuthData));
+        dispatch(fetchOnboardingStage());
+      } else {
+        throw new Error("Access token not found.");
+      }
 
       // use the custom hooks to decode accessToken
       if (response.success === true) {

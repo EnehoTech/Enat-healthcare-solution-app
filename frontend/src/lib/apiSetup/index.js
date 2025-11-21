@@ -1,2 +1,2 @@
 export * from "./publicAxiosInstance";
-// export * from "./protectedAxiosInstance";
+export * from "./protectedAxiosInstance";

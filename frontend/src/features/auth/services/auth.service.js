@@ -1,4 +1,4 @@
-import { publicAxios } from "../../../lib/apiSetup";
+import { protectedAxios, publicAxios } from "../../../lib/apiSetup";
 
 /**
  * Sends a POST request to create a new user account.
@@ -46,5 +46,36 @@ export const signOutService = () => {
   } catch (error) {
     console.error("Error during sign out:", error);
     throw new Error("Failed to sign out. Please try again.");
+  }
+};
+
+
+
+
+// A function to upload profile picture
+export const uploadProfilePictureService = async (formData) => {
+  try {
+    const response = await protectedAxios.post(`/users/pp/avatar`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error while uploading profile picture:", error);
+    throw error; // Optional: rethrow the error for further handling
+  }
+};
+
+// A function to update stage Id on user_profile table
+export const updateUserOnboardingStageService = async () => {
+  try {
+    const response = await protectedAxios.patch(
+      `/users/onboarding/stage-id`
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error while updating user onboarding stage:", error);
+    throw error; // Re-throw the error for further handling if needed
   }
 };
