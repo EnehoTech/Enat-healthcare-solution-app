@@ -28,7 +28,7 @@ export const authn = (req, res, next) => {
     // Verify token
     const decodedAccessToken = jwt.verify(token, jwtSecretKey);
     // Attach user information to the request object
-    // console.log("decode token", decodedAccessToken);
+    console.log("decode token", decodedAccessToken);
     req.user = decodedAccessToken;
     next(); // Proceed to the next middleware or route handler
   } catch (error) {

@@ -1680,6 +1680,185 @@
       "message": "Something went wrong! Please try again later."
     }  
 
+**4. Image Gallery API Design***
+  4.1 GET /api/gallery
+
+  Retrieve all images stored in the master library. Can be filtered by image_type (BLOG or BLOG_DETAIL).
+
+  4.2 GET /api/gallery/{image_gallery_id}
+
+  Retrieve the metadata and URL for a specific image using its unique ID.
+
+  4.3 POST /api/gallery
+
+  Upload a new image file to the server and register it in the gallery database.
+
+  4.4 PATCH /api/gallery/{image_gallery_id}
+
+  Update an existing gallery record, including changing the image file/URL or its classification type.
+
+  4.5 DELETE /api/gallery/{image_gallery_id}
+
+  Soft-delete an image from the library by setting a deleted_at timestamp.
+**4. Image Gallery API DOCS**
+  4.1 Get All Gallery Images
+    Endpoint: GET /api/gallery
+
+    Description: Retrieves a list of all non-deleted images. Supports filtering via query parameters.
+
+    Query Parameters: type (Optional: BLOG or BLOG_DETAIL)
+
+    Successful Response (200 OK):
+
+    {
+      "success": true,
+      "message": "Gallery images retrieved successfully.",
+      "data": {
+        "images": [
+          {
+            "id": 101,
+            "user_id": 5,
+            "image_name": "healthy-eating-cover",
+            "image_url": "/uploads/gallery/img-1704902400.jpg",
+            "image_type": "BLOG",
+            "created_at": "2026-01-10 14:00:00"
+          }
+        ]
+      }
+    }
+  4.2 Get Specific Image by ID
+    Endpoint: GET /api/gallery/{image_gallery_id}
+
+    Description: Retrieves full metadata for a single image record.
+
+    Successful Response (200 OK):
+
+
+    {
+      "success": true,
+      "message": "Image retrieved successfully.",
+      "data": {
+        "image": {
+          "id": 101,
+          "user_id": 5,
+          "image_name": "healthy-eating-cover",
+          "image_url": "/uploads/gallery/img-1704902400.jpg",
+          "image_type": "BLOG",
+          "created_at": "2026-01-10 14:00:00",
+          "updated_at": "2026-01-10 14:00:00",
+          "deleted_at": null
+        }
+      }
+    }
+  4.3 Create Gallery Image (Upload)
+    Endpoint: POST /api/gallery
+
+    Description: Uploads a new file and registers it. user_id is pulled from the auth session.
+
+    Request Body (Multipart/Form-Data):
+
+    image: File (Required - the physical image).
+
+    image_name: String (Required - must be unique).
+
+    image_type: String (Required - BLOG or BLOG_DETAIL).
+
+    Successful Response (201 Created):
+
+
+    {
+      "success": true,
+      "message": "Image uploaded and added to gallery successfully.",
+      "data": {
+        "image": {
+          "id": 105,
+          "user_id": 5,
+          "image_name": "new-clinic-shot",
+          "image_url": "/uploads/gallery/img-1704905400.jpg",
+          "image_type": "BLOG_DETAIL",
+          "created_at": "2026-01-10 15:30:00"
+        }
+      }
+    }
+  4.4 Update Gallery Image
+    Endpoint: PATCH /api/gallery/{image_gallery_id}
+
+    Description: Updates specific properties. If a new file is sent, the old physical file is replaced.
+
+    Request Body (Multipart/Form-Data):
+
+    image: File (Optional - replaces old file).
+
+    image_name: String (Optional - must be unique).
+
+    image_type: String (Optional - BLOG or BLOG_DETAIL).
+
+    Successful Response (200 OK):
+
+    {
+      "success": true,
+      "message": "Gallery image updated successfully.",
+      "data": {
+        "image": {
+          "id": 105,
+          "image_name": "updated-clinic-shot",
+          "image_type": "BLOG",
+          "updated_at": "2026-01-10 16:00:00"
+        }
+      }
+    }
+  4.5 Delete Gallery Image
+    Endpoint: DELETE /api/gallery/{image_gallery_id}
+
+    Description: Soft-deletes the record from the database.
+
+    Successful Response (200 OK):
+
+
+    {
+      "success": true,
+      "message": "Image deleted from gallery successfully."
+    }
+  Error Responses (Common)
+    400 Bad Request
+
+    success: false
+
+    error: "Bad Request"
+
+    message: "Provided parameter is invalid, image_name is missing, or image_type is incorrect."
+
+    401 Unauthorized
+
+    success: false
+
+    error: "Unauthorized"
+
+    message: "You are not authorized. Please sign in."
+
+    404 Not Found
+
+    success: false
+
+    error: "Not Found"
+
+    message: "The image you are looking for was not found."
+
+    409 Conflict
+
+    success: false
+
+    error: "Conflict"
+
+    message: "An image with this name or URL already exists in the gallery."
+
+    500 Internal Server Error
+
+    success: false
+
+    error: "Internal Server Error"
+
+    message: "Something went wrong! Please try again later."
 
 
 **1.blog API design **

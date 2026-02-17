@@ -8,6 +8,8 @@ import authRoutes from "./authRoutes/auth.routes.js";
 import userRouter from "./userRoutes/user.routes.js";
 // Import the role routes route
 import roleRouter from "./roleRoutes/role.routes.js";
+// Import the image gallery routes route
+import imageGalleryRoutes from "./imageGalleryRoutes/imageGallery.routes.js";
 // Import the blog routes route
 import blogRoutes from "./blogRoutes/blog.routes.js";
 // Import the blog detail routes route
@@ -26,6 +28,8 @@ router.use(userRouter);
 
 // Add the role route to the main router
 router.use(roleRouter);
+// Add the image gallery routes to the main router
+router.use(imageGalleryRoutes);
 
 // Add the blog routes to the main router
 router.use(blogRoutes);

@@ -126,20 +126,37 @@ CREATE TABLE IF NOT EXISTS `doctor` (
   CONSTRAINT `fk_doctor_department` FOREIGN KEY (`department_id`) REFERENCES `department`(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- Create the Lookup Table (social_media_platform)
+CREATE TABLE IF NOT EXISTS `social_media_platform` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `platform_name` VARCHAR(50) NOT NULL,
+  `icon_class_name` VARCHAR(100) NOT NULL,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `deleted_at` TIMESTAMP NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `ux_platform_name` (`platform_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 -- doctor social handles
+-- Create the Normalized Relation Table (doctor_social_handle)
 CREATE TABLE IF NOT EXISTS `doctor_social_handle` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `doctor_id` INT UNSIGNED NOT NULL,
-  `name` VARCHAR(255) NOT NULL,        
+  `smp_id` INT UNSIGNED NOT NULL,
   `handle_link` VARCHAR(255) NOT NULL,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `deleted_at` TIMESTAMP NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `ux_social_doctor_platform` (`doctor_id`, `name`),
+ UNIQUE KEY `ux_doctor_platform_pair` (`doctor_id`, `smp_id`),
   KEY `ix_social_doctor` (`doctor_id`),
-  CONSTRAINT `fk_social_doctor` FOREIGN KEY (`doctor_id`) REFERENCES `doctor`(`id`) ON DELETE CASCADE
+  KEY `ix_social_platform` (`smp_id`),
+  CONSTRAINT `fk_handle_doctor` FOREIGN KEY (`doctor_id`) REFERENCES `doctor`(`id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_handle_platform` FOREIGN KEY (`smp_id`) REFERENCES `social_media_platform`(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
 
 -- =====================================================================
 -- Availability (weekly template) + Dated, bookable slots
@@ -196,6 +213,7 @@ CREATE TABLE IF NOT EXISTS `appointment` (
   `full_name` VARCHAR(255) NOT NULL,
   `email` VARCHAR(255) NOT NULL,
   `case_description` TEXT NOT NULL,
+  `status` ENUM('PENDING', 'ASSIGNED', 'CANCELLED') NOT NULL DEFAULT 'PENDING',
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `deleted_at` TIMESTAMP NULL DEFAULT NULL,
@@ -207,6 +225,7 @@ CREATE TABLE IF NOT EXISTS `assign_appointment` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `appointment_id` INT UNSIGNED NOT NULL,
   `timeslot_id` INT UNSIGNED NOT NULL,
+  `note` VARCHAR(500) NULL,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `deleted_at` TIMESTAMP NULL DEFAULT NULL,
@@ -223,11 +242,29 @@ CREATE TABLE IF NOT EXISTS `assign_appointment` (
 -- Blog & content
 -- =====================================================================
 
+-- Master gallery for all blog-related images
+CREATE TABLE IF NOT EXISTS `image_gallery` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `user_id` INT UNSIGNED NOT NULL,
+  `image_name` VARCHAR(255) NOT NULL,
+  `image_url` VARCHAR(255) NOT NULL,
+  `image_type` ENUM('BLOG', 'BLOG_DETAIL') NOT NULL,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `deleted_at` TIMESTAMP NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `ux_image_name` (`image_name`),
+  UNIQUE KEY `ux_image_url` (`image_url`),
+  KEY `ix_blog_user` (`user_id`),
+  CONSTRAINT `fk_img_gallery_user` FOREIGN KEY (`user_id`) REFERENCES `user`(`id`) ON DELETE CASCADE,
+  CONSTRAINT `ck_image_type` CHECK (`image_type` IN ('BLOG', 'BLOG_DETAIL'))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 -- blog
 CREATE TABLE IF NOT EXISTS `blog` (
   `blog_id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `user_id` INT UNSIGNED NOT NULL,
-  `blog_img` VARCHAR(255) NOT NULL,
+  `image_gallery_id` BIGINT UNSIGNED NOT NULL,
   `blog_title` VARCHAR(255) NOT NULL,
   `blog_description` TEXT NOT NULL,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -235,15 +272,16 @@ CREATE TABLE IF NOT EXISTS `blog` (
   `deleted_at` TIMESTAMP NULL DEFAULT NULL,
   PRIMARY KEY (`blog_id`),
   KEY `ix_blog_user` (`user_id`),
-  CONSTRAINT `fk_blog_user` FOREIGN KEY (`user_id`) REFERENCES `user`(`id`) ON DELETE CASCADE
+  CONSTRAINT `fk_blog_user` FOREIGN KEY (`user_id`) REFERENCES `user`(`id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_blog_image_ref` FOREIGN KEY (`image_gallery_id`) REFERENCES `image_gallery`(`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 
 -- blog detail
 CREATE TABLE IF NOT EXISTS `blog_detail` (
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `blog_id` BIGINT UNSIGNED NOT NULL,
   `hash` VARCHAR(255) NOT NULL,
-  `blog_title` VARCHAR(255) NOT NULL,
   `detail_description` TEXT NOT NULL,
   `blog_main_highlight` TEXT NOT NULL,
   `blog_post_wrap_up` TEXT NOT NULL,
@@ -254,7 +292,7 @@ CREATE TABLE IF NOT EXISTS `blog_detail` (
   UNIQUE KEY `ux_blog_detail_hash` (`hash`),
   KEY `ix_blog_detail_blog` (`blog_id`),
   CONSTRAINT `fk_blog_detail_blog` FOREIGN KEY (`blog_id`) REFERENCES `blog`(`blog_id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;;
 
 -- tags (normalized labels) table
 CREATE TABLE IF NOT EXISTS `tag` (
@@ -289,14 +327,14 @@ CREATE TABLE IF NOT EXISTS `blog_detail_tag` (
 CREATE TABLE IF NOT EXISTS `blog_detail_img` (
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `blog_detail_id` BIGINT UNSIGNED NOT NULL,
-  `blog_img_url` VARCHAR(255) NOT NULL,
+  `image_gallery_id` BIGINT UNSIGNED NULL,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `deleted_at` TIMESTAMP NULL DEFAULT NULL,
-  UNIQUE KEY `ux_detail_img` (`blog_detail_id`, `blog_img_url`),
   KEY `ix_detail_img_detail` (`blog_detail_id`),
   CONSTRAINT `fk_detail_img_detail`
     FOREIGN KEY (`blog_detail_id`) REFERENCES `blog_detail`(`id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_blog_detail_img_library_ref` FOREIGN KEY (`image_gallery_id`) REFERENCES `image_gallery`(`id`) ON DELETE CASCADE,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -325,7 +363,7 @@ CREATE TABLE IF NOT EXISTS `related_blog_post` (
 -- service
 CREATE TABLE IF NOT EXISTS `service` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `service_icon_name` VARCHAR(255) NOT NULL,
+  `icon_class_name` VARCHAR(255) NOT NULL,
   `service_title` VARCHAR(255) NOT NULL,
   `service_subtitle` VARCHAR(255) NOT NULL,
   `service_description` TEXT NOT NULL,
@@ -348,7 +386,7 @@ CREATE TABLE IF NOT EXISTS `faq` (
 
 -- testimonials
 CREATE TABLE IF NOT EXISTS `testimonial` (
-  `testimonial_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `testimonial_text` TEXT NOT NULL,
   `full_name` VARCHAR(255) NOT NULL,
   `job_title` VARCHAR(255) NOT NULL,
@@ -357,7 +395,7 @@ CREATE TABLE IF NOT EXISTS `testimonial` (
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `deleted_at` TIMESTAMP NULL DEFAULT NULL,
-  PRIMARY KEY (`testimonial_id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
  -- Insert roles with numeric IDs
 INSERT INTO app_role(id, app_role_name) VALUES 
@@ -384,5 +422,15 @@ INSERT INTO `tag` (name) VALUES
 ('step1', 'Initial Registration'),
 ('step2', 'Add user Profile Picture'),
 ('completed', 'Onboarding Complete(welcome message)');
+
+-- insert social media platforms
+INSERT INTO `social_media_platform` (`platform_name`, `icon_class_name`) VALUES 
+('Facebook', 'fa-brands fa-facebook'),
+('Instagram', 'fa-brands fa-instagram'),
+('LinkedIn', 'fa-brands fa-linkedin'),
+('X', 'fa-brands fa-square-x-twitter'),
+('Tiktok', 'fa-brands fa-tiktok'),
+('YouTube', 'fa-brands fa-youtube'),
+('github', 'fa-brands fa-github');
 
 
