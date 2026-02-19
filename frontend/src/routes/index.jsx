@@ -18,6 +18,7 @@ import PreLoader from "../shared/components/PreLoader/PreLoader";
 import ProtectedRoute from "../constants/ProtectedRoute/ProtectedRoute";
 import { adminAndAbove, nurseAndAbove } from "../constants/appRoles/appRoles";
 import Onboarding from "../features/auth/pages/Onboarding/Onboarding";
+import ImageGalleryDashboard from "../features/dashboard/pages/ImageGalleryDashboard/ImageGalleryDashboard";
 const AppRoutes = () => {
   // destructure user data from global state
   const { isAuth, isLoading, userId } = useSelector((state) => state?.auth);
@@ -102,6 +103,14 @@ const AppRoutes = () => {
             element={
               <ProtectedRoute roles={adminAndAbove}>
                 <AddEmployee />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/dashboard/manage-images"
+            element={
+              <ProtectedRoute roles={adminAndAbove}>
+                <ImageGalleryDashboard />
               </ProtectedRoute>
             }
           />

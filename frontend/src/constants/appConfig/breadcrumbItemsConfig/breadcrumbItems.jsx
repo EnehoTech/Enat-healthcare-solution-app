@@ -7,6 +7,7 @@ import {
 } from "react-icons/md";
 import { BsArrowRepeat, BsBlockquoteLeft } from "react-icons/bs";
 import { AiOutlineUsergroupAdd } from "react-icons/ai";
+import { BiCloudUpload } from "react-icons/bi";
 
 
 // Define common breadcrumb items
@@ -68,6 +69,14 @@ export const breadcrumbItems = {
         label: "Manage Blogs",
         path: "/dashboard/blogs",
         behindIcon: <MdEditNote />,
+      },
+    ],
+    image: [
+      ...commonDashboardBreadcrumbItems,
+      {
+        label: "Manage Images",
+        path: "/dashboard/manage-images",
+        behindIcon: <BiCloudUpload />,
       },
     ],
     faq: [

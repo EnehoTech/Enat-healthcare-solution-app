@@ -75,7 +75,7 @@ const UploadAsset = ({
       {label && (
         <label htmlFor={name} className={`${styles["upload-asset-label"]}`}>
           {label}:
-          {required && <span className={`${styles["required"]}`}>*</span>}
+          {required && <span className={`${styles["required"]}`}> *</span>}
         </label>
       )}
       <div

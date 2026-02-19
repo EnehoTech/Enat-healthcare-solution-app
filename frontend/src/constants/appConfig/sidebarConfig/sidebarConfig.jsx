@@ -6,7 +6,7 @@ import {
   MdOutlineGroups,
 } from "react-icons/md";
 // import { GiTakeMyMoney } from "react-icons/gi";
-import { BiSolidPhoneCall } from "react-icons/bi";
+import { BiCloudUpload, BiSolidPhoneCall } from "react-icons/bi";
 import { BsBlockquoteLeft, BsArrowRepeat } from "react-icons/bs";
 import { AiOutlineUsergroupAdd } from "react-icons/ai";
 import { IoAnalytics } from "react-icons/io5";
@@ -48,12 +48,16 @@ export const sidebarConfig = {
     },
 
     {
-      label: "Manage Teams",
-      icon: <MdOutlineGroups className="sidebar-icon" />,
-      path: "/dashboard/teams",
+      label: "Manage Images",
+      icon: <BiCloudUpload className="sidebar-icon" />,
+      path: "/dashboard/manage-images",
       roles: [0, 1, 2, 3, 4, 5],
       subItems: [
-        { label: "Teams", path: "/dashboard/teams", roles: [0, 1, 2, 3, 4, 5] },
+        {
+          label: "Upload Images",
+          path: "/dashboard/manage-images",
+          roles: [0, 1, 2, 3, 4, 5],
+        },
       ],
     },
 

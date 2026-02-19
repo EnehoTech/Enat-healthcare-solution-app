@@ -25,7 +25,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Serve static files (uploaded files)
-app.use("/assets", express.static(app.get("static-path")));
+app.use("/api/assets", express.static(app.get("static-path")));
 
 // Add the routes to the main middleware chain
 app.use("/api", routes);
