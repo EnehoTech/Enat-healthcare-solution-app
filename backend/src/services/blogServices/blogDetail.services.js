@@ -23,18 +23,21 @@ export const getAllBlogDetailsService = async () => {
          bd.id, bd.blog_id, bd.hash,
          bd.detail_description, bd.blog_main_highlight, bd.blog_post_wrap_up,
          bd.created_at, bd.updated_at,
-         b.blog_img, b.blog_title, b.blog_description, b.user_id,
-         u.email, u.display_name
+         b.blog_title, b.blog_description, b.user_id, b.image_gallery_id,
+         ig.image_url AS blog_image_url,
+         u.email, up.first_name, up.last_name, up.user_name
        FROM blog_detail bd
        JOIN blog b ON b.blog_id = bd.blog_id
+       JOIN image_gallery ig ON b.image_gallery_id = ig.id AND ig.deleted_at IS NULL
        JOIN user u ON u.id = b.user_id
+       JOIN user_profile up ON up.user_id = u.id
        where bd.deleted_at IS NULL
-       ORDER BY bd.created_at DESC`
+       ORDER BY bd.created_at DESC`,
     );
 
     if (baseRows.length === 0) return [];
 
-    // 2) Gather IDs and build a single IN (...) placeholder string
+    /// 2) Gather IDs and build a single IN (...) placeholder string
     const ids = baseRows.map((r) => r.id);
     const placeholders = ids.map(() => "?").join(",");
 
@@ -47,16 +50,17 @@ export const getAllBlogDetailsService = async () => {
        AND bdt.deleted_at IS NULL
        AND t.deleted_at IS NULL
        ORDER BY t.name ASC`,
-      ids
+      ids,
     );
 
     const imgRows = await connection.query(
-      `SELECT blog_detail_id, blog_img_url
-       FROM blog_detail_img
-       WHERE blog_detail_id IN (${placeholders})
-        AND deleted_at IS NULL
-       ORDER BY id ASC`,
-      ids
+      `SELECT bdi.blog_detail_id, bdi.image_gallery_id, ig.image_name, ig.image_url, ig.image_type
+       FROM blog_detail_img bdi
+       LEFT JOIN image_gallery ig ON bdi.image_gallery_id = ig.id AND ig.deleted_at IS NULL
+       WHERE bdi.blog_detail_id IN (${placeholders})
+        AND bdi.deleted_at IS NULL
+       ORDER BY bdi.id ASC`,
+      ids,
     );
 
     const relRows = await connection.query(
@@ -66,10 +70,10 @@ export const getAllBlogDetailsService = async () => {
        WHERE rbp.blog_detail_id IN (${placeholders})
         AND rbp.deleted_at IS NULL
        ORDER BY rbp.id ASC`,
-      ids
+      ids,
     );
 
-    // 4) Group associations by blog_detail_id
+    /// 4) Group associations by blog_detail_id
     const tagMap = new Map();
     for (const row of tagRows) {
       const list = tagMap.get(row.blog_detail_id) || [];
@@ -80,7 +84,14 @@ export const getAllBlogDetailsService = async () => {
     const imgMap = new Map();
     for (const row of imgRows) {
       const list = imgMap.get(row.blog_detail_id) || [];
-      list.push({ blog_img_url: row.blog_img_url });
+      if (row.image_gallery_id) {
+        list.push({
+          image_gallery_id: row.image_gallery_id,
+          image_name: row.image_name,
+          image_url: row.image_url,
+          image_type: row.image_type,
+        });
+      }
       imgMap.set(row.blog_detail_id, list);
     }
 
@@ -96,9 +107,10 @@ export const getAllBlogDetailsService = async () => {
       id: row.id,
       blog: {
         blog_id: row.blog_id,
-        blog_img: row.blog_img,
         blog_title: row.blog_title,
         blog_description: row.blog_description,
+        image_gallery_id: row.image_gallery_id,
+        image_url: row.blog_image_url,
       },
       hash: row.hash,
       detail_description: row.detail_description,
@@ -107,7 +119,9 @@ export const getAllBlogDetailsService = async () => {
       user: {
         user_id: row.user_id,
         email: row.email,
-        display_name: row.display_name,
+        first_name: row.first_name,
+        last_name: row.last_name,
+        user_name: row.user_name,
       },
       tags: tagMap.get(row.id) || [],
       images: imgMap.get(row.id) || [],
@@ -138,11 +152,16 @@ export const getBlogDetailByHashService = async (hash) => {
          bd.id, bd.blog_id, bd.hash,
          bd.detail_description, bd.blog_main_highlight, bd.blog_post_wrap_up,
          bd.created_at, bd.updated_at,
-         b.blog_img, b.blog_title, b.blog_description, b.user_id,
-         u.email, u.display_name
+         b.blog_title, b.blog_description, b.user_id, b.image_gallery_id,
+         ig.image_url AS blog_image_url,
+         u.email, up.first_name, up.last_name, up.user_name, up.user_color,
+         upp.profile_picture
        FROM blog_detail bd
        JOIN blog b ON b.blog_id = bd.blog_id
+       JOIN image_gallery ig ON b.image_gallery_id = ig.id AND ig.deleted_at IS NULL
        JOIN user u ON u.id = b.user_id
+       JOIN user_profile up ON up.user_id = u.id
+       JOIN user_profile_picture AS upp ON upp.user_id = u.id
        WHERE bd.hash = ?
         AND bd.deleted_at IS NULL
        LIMIT 1`,
@@ -167,18 +186,21 @@ export const getBlogDetailByHashService = async (hash) => {
     );
 
     const imgRows = await connection.query(
-      `SELECT blog_img_url
-       FROM blog_detail_img
-       WHERE blog_detail_id = ?
-        AND deleted_at IS NULL
-       ORDER BY id ASC`,
+      `SELECT bdi.image_gallery_id, ig.image_name, ig.image_url, ig.image_type
+       FROM blog_detail_img bdi
+       LEFT JOIN image_gallery ig ON bdi.image_gallery_id = ig.id AND ig.deleted_at IS NULL
+       WHERE bdi.blog_detail_id = ?
+        AND bdi.deleted_at IS NULL
+       ORDER BY bdi.id ASC`,
       [blogDetailId]
     );
 
     const relRows = await connection.query(
-      `SELECT rbp.blog_id, b.blog_title
+      `SELECT rbp.blog_id, b.blog_title, b.image_gallery_id, ig.image_url, bd.hash
        FROM related_blog_post rbp
        JOIN blog b ON b.blog_id = rbp.blog_id
+       LEFT JOIN image_gallery ig ON b.image_gallery_id = ig.id AND ig.deleted_at IS NULL
+       LEFT JOIN blog_detail bd ON bd.blog_id = b.blog_id AND bd.deleted_at IS NULL
        WHERE rbp.blog_detail_id = ?
         AND rbp.deleted_at IS NULL
        ORDER BY rbp.id ASC`,
@@ -190,9 +212,10 @@ export const getBlogDetailByHashService = async (hash) => {
       id: row.id,
       blog: {
         blog_id: row.blog_id,
-        blog_img: row.blog_img,
         blog_title: row.blog_title,
         blog_description: row.blog_description,
+        image_gallery_id: row.image_gallery_id,
+        image_url: row.blog_image_url,
       },
       hash: row.hash,
       detail_description: row.detail_description,
@@ -201,13 +224,31 @@ export const getBlogDetailByHashService = async (hash) => {
       user: {
         user_id: row.user_id,
         email: row.email,
-        display_name: row.display_name,
+        first_name: row.first_name,
+        last_name: row.last_name,
+        user_name: row.user_name,
+        user_color: row.user_color,
+        profile_picture: row.profile_picture,
       },
       tags: tagRows.map((tag) => ({ tag_id: tag.tag_id, name: tag.name })),
-      images: imgRows.map((img) => ({ blog_img_url: img.blog_img_url })),
+      images: imgRows
+        .map((img) =>
+          img.image_gallery_id
+            ? {
+                image_gallery_id: img.image_gallery_id,
+                image_name: img.image_name,
+                image_url: img.image_url,
+                image_type: img.image_type,
+              }
+            : null
+        )
+        .filter(Boolean),
       related_blog_posts: relRows.map((rel) => ({
         blog_id: rel.blog_id,
+        hash: rel.hash,
         blog_title: rel.blog_title,
+        image_gallery_id: rel.image_gallery_id,
+        image_url: rel.image_url,
       })),
       created_at: row.created_at,
       updated_at: row.updated_at,
@@ -217,6 +258,7 @@ export const getBlogDetailByHashService = async (hash) => {
     throw error; // let the controller map to 500
   }
 };
+
 
 /**
  * @function getParentBlogWithAuthor
@@ -229,10 +271,11 @@ const getParentBlogWithAuthor = async (blogId) => {
   try {
     const rows = await connection.query(
       `SELECT
-             b.blog_id, b.user_id, b.blog_img, b.blog_title, b.blog_description,
-             u.email, u.display_name
+             b.blog_id, b.user_id, b.blog_title, b.blog_description,
+             u.email, up.first_name, up.last_name, up.user_name, up.user_color
            FROM blog b
            JOIN user u ON u.id = b.user_id
+           JOIN user_profile up ON up.user_id = u.id
            WHERE b.blog_id = ?
            LIMIT 1`,
       [blogId]
@@ -373,12 +416,11 @@ export const createBlogDetailService = async (blogDetailData) => {
       // 4) Insert images
       if (isNonEmptyArray(images)) {
         for (const img of images) {
-          const url = img?.blog_img_url?.toString();
-          if (!url) continue;
-
+          const imageGalleryId = img?.image_gallery_id;
+          if (!imageGalleryId) continue;
           await txConnection.execute(
-            `INSERT IGNORE INTO blog_detail_img (blog_detail_id, blog_img_url) VALUES (?, ?)`,
-            [blogDetailId, url]
+            `INSERT IGNORE INTO blog_detail_img (blog_detail_id, image_gallery_id) VALUES (?, ?)`,
+            [blogDetailId, imageGalleryId]
           );
         }
       }
@@ -407,7 +449,6 @@ export const createBlogDetailService = async (blogDetailData) => {
          FROM blog_detail WHERE id = ?`,
         [blogDetailId]
       );
-      console.log("bd", bd);
 
       const [tagRows] = await txConnection.execute(
         `SELECT t.id AS tag_id, t.name
@@ -419,10 +460,11 @@ export const createBlogDetailService = async (blogDetailData) => {
       );
 
       const [imgRows] = await txConnection.execute(
-        `SELECT blog_img_url
-         FROM blog_detail_img
-         WHERE blog_detail_id = ?
-         ORDER BY id ASC`,
+        `SELECT bdi.image_gallery_id, ig.image_name, ig.image_url, ig.image_type
+         FROM blog_detail_img bdi
+         LEFT JOIN image_gallery ig ON bdi.image_gallery_id = ig.id AND ig.deleted_at IS NULL
+         WHERE bdi.blog_detail_id = ?
+         ORDER BY bdi.id ASC`,
         [blogDetailId]
       );
 
@@ -440,7 +482,6 @@ export const createBlogDetailService = async (blogDetailData) => {
         id: bd.id,
         blog: {
           blog_id: parentBlog.blog_id,
-          blog_img: parentBlog.blog_img,
           blog_title: parentBlog.blog_title,
           blog_description: parentBlog.blog_description,
         },
@@ -451,10 +492,23 @@ export const createBlogDetailService = async (blogDetailData) => {
         user: {
           user_id: parentBlog.user_id,
           email: parentBlog.email,
-          display_name: parentBlog.display_name,
+          first_name: parentBlog.first_name,
+          last_name: parentBlog.last_name,
+          user_name: parentBlog.user_name,
         },
         tags: tagRows.map((tag) => ({ tag_id: tag.tag_id, name: tag.name })),
-        images: imgRows.map((img) => ({ blog_img_url: img.blog_img_url })),
+        images: imgRows
+          .map((img) =>
+            img.image_gallery_id
+              ? {
+                  image_gallery_id: img.image_gallery_id,
+                  image_name: img.image_name,
+                  image_url: img.image_url,
+                  image_type: img.image_type,
+                }
+              : null
+          )
+          .filter(Boolean),
         related_blog_post: relRows.map((relatedPost) => ({
           blog_id: relatedPost.blog_id,
           blog_title: relatedPost.blog_title,
@@ -623,11 +677,11 @@ export const updateBlogDetailByHashService = async (
         );
         if (isNonEmptyArray(images)) {
           for (const img of images) {
-            const url = img?.blog_img_url?.toString();
-            if (!url) continue;
+            const imageGalleryId = img?.image_gallery_id;
+            if (!imageGalleryId) continue;
             await txConnection.execute(
-              `INSERT INTO blog_detail_img (blog_detail_id, blog_img_url) VALUES (?, ?)`,
-              [blogDetailId, url]
+              `INSERT INTO blog_detail_img (blog_detail_id, image_gallery_id) VALUES (?, ?)`,
+              [blogDetailId, imageGalleryId]
             );
           }
         }
@@ -675,10 +729,11 @@ export const updateBlogDetailByHashService = async (
       // parent blog + author
       const [[pb]] = await txConnection.execute(
         `SELECT
-         b.blog_id, b.blog_img, b.blog_title, b.blog_description,
-         u.id AS user_id, u.email, u.display_name
+         b.blog_id, b.blog_title, b.blog_description,
+         u.id AS user_id, u.email, up.first_name, up.last_name, up.user_name
        FROM blog b
        JOIN user u ON u.id = b.user_id
+       JOIN user_profile up ON up.user_id = u.id
        JOIN blog_detail bd ON bd.blog_id = b.blog_id
       WHERE bd.id = ?
       LIMIT 1`,
@@ -705,10 +760,11 @@ export const updateBlogDetailByHashService = async (
 
       // images
       const [imgRows] = await txConnection.execute(
-        `SELECT blog_img_url
-         FROM blog_detail_img
-        WHERE blog_detail_id = ?
-        ORDER BY id ASC`,
+        `SELECT bdi.image_gallery_id, ig.image_name, ig.image_url, ig.image_type
+         FROM blog_detail_img bdi
+         LEFT JOIN image_gallery ig ON bdi.image_gallery_id = ig.id AND ig.deleted_at IS NULL
+         WHERE bdi.blog_detail_id = ?
+         ORDER BY bdi.id ASC`,
         [blogDetailId]
       );
 
@@ -727,7 +783,6 @@ export const updateBlogDetailByHashService = async (
         id: bd.id,
         blog: {
           blog_id: pb.blog_id,
-          blog_img: pb.blog_img,
           blog_title: pb.blog_title,
           blog_description: pb.blog_description,
         },
@@ -738,10 +793,23 @@ export const updateBlogDetailByHashService = async (
         user: {
           user_id: pb.user_id,
           email: pb.email,
-          display_name: pb.display_name,
+          first_name: pb.first_name,
+          last_name: pb.last_name,
+          user_name: pb.user_name,
         },
         tags: tagRows.map((tag) => ({ tag_id: tag.tag_id, name: tag.name })),
-        images: imgRows.map((img) => ({ blog_img_url: img.blog_img_url })),
+        images: imgRows
+          .map((img) =>
+            img.image_gallery_id
+              ? {
+                  image_gallery_id: img.image_gallery_id,
+                  image_name: img.image_name,
+                  image_url: img.image_url,
+                  image_type: img.image_type,
+                }
+              : null
+          )
+          .filter(Boolean),
         related_blog_posts: relRows.map((rel) => ({
           blog_id: rel.blog_id,
           blog_title: rel.blog_title,

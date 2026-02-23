@@ -3,6 +3,7 @@ import {
   deleteBlogByIdService,
   getAllBlogsService,
   getBlogByIdService,
+  getBlogsByUserIdService,
   updateBlogByIdService,
 } from "../../services/blogServices/blog.services.js";
 
@@ -44,10 +45,39 @@ export const getBlogByIdController = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: "Blog retrieved successfully.",
-      data: { blogs: blog },
+      data: { blog: blog },
     });
   } catch (error) {
     console.error("Error while fetching blog by Id:", error);
+    return res.status(500).json({
+      success: false,
+      error: "Internal Server Error",
+      message: "Something went wrong! Please try again later.",
+    });
+  }
+};
+
+/**
+ * @controller getBlogsByUserIdController
+ * @description Fetches the recent 20 blogs for a specific user.
+ */
+export const getBlogsByUserIdController = async (req, res) => {
+  try {
+    const { user_id } = req.params;
+    const { q } = req.query;
+
+    const blogs = await getBlogsByUserIdService(user_id, q);
+
+    return res.status(200).json({
+      success: true,
+      message: "User blogs retrieved successfully.",
+      data: {
+        blogs,
+      },
+    });
+  } catch (error) {
+    console.error("Error while retrieving blogs by userId:", error);
+
     return res.status(500).json({
       success: false,
       error: "Internal Server Error",
@@ -66,13 +96,15 @@ export const getBlogByIdController = async (req, res) => {
  */
 export const createBlogController = async (req, res) => {
   try {
+    // Authenticated user ID is available in req.user
+    const { user_id } = req.user;
     // request body
-    const { user_id, blog_img, blog_title, blog_description } = req.body;
+    const { blog_title, blog_description, image_gallery_id } = req.body;
 
     // Call service to create new blog
     const newBlog = await createBlogService({
       user_id,
-      blog_img,
+      image_gallery_id,
       blog_title,
       blog_description,
     });
@@ -86,7 +118,7 @@ export const createBlogController = async (req, res) => {
     return res.status(201).json({
       success: true,
       message: "Blog created successfully.",
-      data: { blogs: newBlog },
+      data: { blog: newBlog },
     });
   } catch (error) {
     console.error("Error while creating blog:", error);
@@ -108,13 +140,12 @@ export const createBlogController = async (req, res) => {
  */
 export const updateBlogByIdController = async (req, res) => {
   try {
-    // Authenticated user ID is available in req.user
     const { blog_id } = req.params;
-    const { user_id, blog_img, blog_title, blog_description } = req.body;
+    const { blog_title, blog_description, image_gallery_id } = req.body;
 
     // Call service to update blog
     const updatedBlog = await updateBlogByIdService(blog_id, {
-      blog_img,
+      image_gallery_id,
       blog_title,
       blog_description,
     });

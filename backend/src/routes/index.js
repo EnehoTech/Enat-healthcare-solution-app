@@ -14,6 +14,8 @@ import imageGalleryRoutes from "./imageGalleryRoutes/imageGallery.routes.js";
 import blogRoutes from "./blogRoutes/blog.routes.js";
 // Import the blog detail routes route
 import blogDetailRoutes from "./blogRoutes/blogDetail.routes.js";
+// Import the blog tags routes route
+import blogTagsRoutes from "./blogRoutes/blogTags.routes.js";
 
 // Import the router module
 const router = Router();
@@ -36,6 +38,8 @@ router.use(blogRoutes);
 
 // Add the blog detail routes to the main router
 router.use(blogDetailRoutes);
+// Add the blog tags routes to the main router
+router.use(blogTagsRoutes);
 
 // Export the router
 export default router;

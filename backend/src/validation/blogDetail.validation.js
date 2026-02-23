@@ -78,11 +78,11 @@ export const createBlogDetailValidator = [
   body("images")
     .isArray({ min: 1 })
     .withMessage("Images must be a non-empty array."),
-  body("images.*.blog_img_url")
+  body("images.*.image_gallery_id")
     .notEmpty()
-    .withMessage("Image URL cannot be empty.")
-    .isURL()
-    .withMessage("Each blog_img_url must be a valid URL."),
+    .withMessage("Each image_gallery_id is required.")
+    .isInt({ min: 1 })
+    .withMessage("Each image_gallery_id must be a positive integer."),
 
   // Validate optional related_blog_post array
   body("related_blog_post")
@@ -154,12 +154,10 @@ export const updateBlogDetailValidator = [
     .toInt(),
 
   body("images").optional().isArray().withMessage("images must be an array."),
-  body("images.*.blog_img_url")
+  body("images.*.image_gallery_id")
     .optional()
-    .notEmpty()
-    .withMessage("blog_img_url cannot be empty.")
-    .isURL()
-    .withMessage("Each blog_img_url must be a valid URL."),
+    .isInt({ min: 1 })
+    .withMessage("Each image_gallery_id must be a positive integer."),
 
   body("related_blog_posts")
     .optional()
@@ -173,5 +171,3 @@ export const updateBlogDetailValidator = [
 
   handleValidationErrors,
 ];
-
-

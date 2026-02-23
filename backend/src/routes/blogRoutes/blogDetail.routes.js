@@ -1,6 +1,8 @@
 import { Router } from "express";
 import { createBlogDetailController, deleteBlogDetailByHashController, getAllBlogDetailsController, getBlogDetailByHashController, updateBlogDetailByHashController } from "../../controllers/blogControllers/blogDetail.controllers.js";
 import { blogDetailByHashValidator, createBlogDetailValidator, updateBlogDetailValidator } from "../../validation/blogDetail.validation.js";
+import { authn, authz } from "../../middlewares/auth.middleware.js";
+import { adminAndAbove } from "../../utils/authzRoles.js";
 
 
 // Call the router method from express to create the router
@@ -27,8 +29,10 @@ router.get(
  */
 router.post(
   "/blog-details",
+  authn,
+  authz(adminAndAbove),
   createBlogDetailValidator,
-  createBlogDetailController
+  createBlogDetailController,
 );
 
 /**
@@ -37,8 +41,10 @@ router.post(
  */
 router.patch(
   "/blog-details/:blog_detail_hash",
+  authn,
+  authz(adminAndAbove),
   updateBlogDetailValidator,
-  updateBlogDetailByHashController
+  updateBlogDetailByHashController,
 );
 
 /**
@@ -47,8 +53,10 @@ router.patch(
  */
 router.delete(
   "/blog-details/:blog_detail_hash",
+  authn,
+  authz(adminAndAbove),
   blogDetailByHashValidator,
-  deleteBlogDetailByHashController
+  deleteBlogDetailByHashController,
 );
 
 
