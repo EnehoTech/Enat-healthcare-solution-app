@@ -19,6 +19,9 @@ import ProtectedRoute from "../constants/ProtectedRoute/ProtectedRoute";
 import { adminAndAbove, nurseAndAbove } from "../constants/appRoles/appRoles";
 import Onboarding from "../features/auth/pages/Onboarding/Onboarding";
 import ImageGalleryDashboard from "../features/dashboard/pages/ImageGalleryDashboard/ImageGalleryDashboard";
+import DepartmentDashBoard from "../features/dashboard/pages/DepartmentDashBoard/DepartmentDashBoard";
+import BlogDetailPage from "../pages/BlogDetailPage/BlogDetailPage";
+import BlogDashboard from "../features/dashboard/pages/BlogDashboard/BlogDashboard";
 const AppRoutes = () => {
   // destructure user data from global state
   const { isAuth, isLoading, userId } = useSelector((state) => state?.auth);
@@ -36,7 +39,7 @@ const AppRoutes = () => {
     }
   }, [dispatch, userId, isOnboardingCompleted, isLoading]);
   if (isLoading) return <PreLoader />;
-  console.log("isAuth", isAuth);
+  // console.log("isAuth", isAuth);
   // console.log("userId", userId);
   // console.log("isOnboardingCompleted", isOnboardingCompleted);
   return (
@@ -83,6 +86,7 @@ const AppRoutes = () => {
           <Route path="/doctors" element={<h1>Doctors Page</h1>} />
           <Route path="/appointment" element={<h1>Appointment Page</h1>} />
           <Route path="/blogs" element={<BlogsPage />} />
+          <Route path="/blog-details" element={<BlogDetailPage />} />
           <Route path="/user-profile" element={<UsersProfile />}>
             <Route path=":userId" element={<SingleUserProfile />} />
           </Route>
@@ -107,10 +111,26 @@ const AppRoutes = () => {
             }
           />
           <Route
+            path="/dashboard/manage-departments"
+            element={
+              <ProtectedRoute roles={adminAndAbove}>
+                <DepartmentDashBoard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/dashboard/manage-images"
             element={
               <ProtectedRoute roles={adminAndAbove}>
                 <ImageGalleryDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/dashboard/manage-blogs"
+            element={
+              <ProtectedRoute roles={adminAndAbove}>
+                <BlogDashboard />
               </ProtectedRoute>
             }
           />

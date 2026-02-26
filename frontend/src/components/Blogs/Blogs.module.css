@@ -18,6 +18,9 @@
 }
 .single-post-item .post-thumbnail img {
   border-radius: 0.5rem 0.5rem 0 0;
+  height: 250px;
+  width: 100%;
+  object-fit: cover
 }
 .single-post-item .post-content {
   padding: 25px;

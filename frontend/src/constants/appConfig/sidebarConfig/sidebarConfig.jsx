@@ -10,6 +10,7 @@ import { BiCloudUpload, BiSolidPhoneCall } from "react-icons/bi";
 import { BsBlockquoteLeft, BsArrowRepeat } from "react-icons/bs";
 import { AiOutlineUsergroupAdd } from "react-icons/ai";
 import { IoAnalytics } from "react-icons/io5";
+import { FaHospitalUser } from "react-icons/fa6";
 
 export const sidebarConfig = {
   dashboardSidebar: [
@@ -29,6 +30,19 @@ export const sidebarConfig = {
         {
           label: "Assign Role",
           path: "/dashboard/assign-roles",
+          roles: [0, 1, 2, 3, 4, 5],
+        },
+      ],
+    },
+    {
+      label: "Manage Departments",
+      icon: <FaHospitalUser className="sidebar-icon" />,
+      path: "/dashboard/manage-departments",
+      roles: [0, 1, 2, 3, 4, 5],
+      subItems: [
+        {
+          label: "Manage Department",
+          path: "/dashboard/manage-departments",
           roles: [0, 1, 2, 3, 4, 5],
         },
       ],
@@ -92,7 +106,7 @@ export const sidebarConfig = {
           _id: 2,
           name: "Blogs",
           icon: <MdEditNote className="sidebar-icon" />,
-          path: "/dashboard/blogs",
+          path: "/dashboard/manage-blogs",
           roles: [0, 1, 2, 3, 4, 5],
         },
         {

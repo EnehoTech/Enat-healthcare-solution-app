@@ -90,7 +90,7 @@
   width: 100%;
   padding-left: 15px;
   border: 1px solid #dadce0d1;
-  background-image: url("../../../assets/images/icons/arrow-down.svg");
+  background-image: url("../../../../assets/icons/arrow-down.svg");
   background-repeat: no-repeat;
   background-position: top 50% right 16px;
   appearance: none;
@@ -108,7 +108,7 @@
 }
 .is-invalid {
   border: 1px solid #dc3545 !important;
-  background-image: none !important;
+  /* background-image: none !important; */
   padding-right: 0.75rem !important;
 }
 .update-btn {

@@ -267,15 +267,15 @@ textarea.form-control {
   margin-top: 16px;
 }
 
-.dashboard .news .blog-image-wrapper a {
-  width: 80px;
-  min-width: 60px;
-  height: 60px;
+.dashboard .news .blog-image-wrapper {
+  width: 100px;
+  min-width: 70px;
+  height: 64px;
   min-height: 50px;
-  border-radius: 5px;
+  border-radius: 4px;
 }
 
-.dashboard .news .blog-image-wrapper a img {
+.dashboard .news .blog-image-wrapper  img {
   width: 100%;
   height: 100%;
   border-radius: 5px;
@@ -454,3 +454,97 @@ textarea.form-control {
   background: #eb6864 !important;
   border-color: #eb6864 !important;
 }
+
+/* custom slick css */
+.slick-arrow.slick-prev,
+.slick-arrow.slick-next {
+  display: none;
+}
+.slick-arrow.slick-prev {
+  background: var(--main-gradient);
+  opacity: 0.8;
+}
+.slick-arrow.slick-next {
+  background: var(--main-gradient);
+  opacity: 0.8;
+}
+.slick-arrow.slick-prev:is(:hover, :focus) {
+  opacity: 1;
+}
+.slick-arrow.slick-next:is(:hover, :focus) {
+  opacity: 1;
+}
+.slick-prev::before,
+.slick-next::before {
+  display: none;
+}
+.slick-arrow.slick-prev {
+  left: 12px;
+}
+.slick-arrow.slick-next {
+  right: 12px;
+}
+.go-prev-icon,
+.go-next-icon {
+  color: #f9faff;
+  width: 1.5rem;
+  height: 1.5rem;
+  opacity: 0.8;
+}
+.go-prev-icon:is(:hover, :focus),
+.go-next-icon:is(:hover, :focus) {
+  opacity: 1;
+}
+.slick-dots {
+  bottom: 12px !important;
+}
+.slick-dots li {
+  width: 24px !important;
+  height: 24px !important;
+}
+.slick-dots li button {
+  width: 24px !important;
+  height: 24px !important;
+}
+.slick-dots li button::before {
+  width: 24px !important;
+  height: 24px !important;
+  font-size: 9px !important;
+}
+.slick-dots li.slick-active button::before {
+  color: #007bff !important;
+}
+.slick-dots li button:is(:hover, :focus)::before {
+  color: #007bff !important;
+}
+@media (min-width: 992px) {
+  .slick-arrow.slick-prev,
+  .slick-arrow.slick-next {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    top: 100%;
+    left: auto;
+    bottom: 0;
+    gap: 1.5rem;
+  }
+  .slick-dots {
+    display: none !important;
+  }
+}
+
+/* add custom css to next and previous btn in testimonials-section */
+.testimonials-section .slick-arrow.slick-prev {
+  right: calc(12px + 100px + 16px) !important;
+}
+.testimonials-section .slick-arrow.slick-next {
+  right: 64px !important;
+}
+.testimonials-section .slick-dots {
+  bottom: 16px !important;
+}
+

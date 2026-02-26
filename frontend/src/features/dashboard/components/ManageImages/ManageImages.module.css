@@ -103,7 +103,7 @@
 
 .is-invalid {
   border: 1px solid #dc3545 !important;
-  background-image: none !important;
+  /* background-image: none !important; */
   padding-right: 0.75rem !important;
 }
 .update-btn {

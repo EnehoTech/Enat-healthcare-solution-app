@@ -8,6 +8,7 @@ import {
 import { BsArrowRepeat, BsBlockquoteLeft } from "react-icons/bs";
 import { AiOutlineUsergroupAdd } from "react-icons/ai";
 import { BiCloudUpload } from "react-icons/bi";
+import { FaHospitalUser } from "react-icons/fa6";
 
 
 // Define common breadcrumb items
@@ -47,6 +48,14 @@ export const breadcrumbItems = {
         behindIcon: <MdOfflinePin />,
       },
     ],
+    department: [
+      ...commonDashboardBreadcrumbItems, // Reuse common breadcrumb items
+      {
+        label: "Manage Departments",
+        path: "/dashboard/manage-departments",
+        behindIcon: <FaHospitalUser />,
+      },
+    ],
     team: [
       ...commonDashboardBreadcrumbItems, // Reuse common breadcrumb items
       {
@@ -67,7 +76,7 @@ export const breadcrumbItems = {
       ...commonDashboardBreadcrumbItems,
       {
         label: "Manage Blogs",
-        path: "/dashboard/blogs",
+        path: "/dashboard/manage-blogs",
         behindIcon: <MdEditNote />,
       },
     ],

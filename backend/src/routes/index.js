@@ -8,6 +8,8 @@ import authRoutes from "./authRoutes/auth.routes.js";
 import userRouter from "./userRoutes/user.routes.js";
 // Import the role routes route
 import roleRouter from "./roleRoutes/role.routes.js";
+// Import the department routes route
+import departmentRoutes from "./departmentRoutes/department.routes.js";
 // Import the image gallery routes route
 import imageGalleryRoutes from "./imageGalleryRoutes/imageGallery.routes.js";
 // Import the blog routes route
@@ -16,6 +18,13 @@ import blogRoutes from "./blogRoutes/blog.routes.js";
 import blogDetailRoutes from "./blogRoutes/blogDetail.routes.js";
 // Import the blog tags routes route
 import blogTagsRoutes from "./blogRoutes/blogTags.routes.js";
+// Import the service routes route
+import serviceRoutes from "./serviceRoutes/service.routes.js";
+// Import the testimonial  routes route
+import testimonialRoutes from "./testimonialRoutes/testimonial.routes.js";
+// Import the faq routes route
+import faqRoutes from "./faqRoutes/faq.routes.js";
+
 
 // Import the router module
 const router = Router();
@@ -30,6 +39,8 @@ router.use(userRouter);
 
 // Add the role route to the main router
 router.use(roleRouter);
+// Add the department routes to the main router
+router.use(departmentRoutes);
 // Add the image gallery routes to the main router
 router.use(imageGalleryRoutes);
 
@@ -40,6 +51,12 @@ router.use(blogRoutes);
 router.use(blogDetailRoutes);
 // Add the blog tags routes to the main router
 router.use(blogTagsRoutes);
+// Add the service routes to the main router
+router.use(serviceRoutes);
+// Add the testimonial routes to the main router
+router.use(testimonialRoutes);
+// Add the faq routes to the main router
+router.use(faqRoutes);
 
 // Export the router
 export default router;

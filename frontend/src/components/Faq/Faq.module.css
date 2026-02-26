@@ -1,0 +1,87 @@
+.faq-section {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  padding: 70px 0;
+  z-index: 1;
+  background-color: #f9f9fd;
+}
+
+.faq-section::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  bottom: 0;
+  opacity: 0.8;
+  z-index: -1;
+}
+
+
+
+.faq-accordion {
+  margin-inline: auto;
+}
+.faq-accordion .accordion-item {
+  margin-bottom: 1rem;
+  border: 1px solid #18181b1a !important;
+}
+
+.faq-accordion .accordion-item .accordion-button {
+  border: none;
+  padding: 1.5rem;
+  position: relative;
+  border: none;
+  box-shadow: unset !important;
+  text-align: start;
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #030a21;
+  cursor: pointer; 
+}
+.faq-accordion .accordion-item .accordion-button:not(.collapsed) {
+  color: #030a21;
+  background-color: transparent;
+}
+.faq-accordion .accordion-item .accordion-button:not(.collapsed):is(:hover,:focus,:active) {
+  color: #007fff;
+  background-color: #f9f9fd;
+  
+}
+ .faq-accordion .accordion-item .accordion-button::after {
+  content: "";
+  width: 15px;
+  height: 15px;
+  background-size: 15px;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23212529'%3e%3cpath fill-rule='evenodd' d='M8 10.293l5.646-5.647a.5.5 0 1 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 .708-.708L8 10.293z'/%3e%3c/svg%3e") !important; /* Downward arrow */
+  transition: transform 0.3s ease-in-out;
+  transform: rotate(0deg);
+}
+
+.faq-accordion .accordion-item .accordion-button[aria-expanded="true"]::after {
+  transform: rotate(180deg); /* Rotate to upward when expanded */
+}
+.faq-accordion .accordion-item .accordion-button::after {
+  width: 15px;
+  height: 15px;
+  background-size: 15px;
+}
+.faq-accordion .accordion-item .accordion-collapse {
+  border: none;
+}
+.faq-accordion .accordion-item .accordion-body {
+  padding:  1.5rem;
+  border-top: 1px solid #18181b1d;
+}
+.faq-accordion .accordion-item .accordion-body p {
+  font-size: 1rem;
+  font-weight:400;
+  line-height: 1.5rem;
+  margin-bottom: 0;
+}
+
+.faq-accordion .accordion-item:last-child {
+  margin-bottom: 0;
+}

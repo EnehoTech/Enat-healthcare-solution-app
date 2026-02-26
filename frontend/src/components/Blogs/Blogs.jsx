@@ -6,11 +6,15 @@ import { TbUserCircle } from "react-icons/tb";
 import styles from "./Blogs.module.css";
 import SectionTitle from "../SectionTitle/SectionTitle";
 import Alert from "../../shared/components/Alert/Alert";
-import { getAllBlogs } from "../../services/public.service";
+import { getAllBlogsService } from "../../services/public.service";
 import PreLoader from "../../shared/components/PreLoader/PreLoader";
 import { formatDateWithMonthName } from "../../utils/formatDate";
 import handleError from "../../utils/handleError";
 import SectionBanner from "../../shared/components/SectionBanner/SectionBanner";
+import { truncateDescription } from "../../utils/truncateDescription";
+
+// Api Base URL
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const Blogs = ({ show }) => {
   const [blogsData, setBlogsData] = useState([]);
@@ -28,7 +32,7 @@ const Blogs = ({ show }) => {
     try {
       setIsLoading(true);
       setApiErrors(null);
-      const response = await getAllBlogs();
+      const response = await getAllBlogsService();
       if (response.success === true) {
         setBlogsData(
           show ? response.data.blogs : response.data.blogs?.slice(0, 3) || []
@@ -49,12 +53,7 @@ const Blogs = ({ show }) => {
   const handleShowLess = () => {
     setDisplayedBlogsCount(6); // Reset to showing only 6 blogs
   };
-  // Truncate the description if it exceeds the limit
-  const truncateDescription = (description, limit = 120) => {
-    return description.length > limit
-      ? `${description.slice(0, limit)}...`
-      : description;
-  };
+ 
 
   return (
     <>
@@ -85,14 +84,19 @@ const Blogs = ({ show }) => {
                 <PreLoader />
               ) : (
                 blogsData?.slice(0, displayedBlogsCount)?.map((blog) => (
-                  <div className="col-lg-4 col-md-6 mb-4" key={blog.blog_id}>
+                  <div
+                    className="col-lg-4 col-md-6 mb-4"
+                    key={`blog-${blog.id}`}
+                  >
                     <div
                       className={`d-flex flex-column justify-content-between ${styles["single-post-item"]} ${styles["blog-post"]}`}
                     >
                       <div className={`${styles["post-thumbnail"]}`}>
-                        <Link to={`/blog-detail?bh=${"#"}`}>
+                        <Link
+                          to={`/blog-details?bdh=${blog?.blog_detail?.hash}`}
+                        >
                           <img
-                            src={`${blog.blog_img}`}
+                            src={`${API_BASE_URL}${blog?.blog_img?.image_url}`}
                             alt="blog post thumbnail"
                             crossOrigin="anonymous"
                             loading="lazy"
@@ -111,7 +115,7 @@ const Blogs = ({ show }) => {
                             <li className="d-flex align-items-center gap-1">
                               <TbUserCircle size={24} />
                               <span className={`${styles["blogger"]}`}>
-                                {blog?.user?.display_name}
+                                {blog?.user?.first_name} {blog?.user?.last_name}
                               </span>
                             </li>
                             <li className="d-flex align-items-center gap-1 ps-2 ps-sm-0">
@@ -123,7 +127,9 @@ const Blogs = ({ show }) => {
                             </li>
                           </ul>
                           <h3>
-                            <Link to={`/blog-detail?bh=${"#"}`}>
+                            <Link
+                              to={`/blog-details?bdh=${blog?.blog_detail?.hash}`}
+                            >
                               {blog.blog_title}
                             </Link>
                           </h3>
@@ -133,7 +139,7 @@ const Blogs = ({ show }) => {
                           className={`d-flex justify-content-between pt-4 ${styles["blog-btn-wrapper"]}`}
                         >
                           <Link
-                            to={`/blog-detail?bh=${"#"}`}
+                            to={`/blog-details?bdh=${blog?.blog_detail?.hash}`}
                             className={`${styles["link-btn"]}`}
                           >
                             Read Full Article <MdChevronRight />

@@ -1,8 +1,7 @@
-import { publicAxios } from "../../../lib/apiSetup";
-
+import { protectedAxios, publicAxios } from "../../../lib/apiSetup";
 
 // A function to get all blog posts
-export const getAllBlogs = async () => {
+export const getAllBlogsService = async () => {
   try {
     const response = await publicAxios.get(`/blogs`);
     return response.data;
@@ -13,7 +12,7 @@ export const getAllBlogs = async () => {
 };
 
 // A function to get a blog post by ID
-export const getBlogById = async (blogId) => {
+export const getBlogByIdService = async (blogId) => {
   try {
     const response = await publicAxios.get(`/blogs/${blogId}`);
     return response.data;
@@ -24,9 +23,9 @@ export const getBlogById = async (blogId) => {
 };
 
 // A function to create blog post
-export const createBlog = async (formData) => {
+export const createBlogService = async (formData) => {
   try {
-    const response = await publicAxios.post(`/blogs`, formData);
+    const response = await protectedAxios.post(`/blogs`, formData);
     return response.data;
   } catch (error) {
     console.error("Error while creating blog post:", error);
@@ -35,9 +34,9 @@ export const createBlog = async (formData) => {
 };
 
 // A function to update a blog post
-export const updateBlog = async (blogId, formData) => {
+export const updateBlogService = async (blogId, formData) => {
   try {
-    const response = await publicAxios.patch(`/blogs/${blogId}`, formData);
+    const response = await protectedAxios.patch(`/blogs/${blogId}`, formData);
     return response.data;
   } catch (error) {
     console.error(`Error while updating blog with ID ${blogId}:`, error);
@@ -46,12 +45,37 @@ export const updateBlog = async (blogId, formData) => {
 };
 
 // A function to delete a blog post
-export const deleteBlog = async (blogId) => {
+export const deleteBlogService = async (blogId) => {
   try {
-    const response = await publicAxios.delete(`/blogs/${blogId}`);
+    const response = await protectedAxios.delete(`/blogs/${blogId}`);
     return response.data;
   } catch (error) {
     console.error(`Error while deleting blog with ID ${blogId}:`, error);
+    throw error;
+  }
+};
+
+/**
+ * @function getBlogByUserIdService
+ * @description Retrieves up to 20 recent blog titles for a specific user.
+ * Optional title search supported.
+ * @param {number|string} userId - The user ID.
+ * @param {string} [q] - Optional search keyword for blog_title.
+ * @returns {Promise<Object>} API response containing blog titles.
+ * @throws {Error} Throws if the request fails.
+ */
+export const getBlogByUserIdService = async (userId, q = "") => {
+  try {
+    const response = await protectedAxios.get(`/blogs/users/${userId}`, {
+      params: q ? { q } : {},
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error(
+      `Error fetching blog titles for user [${userId}] with query [${q}]:`,
+      error,
+    );
     throw error;
   }
 };

@@ -1,39 +1,56 @@
-import  { useEffect, useRef, useState } from 'react'
-import styles from "./ManageBlogs.module.css";
+import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+// styles
+import styles from "./ManageBlogs.module.css";
+// Icons & UI
 import { MdOutlineStorage } from "react-icons/md";
 import { GoPlus } from "react-icons/go";
-import { createBlog, deleteBlog, getAllBlogs, updateBlog } from '../../services/blog.service';
-import { Slide, toast } from 'react-toastify';
-import handleError from '../../../../utils/handleError';
-import Alert from '../../../../shared/components/Alert/Alert';
-import FormInput from '../../../../shared/components/FormInput/FormInput';
-import PreLoader from '../../../../shared/components/PreLoader/PreLoader';
-import { Link } from 'react-router';
 import { TbUserCircle } from "react-icons/tb";
 import { FaRegEdit } from "react-icons/fa";
 import { FaCalendarDays, FaTrashCan } from "react-icons/fa6";
-import { formatDateWithMonthName } from '../../../../utils/formatDate';
-import { images } from '../../../../constants/AssetsContainer';
+
+// redux
+import { useSelector } from "react-redux";
+// shared components
 import StoryBoard from "../StoryBoard/StoryBoard";
+import Breadcrumb from "../../../../shared/components/Breadcrumb/Breadcrumb";
+import DashboardTitle from "../DashboardTitle/DashboardTitle";
+import PreLoader from "../../../../shared/components/PreLoader/PreLoader";
+import Alert from "../../../../shared/components/Alert/Alert";
+import FormInput from "../../../../shared/components/FormInput/FormInput";
+import NavTabs from "../../../../shared/components/NavTabs/NavTabs";
+
+// config & utils
+import handleError from "../../../../utils/handleError";
+import { images } from "../../../../constants/AssetsContainer";
+import { formatDateWithMonthName } from "../../../../utils/formatDate";
+import { breadcrumbItems } from "../../../../constants/appConfig/breadcrumbItemsConfig/breadcrumbItems";
+import { truncateDescription } from "../../../../utils/truncateDescription";
+import { navTabItems } from "../../../../constants/appConfig/navTabItemsConfig/navTabItems";
+
+// API services
+import {
+  createBlogService,
+  deleteBlogService,
+  getAllBlogsService,
+  updateBlogService,
+} from "../../services/blog.service";
+import { imageGalleryByUserIdService } from "../../services/imageGallery.services";
+// toast notifications
+import { Slide, toast } from "react-toastify";
+
 // blog validation schema
-const createBlogValidationSchema = (formMode) =>
+const createBlogValidationSchema = () =>
   yup.object().shape({
-    user_id:
-      formMode === "create"
-        ? yup
-            .number()
-            .typeError("User ID must be a number.")
-            .integer("User ID must be an integer.")
-            .positive("User ID must be positive.")
-            .required("User ID is required.")
-        : yup.number().nullable(),
-    blog_img: yup
-      .string()
-      .required("Blog image path or URL is required.")
-      .max(1024, "Image path is too long."),
+    image_gallery_id: yup
+      .number()
+      .typeError("Image gallery ID must be a number.")
+      .integer("Image gallery ID must be an integer.")
+      .positive("Image gallery ID must be positive.")
+      .required("Image gallery ID is required."),
     blog_title: yup
       .string()
       .required("Blog title is required.")
@@ -43,11 +60,19 @@ const createBlogValidationSchema = (formMode) =>
       .required("Blog description is required.")
       .max(10000, "Description is too long."),
   });
+// Api Base URL
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 const ManageBlogs = () => {
+  // destructure user data from global state
+  const { userId } = useSelector((state) => state?.auth);
+  // data state
   const [blogsData, setBlogsData] = useState([]);
+  const [imagesData, setImagesData] = useState([]);
+  //   UI state
   const [isLoading, setIsLoading] = useState(false);
   const [apiErrors, setApiErrors] = useState(null);
-  // const [isUpdateMode, setIsUpdateMode] = useState(false);
+  const [activeTab, setActiveTab] = useState(1);
+
   // Track form mode ('create' or 'update')
   const [formMode, setFormMode] = useState("create");
   const [selectedBlogId, setSelectedBlogId] = useState(null);
@@ -72,12 +97,8 @@ const ManageBlogs = () => {
     mode: "onSubmit", // Trigger validation only on submit
   });
 
-  // Truncate the description if it exceeds the limit
-  const truncateDescription = (blog_description, limit = 144) => {
-    return blog_description.length > limit
-      ? `${blog_description.slice(0, limit)}...`
-      : blog_description;
-  };
+  // A function that handle active status
+  const handleTabClick = (index) => setActiveTab(index);
 
   // Fetch all blogs
   useEffect(() => {
@@ -88,7 +109,7 @@ const ManageBlogs = () => {
     try {
       setIsLoading(true);
       setApiErrors(null);
-      const response = await getAllBlogs();
+      const response = await getAllBlogsService();
       if (response.success === true || response.success === "true") {
         setBlogsData(response.data?.blogs || []);
       }
@@ -98,6 +119,26 @@ const ManageBlogs = () => {
       setIsLoading(false);
     }
   };
+  const fetchAllImages = async () => {
+    if (!userId) return;
+    try {
+      setIsLoading(true);
+      setApiErrors(null);
+      const response = await imageGalleryByUserIdService(userId, "blog");
+      if (response.success === true || response.success === "true") {
+        setImagesData(response.data?.images || []);
+      }
+    } catch (error) {
+      setApiErrors(handleError(error));
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Fetch all images on userId change
+  useEffect(() => {
+    fetchAllImages();
+  }, [userId]);
 
   // Handle form submission
   const onSubmit = async (data) => {
@@ -106,14 +147,19 @@ const ManageBlogs = () => {
       setApiErrors(null);
       // Build JSON payload per API docs
       const payload = {
-        ...(formMode === "create" ? { user_id: Number(data.user_id) } : {}),
-        blog_img: data.blog_img,
+        image_gallery_id: data.image_gallery_id,
         blog_title: data.blog_title,
         blog_description: data.blog_description,
       };
 
       if (formMode === "update" && selectedBlogId) {
-        const response = await updateBlog(selectedBlogId, payload);
+        // For update, ensure payload matches new structure
+        const updatePayload = {
+          image_gallery_id: data.image_gallery_id,
+          blog_title: data.blog_title,
+          blog_description: data.blog_description,
+        };
+        const response = await updateBlogService(selectedBlogId, updatePayload);
 
         if (response.success === true || response.success === "true") {
           // refetch updated blog
@@ -129,7 +175,7 @@ const ManageBlogs = () => {
           setSelectedBlogId(null);
         }
       } else {
-        const response = await createBlog(payload);
+        const response = await createBlogService(payload);
 
         if (response.success === true || response.success === "true") {
           // refetch updated blog
@@ -153,10 +199,10 @@ const ManageBlogs = () => {
   // Handle update on edit button clicked
   const handleUpdateBlog = (blog) => {
     setFormMode("update");
-    setSelectedBlogId(blog.blog_id);
-
-    setValue("user_id", blog.user_id); // harmless for update; schema ignores if not create
-    setValue("blog_img", blog.blog_img || "");
+    setSelectedBlogId(blog.id || "");
+    // Prepopulate image_gallery_id with correct value (from blog_img or fallback)
+    setValue("image_gallery_id", blog.blog_img?.id || "");
+    // Prepopulate blog_title robustly
     setValue("blog_title", blog.blog_title || "");
     setValue("blog_description", blog.blog_description || "");
     if (updateRef.current) {
@@ -171,7 +217,7 @@ const ManageBlogs = () => {
       setApiErrors(null);
 
       // Call delete service
-      const response = await deleteBlog(blogId);
+      const response = await deleteBlogService(blogId);
       if (response.success === true || response.success === "true") {
         await fetchAllBlogs();
         toast.success(response?.message, {
@@ -220,11 +266,22 @@ const ManageBlogs = () => {
   };
 
   return (
-    <main id="main" className="my-5">
-      <section className="container-fluid px-4 dashboard dashboard-section">
+    <main id="main" className="main">
+      <Breadcrumb items={breadcrumbItems?.dashboard?.blog} />
+      <DashboardTitle
+        title="Manage blogs"
+        subtitle="Add insightful thoughts."
+        border="border"
+      />
+      <section className="dashboard dashboard-section">
         <div className="row">
           <div className="col-lg-8">
             <div className="col-12">
+              <NavTabs
+                tabItems={navTabItems?.blogAndImagesNavTabItems}
+                activeTab={activeTab}
+                onTabClick={handleTabClick}
+              />
               {isLoading ? (
                 <PreLoader />
               ) : (
@@ -247,7 +304,9 @@ const ManageBlogs = () => {
                             </div>
                           </div>
                           <h3>
-                            Add Blog Posts
+                            {formMode === "create"
+                              ? "Add Blog Posts"
+                              : "Update Blog"}
                             <label className={`${styles["line-end"]}`}></label>
                           </h3>
                         </div>
@@ -263,29 +322,41 @@ const ManageBlogs = () => {
                           )}
                           <div className="row">
                             <div className="col-12">
-                              {formMode === "create" && (
-                                <div className="col-lg-12 col-md-12">
-                                  <FormInput
-                                    label="User Id"
-                                    type="number"
-                                    name="user_id"
-                                    placeholder="Enter User Id"
-                                    register={register}
-                                    onInputChange={handleInputChange}
-                                    error={errors.user_id}
-                                  />
-                                </div>
-                              )}
                               <div className="col-lg-12 col-md-12">
-                                <FormInput
-                                  label="Blog Img"
-                                  type="text"
-                                  name="blog_img"
-                                  placeholder="Enter blog image url"
-                                  register={register}
-                                  onInputChange={handleInputChange}
-                                  error={errors.blog_img}
-                                />
+                                <div className={`${styles["form-group"]}`}>
+                                  <label>
+                                    Blog Image:
+                                    <span className={`${styles["required"]}`}>
+                                      *
+                                    </span>
+                                  </label>
+                                  <select
+                                    className={`form-control ${
+                                      errors.image_gallery_id
+                                        ? styles["is-invalid"]
+                                        : ""
+                                    }`}
+                                    {...register("image_gallery_id")}
+                                    onChange={handleInputChange}
+                                  >
+                                    <option
+                                      className="select-place-holder"
+                                      value=""
+                                    >
+                                      Select image for blog
+                                    </option>
+                                    {imagesData?.map((image) => (
+                                      <option key={image?.id} value={image?.id}>
+                                        {image?.image_name}
+                                      </option>
+                                    ))}
+                                  </select>
+                                  {errors.image_gallery_id && (
+                                    <div className="d-block invalid-feedback">
+                                      {errors.image_gallery_id.message}
+                                    </div>
+                                  )}
+                                </div>
                               </div>
                               <div className="col-lg-12 col-md-12">
                                 <FormInput
@@ -340,7 +411,6 @@ const ManageBlogs = () => {
                 </div>
               )}
             </div>
-
             {/* render blogs data */}
             {blogsData.length > 0 && (
               <div className="col-12 mt-4">
@@ -349,31 +419,34 @@ const ManageBlogs = () => {
                     <h5 className="card-title">
                       Blogs &amp; update <span>/ </span>
                     </h5>
-                    {/* <DashboardCardEllipsis /> */}
                   </div>
                   <div className="card-body">
                     <div className="news">
                       {blogsData?.slice(0, displayedBlogsCount)?.map((blog) => (
                         <div
-                          key={blog.blog_id}
+                          key={`blog-${blog?.id}`}
                           className="post-item clearfix border-bottom"
                         >
                           <div className="d-flex flex-column flex-sm-row align-items-sm-center">
                             <div className="align-self-start mt-0 mt-sm-2 mb-3 mb-sm-0">
-                              <div className="blog-image-wrapper">
-                                <Link to={`/blog-detail?bh=${"#"}`}>
+                              <Link
+                                to={`/blog-details?bdh=${blog?.blog_detail?.hash}`}
+                              >
+                                <div className="blog-image-wrapper">
                                   <img
-                                    src={blog?.blog_img}
+                                    src={`${API_BASE_URL}${blog?.blog_img?.image_url}`}
                                     alt="blog banner"
                                     crossOrigin="anonymous"
                                     loading="lazy"
                                   />
-                                </Link>
-                              </div>
+                                </div>
+                              </Link>
                             </div>
                             <div className="blog-content-title ps-0 ps-sm-3">
                               <h4>
-                                <Link to={`/blog-detail?bh=${"#"}`}>
+                                <Link
+                                  to={`/blog-details?bdh=${blog?.blog_detail?.hash}`}
+                                >
                                   {blog.blog_title}
                                 </Link>
                               </h4>
@@ -384,16 +457,17 @@ const ManageBlogs = () => {
                                     className="blog-icon"
                                   />
                                   <span className="ps-2">
-                                    {blog?.user?.display_name}{" "}
+                                    {blog?.user?.first_name}{" "}
+                                    {blog?.user?.last_name}
                                   </span>
                                 </div>
                                 <div className="d-flex align-items-center">
                                   <FaCalendarDays className="blog-icon" />
                                   <div>
                                     <span className="ps-2">
-                                      {blog.updated_at &&
+                                      {blog?.updated_at &&
                                         formatDateWithMonthName(
-                                          blog.updated_at
+                                          blog.updated_at,
                                         )}
                                     </span>
                                   </div>
@@ -402,8 +476,34 @@ const ManageBlogs = () => {
                             </div>
                           </div>
                           <div className="blog-content-desc mt-2">
-                            <p>{truncateDescription(blog.blog_description)}</p>
+                            <p>
+                              {truncateDescription(blog.blog_description, 164)}
+                            </p>
                           </div>
+                          {blog?.blog_detail ? (
+                            <div
+                              className={`${styles["edit-blog-detail-wrapper"]} d-flex justify-content-end align-items-center px-2 px-sm-5 py-2`}
+                            >
+                              <Link
+                                to={`/dashboard/add-blog-details`}
+                                state={{ blogId: blog.id }}
+                              >
+                                <FaRegEdit />{" "}
+                                <span className="mt-1">Edit Blog Detail</span>
+                              </Link>
+                            </div>
+                          ) : (
+                            <div
+                              className={`${styles["add-blog-detail-wrapper"]} d-flex justify-content-end align-items-center px-2 px-sm-5 py-2`}
+                            >
+                              <Link
+                                to={`/dashboard/add-blog-details`}
+                                state={{ blogId: blog.id }}
+                              >
+                                Add Blog Detail <GoPlus size={18} />
+                              </Link>
+                            </div>
+                          )}
                           <div className="d-flex justify-content-end align-items-center px-5 py-3">
                             <div
                               onClick={() => handleUpdateBlog(blog)}
@@ -466,6 +566,6 @@ const ManageBlogs = () => {
       </section>
     </main>
   );
-}
+};
 
-export default ManageBlogs
+export default ManageBlogs;
