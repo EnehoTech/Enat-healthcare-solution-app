@@ -10,6 +10,10 @@ import userRouter from "./userRoutes/user.routes.js";
 import roleRouter from "./roleRoutes/role.routes.js";
 // Import the department routes route
 import departmentRoutes from "./departmentRoutes/department.routes.js";
+// Import the doctor routes route
+import doctorRoutes from "./doctorRoutes/doctor.routes.js";
+// Import the doctor social handle  routes route
+import doctorSocialHandleRoutes from "./doctorRoutes/socialHandle.routes.js";
 // Import the image gallery routes route
 import imageGalleryRoutes from "./imageGalleryRoutes/imageGallery.routes.js";
 // Import the blog routes route
@@ -41,6 +45,10 @@ router.use(userRouter);
 router.use(roleRouter);
 // Add the department routes to the main router
 router.use(departmentRoutes);
+// Add the doctor routes to the main router
+router.use(doctorRoutes);
+// Add the doctor social handle routes to the main router
+router.use(doctorSocialHandleRoutes);
 // Add the image gallery routes to the main router
 router.use(imageGalleryRoutes);
 
